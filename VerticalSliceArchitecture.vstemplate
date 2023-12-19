@@ -18,7 +18,13 @@
     <ProjectCollection>
       <ProjectTemplateLink ProjectName="$projectname$.Api" CopyParameters="true">
         UseCase.Api\UseCase.Api.vstemplate
-      </ProjectTemplateLink>      
+      </ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="$projectname$.Data" CopyParameters="true">
+        UseCase.Data\UseCase.Data.vstemplate
+      </ProjectTemplateLink>
     </ProjectCollection>
+    <CustomParameters>
+      <CustomParameter Name="$entityName$" Value="MyEntity" />
+    </CustomParameters>
   </TemplateContent>
 </VSTemplate>

@@ -1,13 +1,13 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
-    <Name>UseCase.Api</Name>
+    <Name>Feature.Data</Name>
     <Description>&lt;No description available&gt;</Description>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>
     </ProjectSubType>
     <SortOrder>1000</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
-    <DefaultName>UseCase.Api</DefaultName>
+    <DefaultName>Feature.Data</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
@@ -15,9 +15,13 @@
     <Icon>__TemplateIcon.ico</Icon>
   </TemplateData>
   <TemplateContent>
-    <Project TargetFileName="UseCase.Api.csproj" File="UseCase.Api.csproj" ReplaceParameters="true">
-      <ProjectItem ReplaceParameters="true" TargetFileName="$ext_entityName$Controller.cs">EntityNameController.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="$ext_entityName$DtoEntityExtensions.cs">EntityNameDtoEntityExtensions.cs</ProjectItem>
+    <Project TargetFileName="Forms.Data.csproj" File="Forms.Data.csproj" ReplaceParameters="true">
+      <Folder Name="Entities" TargetFolderName="Entities">
+        <ProjectItem ReplaceParameters="true" TargetFileName="$entityName$.cs">EntityName.cs</ProjectItem>
+      </Folder>
+      <Folder Name="Repositories" TargetFolderName="Repositories">
+        <ProjectItem ReplaceParameters="true" TargetFileName="I$entityName$Repository.cs">IEntityNameRepository.cs</ProjectItem>
+      </Folder>
       <ProjectItem ReplaceParameters="true" TargetFileName="Using.cs">Using.cs</ProjectItem>
     </Project>
   </TemplateContent>

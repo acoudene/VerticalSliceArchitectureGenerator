@@ -1,28 +1,20 @@
 ﻿namespace $safeprojectname$;
 
-public static class RequestFormDtoEntityExtensions
+public static class $ext_entityName$DtoEntityExtensions
 {
-  public static RequestFormDto ToDto(this RequestForm entity)
+  public static $ext_entityName$Dto ToDto(this $ext_entityName$ entity)
   {
-    return new RequestFormDto(entity.FormPropertiesTemplate.ToDto())
+    return new $ext_entityName$Dto()
     {
-      Id = entity.Id,
-      Fields = entity
-      .Fields
-      .Select(childEntity => childEntity.ToInheritedDto())
-      .ToList()
+      Id = entity.Id
     };
   }
 
-  public static RequestForm ToEntity(this RequestFormDto dto)
+  public static $ext_entityName$ ToEntity(this $ext_entityName$Dto dto)
   {
-    return new RequestForm(dto.FormPropertiesTemplate.ToEntity())
+    return new $ext_entityName$()
     {
-      Id = dto.Id,
-      Fields = dto
-      .Fields
-      .Select(childDto => childDto.ToInheritedEntity())
-      .ToList()
+      Id = dto.Id
     };
   }
 }
