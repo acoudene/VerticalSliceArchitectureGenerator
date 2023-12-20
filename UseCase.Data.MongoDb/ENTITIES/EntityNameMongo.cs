@@ -1,7 +1,7 @@
 ﻿namespace $safeprojectname$.Entities;
 
 [BsonIgnoreExtraElements]
-public record RequestFormMongo : IIdentifierMongoEntity
+public record $ext_entityName$Mongo : IIdentifierMongoEntity
 {
   [BsonId]
   [BsonElement("_id")]
@@ -11,18 +11,5 @@ public record RequestFormMongo : IIdentifierMongoEntity
 
   [BsonElement("uuid")]
   [BsonGuidRepresentation(GuidRepresentation.Standard)]
-  public required Guid Id { get; set; }
-
-  private readonly FormPropertiesTemplateMongo _formPropertiesTemplate;
-
-  [BsonElement("formPropertiesTemplate")]
-  public FormPropertiesTemplateMongo FormPropertiesTemplate => _formPropertiesTemplate;
-
-  public RequestFormMongo(FormPropertiesTemplateMongo formPropertiesTemplate)
-  {
-    _formPropertiesTemplate = formPropertiesTemplate ?? throw new ArgumentNullException(nameof(formPropertiesTemplate));
-  }
-
-  [BsonElement("fields")]
-  public List<FieldMongoBase> Fields { get; set; } = Enumerable.Empty<FieldMongoBase>().ToList();
+  public required Guid Id { get; set; }  
 }

@@ -18,6 +18,7 @@
     <Project TargetFileName="UseCase.Proxies.csproj" File="UseCase.Proxies.csproj" ReplaceParameters="true">
       <ProjectItem ReplaceParameters="true" TargetFileName="Http$ext_entityName$Client.cs">HttpEntityNameClient.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="I$ext_entityName$Client.cs">IEntityNameClient.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Using.cs">Using.cs</ProjectItem>
     </Project>
   </TemplateContent>
 </VSTemplate>

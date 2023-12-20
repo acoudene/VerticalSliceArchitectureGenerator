@@ -1,5 +1,4 @@
-﻿global using Core.Data;
-global using Core.Data.MongoDb;
+﻿global using Core.Data.MongoDb;
 global using MongoDB.Bson;
 global using MongoDB.Bson.Serialization.Attributes;
 

@@ -8,7 +8,7 @@ public class Given$ext_entityName$Api : HostApiMongoTestBase<Program>
   public Given$ext_entityName$Api(
     WebApplicationFactory<Program> webApplicationFactory,
     ITestOutputHelper output)
-    : base($ext_entityName$, webApplicationFactory, output)
+    : base("$ext_entityName$", webApplicationFactory, output)
   {
   }
 
