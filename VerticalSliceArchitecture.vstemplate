@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="ProjectGroup">
   <TemplateData>
     <Name>VerticalSliceArchitecture</Name>
-    <Description>&lt;No description available&gt;</Description>
+    <Description>A template to generate all expected layers from API to Data using MongoDb, creating integration tests, loosely coupled relationships and so on...</Description>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>
     </ProjectSubType>
@@ -12,7 +12,7 @@
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
     <CreateInPlace>true</CreateInPlace>
-    <Icon>__TemplateIcon.ico</Icon>
+    <Icon>__VerticalSliceArchitecture.ico</Icon>
   </TemplateData>
   <TemplateContent>
     <ProjectCollection>
