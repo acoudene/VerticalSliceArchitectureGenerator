@@ -16,6 +16,29 @@
   </TemplateData>
   <TemplateContent>
     <ProjectCollection>
+      <SolutionFolder Name="Core">
+        <ProjectTemplateLink ProjectName="Core.Api" CopyParameters="true">
+          Core.Api\MyTemplate.vstemplate
+        </ProjectTemplateLink>
+        <ProjectTemplateLink ProjectName="Core.Data" CopyParameters="true">
+          Core.Data\MyTemplate.vstemplate
+        </ProjectTemplateLink>
+        <ProjectTemplateLink ProjectName="Core.Data.MongoDb" CopyParameters="true">
+          Core.Data.MongoDb\MyTemplate.vstemplate
+        </ProjectTemplateLink>
+        <ProjectTemplateLink ProjectName="Core.Dtos" CopyParameters="true">
+          Core.Dtos\MyTemplate.vstemplate
+        </ProjectTemplateLink>
+        <ProjectTemplateLink ProjectName="Core.Host.Testing" CopyParameters="true">
+          Core.Host.Testing\MyTemplate.vstemplate
+        </ProjectTemplateLink>
+        <ProjectTemplateLink ProjectName="Core.Host.Testing.Api.MongoDb" CopyParameters="true">
+          Core.Host.Testing.Api.MongoDb\MyTemplate.vstemplate
+        </ProjectTemplateLink>
+        <ProjectTemplateLink ProjectName="Core.Proxying" CopyParameters="true">
+          Core.Proxying\MyTemplate.vstemplate
+        </ProjectTemplateLink>
+      </SolutionFolder>                 
       <ProjectTemplateLink ProjectName="$projectname$.Api" CopyParameters="true">
         UseCase.Api\UseCase.Api.vstemplate
       </ProjectTemplateLink>

@@ -1,7 +1,4 @@
-﻿using Core.Api;
-using Microsoft.AspNetCore.Mvc;
-
-namespace $safeprojectname$;
+﻿namespace $safeprojectname$;
 
 [ApiController]
 [Route("api/[controller]")]

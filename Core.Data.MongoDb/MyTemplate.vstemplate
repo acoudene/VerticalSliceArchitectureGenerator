@@ -1,0 +1,29 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>Core.Data.MongoDb</Name>
+    <Description>&lt;No description available&gt;</Description>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>
+    </ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>Core.Data.MongoDb</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <CreateInPlace>true</CreateInPlace>
+    <Icon>__TemplateIcon.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="Core.Data.MongoDb.csproj" File="Core.Data.MongoDb.csproj" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="true" TargetFileName="DatabaseSettings.cs">DatabaseSettings.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="IIdentifierMongoEntity.cs">IIdentifierMongoEntity.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="IMongoContext.cs">IMongoContext.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="IMongoEntity.cs">IMongoEntity.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="IMongoSetOfT.cs">IMongoSetOfT.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="MongoContext.cs">MongoContext.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="MongoRepositoryBaseOfT.cs">MongoRepositoryBaseOfT.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="MongoSetOfT.cs">MongoSetOfT.cs</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>
