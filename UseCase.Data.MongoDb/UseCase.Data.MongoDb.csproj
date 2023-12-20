@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core.Data.MongoDb\Core.Data.MongoDb.csproj" />
+    <ProjectReference Include="..\$ext_safeprojectname$.Data\$ext_safeprojectname$.Data.csproj" />    
+  </ItemGroup>
+
+</Project>

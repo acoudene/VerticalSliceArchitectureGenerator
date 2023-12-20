@@ -22,6 +22,21 @@
       <ProjectTemplateLink ProjectName="$projectname$.Data" CopyParameters="true">
         UseCase.Data\UseCase.Data.vstemplate
       </ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="$projectname$.Data.MongoDb" CopyParameters="true">
+        UseCase.Data.MongoDb\UseCase.Data.MongoDb.vstemplate
+      </ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="$projectname$.Dtos" CopyParameters="true">
+        UseCase.Dtos\UseCase.Dtos.vstemplate
+      </ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="$projectname$.Host" CopyParameters="true">
+        UseCase.Host\UseCase.Host.vstemplate
+      </ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="$projectname$.Host.Tests" CopyParameters="true">
+        UseCase.Host.Tests\UseCase.Host.Tests.vstemplate
+      </ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="$projectname$.Proxies" CopyParameters="true">
+        UseCase.Proxies\UseCase.Proxies.vstemplate
+      </ProjectTemplateLink>
     </ProjectCollection>
     <CustomParameters>
       <CustomParameter Name="$entityName$" Value="MyEntity" />
