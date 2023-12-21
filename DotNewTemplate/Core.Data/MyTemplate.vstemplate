@@ -1,0 +1,31 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>Core.Data</Name>
+    <Description>&lt;No description available&gt;</Description>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>
+    </ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>Core.Data</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <CreateInPlace>true</CreateInPlace>
+    <Icon>__TemplateIcon.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="Core.Data.csproj" File="Core.Data.csproj" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="true" TargetFileName="IEntity.cs">IEntity.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="IIdentifierEntity.cs">IIdentifierEntity.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="IRepository.cs">IRepository.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="IRepositoryOfT.cs">IRepositoryOfT.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="ITrackedMetadata.cs">ITrackedMetadata.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="ITrackedRepositoryOfT.cs">ITrackedRepositoryOfT.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="ITransactionalUnitOfWork.cs">ITransactionalUnitOfWork.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="IUnitOfWork.cs">IUnitOfWork.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="TrackedMetadata.cs">TrackedMetadata.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="UnitOfWorkBuilderOfT.cs">UnitOfWorkBuilderOfT.cs</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>
