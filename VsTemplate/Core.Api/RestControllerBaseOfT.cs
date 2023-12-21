@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Core.Data;
 using Core.Dtos;
-using Microsoft.AspNetCore.DataProtection.Repositories;
 
 namespace $safeprojectname$;
 
