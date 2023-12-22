@@ -1,5 +1,5 @@
 {
-  "author": "Anthony Coudène",
+  "author": "Anthony COUDENE",
   "classifications": [ "Api", "Architecture" ],
   "name": "Vertical Slice Architecture generator",
   "identity": "acoudene.vsa.generator", // Unique name for this template
@@ -9,15 +9,22 @@
   },
   "sourceName": "UseCase", // Will replace this string with the value provided via -n.
   "symbols": {
-    "EntityNameFileName": {
-      "type": "parameter",
-      "defaultValue": "MyEntity",
-      "replaces": "EntityName"
-    },
-    "EntityNameContent": {
+    "entityContentName": {
       "type": "parameter",
       "defaultValue": "MyEntity",
       "replaces": "$ext_entityName$"
+    },
+    "entityFileName": {
+      "type": "derived",
+      "valueSource": "entityContentName",
+      "valueTransform": "replace",
+      "fileRename": "EntityName"
+    },
+    "useCaseContentName": {
+      "type": "derived",
+      "valueSource": "sourceName",
+      "valueTransform": "replace",
+      "replaces": "$ext_safeprojectname$"
     }
   },
   "preferNameDirectory": "true"
