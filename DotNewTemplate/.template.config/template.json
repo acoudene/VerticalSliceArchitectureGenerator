@@ -22,7 +22,7 @@
     },
     "useCaseContentName": {
       "type": "derived",
-      "valueSource": "sourceName",
+      "valueSource": "name",
       "valueTransform": "replace",
       "replaces": "$ext_safeprojectname$"
     }
