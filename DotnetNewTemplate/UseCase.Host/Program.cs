@@ -7,9 +7,9 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using Serilog;
 
-using $ext_safeprojectname$.Api;
-using $ext_safeprojectname$.Data.MongoDb.Repositories;
-using $ext_safeprojectname$.Data.Repositories;
+using UseCase.Api;
+using UseCase.Data.MongoDb.Repositories;
+using UseCase.Data.Repositories;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -51,11 +51,11 @@ try
 
   /// Form templates API
   builder.Services.AddScoped<IMongoContext, MongoContext>();
-  builder.Services.AddScoped<I$ext_entityName$Repository, $ext_entityName$Repository > ();
+  builder.Services.AddScoped<IEntityNameRepository, EntityNameRepository > ();
 
   /// Add module to controller scanning, for clarty I have been redundant on controllers even if they share the same assembly 
   builder.Services.AddControllers()
-                  .ConfigureApplicationPartManager(apm => apm.ApplicationParts.Add(new AssemblyPart(typeof($ext_entityName$Controller).Assembly)))
+                  .ConfigureApplicationPartManager(apm => apm.ApplicationParts.Add(new AssemblyPart(typeof(EntityNameController).Assembly)))
                   ;
 
   /// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

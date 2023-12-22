@@ -2,6 +2,6 @@
 global using MongoDB.Bson;
 global using MongoDB.Bson.Serialization.Attributes;
 
-global using $safeprojectname$.Entities;
-global using $ext_safeprojectname$.Data.Entities;
-global using $ext_safeprojectname$.Data.Repositories;
+global using UseCase.Data.MongoDb.Entities;
+global using UseCase.Data.Entities;
+global using UseCase.Data.Repositories;

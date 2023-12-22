@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace $safeprojectname$;
+namespace Core.Data.MongoDb;
 
 public interface IMongoContext
 {

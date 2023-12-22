@@ -1,7 +1,7 @@
-﻿using $safeprojectname$.Entities;
+﻿using UseCase.Data.Entities;
 
-namespace $safeprojectname$.Repositories;
+namespace UseCase.Data.Repositories;
 
-public interface I$ext_entityName$Repository : IRepository<$ext_entityName$>
+public interface IEntityNameRepository : IRepository<EntityName>
 {
 }

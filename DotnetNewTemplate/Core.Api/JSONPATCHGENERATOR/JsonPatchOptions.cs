@@ -1,6 +1,6 @@
-using $safeprojectname$.JsonPatchGenerator.Handlers;
+using Core.Api.JsonPatchGenerator.Handlers;
 
-namespace $safeprojectname$.JsonPatchGenerator;
+namespace Core.Api.JsonPatchGenerator;
 
 public class JsonPatchOptions
 {

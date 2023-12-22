@@ -3,7 +3,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
-namespace $safeprojectname$.Swaggers;
+namespace Core.Api.Swaggers;
 
 public class SwaggerIgnoreModelFilter : IDocumentFilter
 {

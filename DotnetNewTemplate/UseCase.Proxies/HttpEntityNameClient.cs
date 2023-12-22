@@ -1,18 +1,18 @@
-﻿namespace $safeprojectname$;
+﻿namespace UseCase.Proxies;
 
-public class Http$ext_entityName$Client : HttpRestClientBase<$ext_entityName$Dto>, I$ext_entityName$Client
+public class HttpEntityNameClient : HttpRestClientBase<EntityNameDto>, IEntityNameClient
 {
   /// <summary>
   /// Constructor
   /// </summary>
   /// <param name="httpClientFactory"></param>
   /// <exception cref="ArgumentNullException"></exception>
-  public Http$ext_entityName$Client(IHttpClientFactory httpClientFactory)
+  public HttpEntityNameClient(IHttpClientFactory httpClientFactory)
     : base(httpClientFactory)
   {
   }
 
-  public const string ConfigurationName = nameof(Http$ext_entityName$Client);
+  public const string ConfigurationName = nameof(HttpEntityNameClient);
 
   public override string GetConfigurationName() => ConfigurationName;
 }

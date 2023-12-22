@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson;
 
-namespace $safeprojectname$;
+namespace Core.Data.MongoDb;
 
 public interface IMongoEntity : IEntity
 {

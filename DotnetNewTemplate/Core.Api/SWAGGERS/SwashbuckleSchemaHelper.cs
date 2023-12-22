@@ -1,4 +1,4 @@
-﻿namespace $safeprojectname$.Swaggers;
+﻿namespace Core.Api.Swaggers;
 
 public static class SwashbuckleSchemaHelper
 {

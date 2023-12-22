@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Core.Proxying\Core.Proxying.csproj" />
-    <ProjectReference Include="..\$ext_safeprojectname$.Dtos\$ext_safeprojectname$.Dtos.csproj" />
+    <ProjectReference Include="..\UseCase.Dtos\UseCase.Dtos.csproj" />
   </ItemGroup>
 
 </Project>

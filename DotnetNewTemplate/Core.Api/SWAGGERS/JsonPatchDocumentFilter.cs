@@ -1,7 +1,7 @@
 ﻿using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace $safeprojectname$.Swaggers;
+namespace Core.Api.Swaggers;
 
 /// <summary>
 /// <see cref="https://michael-mckenna.com/swagger-with-asp-net-core-3-1-json-patch/"/>

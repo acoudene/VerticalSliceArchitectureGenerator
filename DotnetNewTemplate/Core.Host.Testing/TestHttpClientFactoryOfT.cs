@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace $safeprojectname$;
+namespace Core.Host.Testing;
 
 public class TestHttpClientFactory<TEntryPoint> : IHttpClientFactory where TEntryPoint : class
 {

@@ -1,18 +1,18 @@
-﻿namespace $safeprojectname$;
+﻿namespace UseCase.Api;
 
-public static class $ext_entityName$DtoEntityExtensions
+public static class EntityNameDtoEntityExtensions
 {
-  public static $ext_entityName$Dto ToDto(this $ext_entityName$ entity)
+  public static EntityNameDto ToDto(this EntityName entity)
   {
-    return new $ext_entityName$Dto()
+    return new EntityNameDto()
     {
       Id = entity.Id
     };
   }
 
-  public static $ext_entityName$ ToEntity(this $ext_entityName$Dto dto)
+  public static EntityName ToEntity(this EntityNameDto dto)
   {
-    return new $ext_entityName$()
+    return new EntityName()
     {
       Id = dto.Id
     };

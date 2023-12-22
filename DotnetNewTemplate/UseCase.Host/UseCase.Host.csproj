@@ -14,9 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\$ext_safeprojectname$.Api\$ext_safeprojectname$.Api.csproj" />
-    <ProjectReference Include="..\$ext_safeprojectname$.Data.MongoDb\$ext_safeprojectname$.Data.MongoDb.csproj" />
-    <ProjectReference Include="..\$ext_safeprojectname$.Data\$ext_safeprojectname$.Data.csproj" />
+    <ProjectReference Include="..\UseCase.Api\UseCase.Api.csproj" />
+    <ProjectReference Include="..\UseCase.Data.MongoDb\UseCase.Data.MongoDb.csproj" />
+    <ProjectReference Include="..\UseCase.Data\UseCase.Data.csproj" />
   </ItemGroup>
 
 </Project>

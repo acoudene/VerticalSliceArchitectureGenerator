@@ -1,26 +1,26 @@
-﻿namespace $safeprojectname$;
+﻿namespace UseCase.Host.Tests;
 
 /// WARNING - for the moment, I don't have found a solution to reset settings like connexion string on a static test server
 /// So be careful when changing settings, the same first settings will remain for server for all tests in this class even if this container is reset.
 /// For example, don't change default port to reuse the same.
-public class Given$ext_entityName$Api : HostApiMongoTestBase<Program>
+public class GivenEntityNameApi : HostApiMongoTestBase<Program>
 {
-  public Given$ext_entityName$Api(
+  public GivenEntityNameApi(
     WebApplicationFactory<Program> webApplicationFactory,
     ITestOutputHelper output)
-    : base("$ext_entityName$", webApplicationFactory, output)
+    : base("EntityName", webApplicationFactory, output)
   {
   }
 
   private const string ApiPath = "/api";
-  private const string ApiRelativePath = $"{ApiPath}/$ext_entityName$";
+  private const string ApiRelativePath = $"{ApiPath}/EntityName";
 
   [Fact]
   public async Task ThenGetAllAsync()
   {
     // Arrange
     var httpClientFactory = CreateHttpClientFactory(ApiRelativePath);
-    var client = new Http$ext_entityName$Client(httpClientFactory);
+    var client = new HttpEntityNameClient(httpClientFactory);
 
     // Act
     var items = (await client.GetAllAsync());
@@ -33,8 +33,8 @@ public class Given$ext_entityName$Api : HostApiMongoTestBase<Program>
   {
     // Arrange
     var httpClientFactory = CreateHttpClientFactory(ApiRelativePath);
-    var client = new Http$ext_entityName$Client(httpClientFactory);
-    var dtoToCreate = new $ext_entityName$Dto() 
+    var client = new HttpEntityNameClient(httpClientFactory);
+    var dtoToCreate = new EntityNameDto() 
     { 
       Id = Guid.NewGuid()
     };

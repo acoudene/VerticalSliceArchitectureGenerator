@@ -1,6 +1,6 @@
 using Newtonsoft.Json.Linq;
 
-namespace $safeprojectname$.JsonPatchGenerator.Handlers;
+namespace Core.Api.JsonPatchGenerator.Handlers;
 public class ArrayPatchTypeHandler : IPatchTypeHandler
 {
   public bool CanPatch(JToken original, JToken modified)

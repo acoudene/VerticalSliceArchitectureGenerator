@@ -1,6 +1,6 @@
-﻿namespace $safeprojectname$.Entities;
+﻿namespace UseCase.Data.Entities;
 
-public record $ext_entityName$ : IIdentifierEntity
+public record EntityName : IIdentifierEntity
 {
     public Guid Id { get; set; }
 }

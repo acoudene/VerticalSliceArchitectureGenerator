@@ -1,4 +1,4 @@
-﻿namespace $safeprojectname$;
+﻿namespace Core.Dtos;
 
 public interface IDto
 {

@@ -1,18 +1,18 @@
-﻿namespace $safeprojectname$.Entities;
+﻿namespace UseCase.Data.MongoDb.Entities;
 
-public static class $ext_entityName$MongoEntityExtensions
+public static class EntityNameMongoEntityExtensions
 {
-  public static $ext_entityName$Mongo ToMongo(this $ext_entityName$ entity)
+  public static EntityNameMongo ToMongo(this EntityName entity)
   {
-    return new $ext_entityName$Mongo()
+    return new EntityNameMongo()
     {
       Id = entity.Id
     };
   }
 
-  public static $ext_entityName$ ToEntity(this $ext_entityName$Mongo mongoEntity)
+  public static EntityName ToEntity(this EntityNameMongo mongoEntity)
   {
-    return new $ext_entityName$()
+    return new EntityName()
     {
       Id = mongoEntity.Id
     };

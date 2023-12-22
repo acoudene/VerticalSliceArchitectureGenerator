@@ -1,21 +1,21 @@
-﻿namespace $safeprojectname$.Repositories;
+﻿namespace UseCase.Data.MongoDb.Repositories;
 
-public class $ext_entityName$Repository : MongoRepositoryBase<$ext_entityName$, $ext_entityName$Mongo>
-  , I$ext_entityName$Repository
+public class EntityNameRepository : MongoRepositoryBase<EntityName, EntityNameMongo>
+  , IEntityNameRepository
 {
-  public const string CollectionName = "$ext_entityName$";
+  public const string CollectionName = "EntityName";
 
-  public $ext_entityName$Repository(IMongoContext mongoContext)
+  public EntityNameRepository(IMongoContext mongoContext)
     : base(mongoContext, CollectionName)
   { 
   }
 
-  protected override $ext_entityName$ MapToEntity($ext_entityName$Mongo mongoEntity)
+  protected override EntityName MapToEntity(EntityNameMongo mongoEntity)
   {
     return mongoEntity.ToEntity();
   }
 
-  protected override $ext_entityName$Mongo MapToMongoEntity($ext_entityName$ entity)
+  protected override EntityNameMongo MapToMongoEntity(EntityName entity)
   {
     return entity.ToMongo();
   }

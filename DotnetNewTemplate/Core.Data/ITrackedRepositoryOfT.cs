@@ -1,4 +1,4 @@
-﻿namespace $safeprojectname$;
+﻿namespace Core.Data;
 
 public interface ITrackedRepository<TEntity, TTrackedMetadata> : IRepository
   where TEntity : IEntity

@@ -1,4 +1,4 @@
-﻿namespace $safeprojectname$;
+﻿namespace Core.Data;
 
 public interface ITransactionalUnitOfWork : IUnitOfWork
 {

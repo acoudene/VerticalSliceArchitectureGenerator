@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace $safeprojectname$;
+namespace Core.Data;
 
 public class UnitOfWorkBuilder<TUnitOfWork> where TUnitOfWork : IUnitOfWork
 {

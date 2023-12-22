@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 
 /// <see cref="https://github.com/vernou/Vernou.Swashbuckle.HttpResultsAdapter"/>
 
-namespace $safeprojectname$.Swaggers;
+namespace Core.Api.Swaggers;
 
 /// <summary>
 /// OperationFilter to generate OAS response to action that return HttpResults type

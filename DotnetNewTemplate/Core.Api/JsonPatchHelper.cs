@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace $safeprojectname$;
+namespace Core.Api;
 
 public static class JsonPatchHelper
 {

@@ -1,7 +1,7 @@
 ﻿using Core.Dtos;
 using Microsoft.AspNetCore.JsonPatch;
 
-namespace $safeprojectname$;
+namespace Core.Proxying;
 
 public interface IRestClient<TDto> where TDto : class, IIdentifierDto
 {

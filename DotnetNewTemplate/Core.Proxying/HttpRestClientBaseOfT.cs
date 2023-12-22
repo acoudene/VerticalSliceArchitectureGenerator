@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.JsonPatch;
 using System.Net.Http.Json;
 
-namespace $safeprojectname$;
+namespace Core.Proxying;
 
 public abstract class HttpRestClientBase<TDto> : IRestClient<TDto>
   where TDto : class, IIdentifierDto

@@ -1,18 +1,18 @@
-﻿namespace $safeprojectname$;
+﻿namespace UseCase.Api;
 
 [ApiController]
 [Route("api/[controller]")]
-public class $ext_entityName$Controller : RestControllerBase<$ext_entityName$Dto, $ext_entityName$, I$ext_entityName$Repository>
+public class EntityNameController : RestControllerBase<EntityNameDto, EntityName, IEntityNameRepository>
 {
-  public $ext_entityName$Controller(I$ext_entityName$Repository repository)
+  public EntityNameController(IEntityNameRepository repository)
     : base(repository)
   {
 
   }
 
-  protected override $ext_entityName$Dto ToDto($ext_entityName$ entity)
+  protected override EntityNameDto ToDto(EntityName entity)
     => entity.ToDto();
 
-  protected override $ext_entityName$ ToEntity($ext_entityName$Dto dto)
+  protected override EntityName ToEntity(EntityNameDto dto)
     => dto.ToEntity();
 }

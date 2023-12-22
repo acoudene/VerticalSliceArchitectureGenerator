@@ -1,4 +1,4 @@
-namespace $safeprojectname$.JsonPatchGenerator;
+namespace Core.Api.JsonPatchGenerator;
 
 public class JsonPatchPath
 {

@@ -1,5 +1,5 @@
-﻿namespace $safeprojectname$;
+﻿namespace UseCase.Proxies;
 
-public interface I$ext_entityName$Client : IRestClient<$ext_entityName$Dto>
+public interface IEntityNameClient : IRestClient<EntityNameDto>
 {
 }

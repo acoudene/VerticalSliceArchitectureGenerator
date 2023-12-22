@@ -1,7 +1,7 @@
 ﻿using MongoDB.Driver;
 using System.Linq.Expressions;
 
-namespace $safeprojectname$;
+namespace Core.Data.MongoDb;
 
 public abstract class MongoRepositoryBase<TEntity, TMongoEntity> : IRepository<TEntity>
   where TEntity : IIdentifierEntity

@@ -1,6 +1,6 @@
-﻿namespace $safeprojectname$;
+﻿namespace UseCase.Dtos;
 
-public class $ext_entityName$Dto : IIdentifierDto
+public class EntityNameDto : IIdentifierDto
 {
   public Guid Id { get; set; }
 }

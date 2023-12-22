@@ -3,5 +3,5 @@ global using Microsoft.AspNetCore.Mvc.Testing;
 global using Xunit;
 global using Xunit.Abstractions;
 
-global using $ext_safeprojectname$.Dtos;
-global using $ext_safeprojectname$.Proxies;
+global using UseCase.Dtos;
+global using UseCase.Proxies;

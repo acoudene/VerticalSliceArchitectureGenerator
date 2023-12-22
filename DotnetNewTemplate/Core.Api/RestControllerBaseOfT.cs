@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Core.Data;
 using Core.Dtos;
 
-namespace $safeprojectname$;
+namespace Core.Api;
 
 public abstract class RestControllerBase<TDto, TEntity, TRepository>  : ControllerBase
   where TDto : class, IIdentifierDto

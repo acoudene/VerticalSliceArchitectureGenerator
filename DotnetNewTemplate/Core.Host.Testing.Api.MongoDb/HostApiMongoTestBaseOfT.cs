@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.MongoDb;
 using Xunit.Abstractions;
 
-namespace $safeprojectname$;
+namespace Core.Host.Testing.Api.MongoDb;
 
 public abstract class HostApiMongoTestBase<TEntryPoint>
   : IClassFixture<WebApplicationFactory<TEntryPoint>>

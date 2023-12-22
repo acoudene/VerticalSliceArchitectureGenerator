@@ -16,8 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Core.Api\Core.Api.csproj" />
-    <ProjectReference Include="..\$ext_safeprojectname$.Data\$ext_safeprojectname$.Data.csproj" />
-    <ProjectReference Include="..\$ext_safeprojectname$.Dtos\$ext_safeprojectname$.Dtos.csproj" />    
+    <ProjectReference Include="..\UseCase.Data\UseCase.Data.csproj" />
+    <ProjectReference Include="..\UseCase.Dtos\UseCase.Dtos.csproj" />    
   </ItemGroup>
 
 </Project>

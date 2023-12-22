@@ -1,7 +1,7 @@
-﻿namespace $safeprojectname$.Entities;
+﻿namespace UseCase.Data.MongoDb.Entities;
 
 [BsonIgnoreExtraElements]
-public record $ext_entityName$Mongo : IIdentifierMongoEntity
+public record EntityNameMongo : IIdentifierMongoEntity
 {
   [BsonId]
   [BsonElement("_id")]

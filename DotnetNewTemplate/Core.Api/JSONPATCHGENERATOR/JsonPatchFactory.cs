@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace $safeprojectname$.JsonPatchGenerator;
+namespace Core.Api.JsonPatchGenerator;
 
 public static class JsonPatchFactory
 {

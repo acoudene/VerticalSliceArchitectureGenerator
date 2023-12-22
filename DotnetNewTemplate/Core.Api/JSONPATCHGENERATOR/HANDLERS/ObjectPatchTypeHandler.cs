@@ -1,6 +1,6 @@
 using Newtonsoft.Json.Linq;
 
-namespace $safeprojectname$.JsonPatchGenerator.Handlers;
+namespace Core.Api.JsonPatchGenerator.Handlers;
 
 public class ObjectPatchTypeHandler : IPatchTypeHandler
 {
