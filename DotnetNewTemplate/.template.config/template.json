@@ -25,6 +25,12 @@
       "valueSource": "name",
       "valueTransform": "replace",
       "replaces": "UseCase"
+    },
+    "useCaseSolutionName": {
+      "type": "derived",
+      "valueSource": "name",
+      "valueTransform": "replace",
+      "fileRename": "VerticalSliceArchitecture"
     }
   },
   "sources": [
