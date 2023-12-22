@@ -12,7 +12,7 @@
     "entityContentName": {
       "type": "parameter",
       "defaultValue": "MyEntity",
-      "replaces": "$ext_entityName$"
+      "replaces": "EntityName"
     },
     "entityFileName": {
       "type": "derived",
@@ -24,8 +24,17 @@
       "type": "derived",
       "valueSource": "name",
       "valueTransform": "replace",
-      "replaces": "$ext_safeprojectname$"
+      "replaces": "UseCase"
     }
   },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "exclude": [ ".vs/**" ]
+        }
+      ]
+    }
+  ],
   "preferNameDirectory": "true"
 }
