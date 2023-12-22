@@ -1,0 +1,24 @@
+{
+  "author": "Anthony Coudène",
+  "classifications": [ "Api", "Architecture" ],
+  "name": "Vertical Slice Architecture generator",
+  "identity": "acoudene.vsa.generator", // Unique name for this template
+  "shortName": "vsa_generator", // Short name that can be used on the cli
+  "tags": {
+    "language": "C#" // Specify that this template is in C#.
+  },
+  "sourceName": "UseCase", // Will replace this string with the value provided via -n.
+  "symbols": {
+    "EntityNameFileName": {
+      "type": "parameter",
+      "defaultValue": "MyEntity",
+      "replaces": "EntityName"
+    },
+    "EntityNameContent": {
+      "type": "parameter",
+      "defaultValue": "MyEntity",
+      "replaces": "$ext_entityName$"
+    }
+  },
+  "preferNameDirectory": "true"
+}
