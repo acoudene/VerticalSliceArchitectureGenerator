@@ -11,5 +11,7 @@ public record EntityNameMongo : IIdentifierMongoEntity
 
   [BsonElement("uuid")]
   [BsonGuidRepresentation(GuidRepresentation.Standard)]
-  public required Guid Id { get; set; }  
+  public required Guid Id { get; set; }
+
+  // TODO - EntityProperties - Fields to complete
 }

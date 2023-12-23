@@ -2,5 +2,7 @@
 
 public record EntityName : IIdentifierEntity
 {
-    public Guid Id { get; set; }
+  public Guid Id { get; set; }
+
+  // TODO - EntityProperties - Fields to complete
 }

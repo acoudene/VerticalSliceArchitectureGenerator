@@ -7,6 +7,8 @@ public static class EntityNameMongoEntityExtensions
     return new EntityNameMongo()
     {
       Id = entity.Id
+
+      // TODO - EntityMapping - Business Entity to Mongo Entity to complete
     };
   }
 
@@ -15,6 +17,8 @@ public static class EntityNameMongoEntityExtensions
     return new EntityName()
     {
       Id = mongoEntity.Id
+
+      // TODO - EntityMapping - Mongo Entity to Business Entity to complete
     };
   }
 }

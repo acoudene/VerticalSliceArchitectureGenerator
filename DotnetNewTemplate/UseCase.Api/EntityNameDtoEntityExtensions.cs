@@ -7,6 +7,8 @@ public static class EntityNameDtoEntityExtensions
     return new EntityNameDto()
     {
       Id = entity.Id
+
+      // TODO - EntityMapping - Business Entity to Dto to complete
     };
   }
 
@@ -15,6 +17,8 @@ public static class EntityNameDtoEntityExtensions
     return new EntityName()
     {
       Id = dto.Id
+
+      // TODO - EntityMapping - Dto to Business Entity to complete
     };
   }
 }
