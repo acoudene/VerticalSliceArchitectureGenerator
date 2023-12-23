@@ -8,7 +8,7 @@
   "shortName": "vsa_generator", // Short name that can be used on the cli
   "tags": {
     "language": "C#",
-    "type": "project"
+    "type": "solution"
   },
   "sourceName": "UseCase", // Will replace this string with the value provided via -n.
   "symbols": {
