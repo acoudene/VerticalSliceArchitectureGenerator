@@ -17,11 +17,8 @@ public abstract class HttpRestClientBase<TDto> : IRestClient<TDto>
   /// <param name="httpClientFactory"></param>
   /// <exception cref="ArgumentNullException"></exception>
   public HttpRestClientBase(IHttpClientFactory httpClientFactory)
-  {
-    if (httpClientFactory is null)
-      throw new ArgumentNullException(nameof(httpClientFactory));
-
-    _httpClientFactory = httpClientFactory;
+  {    
+    _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
   }
 
   public virtual async Task<List<TDto>> GetAllAsync(CancellationToken cancellationToken = default)
