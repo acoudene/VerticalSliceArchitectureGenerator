@@ -37,6 +37,8 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
     var dtoToCreate = new EntityNameDto() 
     { 
       Id = Guid.NewGuid()
+
+      // TODO - EntityProperties - Fields to complete
     };
 
     // Act
