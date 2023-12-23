@@ -16,8 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Core.Api\Core.Api.csproj" />
-    <ProjectReference Include="..\UseCase.Data\UseCase.Data.csproj" />
-    <ProjectReference Include="..\UseCase.Dtos\UseCase.Dtos.csproj" />    
+    <ProjectReference Include="..\Feature.Data\Feature.Data.csproj" />
+    <ProjectReference Include="..\Feature.Dtos\Feature.Dtos.csproj" />    
   </ItemGroup>
 
 </Project>

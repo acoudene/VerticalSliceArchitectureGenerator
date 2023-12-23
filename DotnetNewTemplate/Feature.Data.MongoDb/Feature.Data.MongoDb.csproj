@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Core.Data.MongoDb\Core.Data.MongoDb.csproj" />
-    <ProjectReference Include="..\UseCase.Data\UseCase.Data.csproj" />    
+    <ProjectReference Include="..\Feature.Data\Feature.Data.csproj" />    
   </ItemGroup>
 
 </Project>

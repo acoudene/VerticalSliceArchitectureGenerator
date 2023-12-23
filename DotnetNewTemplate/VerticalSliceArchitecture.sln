@@ -19,23 +19,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Host.Testing.Api.Mongo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Proxying", "Core.Proxying\Core.Proxying.csproj", "{8EEC62A9-198F-4ABE-80C3-86219FB262C3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UseCase.Api", "UseCase.Api\UseCase.Api.csproj", "{87AA15E0-3071-49DC-AB4B-CD9127D9E72A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Feature.Api", "Feature.Api\Feature.Api.csproj", "{87AA15E0-3071-49DC-AB4B-CD9127D9E72A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UseCase.Data", "UseCase.Data\UseCase.Data.csproj", "{BA5FB496-D847-4389-A49C-B1D020C7FDDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Feature.Data", "Feature.Data\Feature.Data.csproj", "{BA5FB496-D847-4389-A49C-B1D020C7FDDE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UseCase.Data.MongoDb", "UseCase.Data.MongoDb\UseCase.Data.MongoDb.csproj", "{72D6BE31-65BC-4A30-8EE9-940F03C52D45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Feature.Data.MongoDb", "Feature.Data.MongoDb\Feature.Data.MongoDb.csproj", "{72D6BE31-65BC-4A30-8EE9-940F03C52D45}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UseCase.Dtos", "UseCase.Dtos\UseCase.Dtos.csproj", "{D5D45216-018B-401F-80B0-6904F65D6C27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Feature.Dtos", "Feature.Dtos\Feature.Dtos.csproj", "{D5D45216-018B-401F-80B0-6904F65D6C27}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UseCase.Host", "UseCase.Host\UseCase.Host.csproj", "{6B1F172D-FF27-4A3D-99EE-4BE7BBED423D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Feature.Host", "Feature.Host\Feature.Host.csproj", "{6B1F172D-FF27-4A3D-99EE-4BE7BBED423D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UseCase.Host.Tests", "UseCase.Host.Tests\UseCase.Host.Tests.csproj", "{079F6B1C-89FD-437B-832D-DD78AF4EEA23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Feature.Host.Tests", "Feature.Host.Tests\Feature.Host.Tests.csproj", "{079F6B1C-89FD-437B-832D-DD78AF4EEA23}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UseCase.Proxies", "UseCase.Proxies\UseCase.Proxies.csproj", "{B033D9EF-43AC-480F-84A1-7F2020DD71A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Feature.Proxies", "Feature.Proxies\Feature.Proxies.csproj", "{B033D9EF-43AC-480F-84A1-7F2020DD71A7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4D4F7748-77D5-4332-9321-045206DA1B49}"
 	ProjectSection(SolutionItems) = preProject
+		.template.config\ide.host.json = .template.config\ide.host.json
 		.template.config\template.json = .template.config\template.json
+		.template.config\VerticalSliceArchitecture.png = .template.config\VerticalSliceArchitecture.png
 	EndProjectSection
 EndProject
 Global

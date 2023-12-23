@@ -26,8 +26,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Core.Host.Testing.Api.MongoDb\Core.Host.Testing.Api.MongoDb.csproj" />
-    <ProjectReference Include="..\UseCase.Host\UseCase.Host.csproj" />
-    <ProjectReference Include="..\UseCase.Proxies\UseCase.Proxies.csproj" />
+    <ProjectReference Include="..\Feature.Host\Feature.Host.csproj" />
+    <ProjectReference Include="..\Feature.Proxies\Feature.Proxies.csproj" />
   </ItemGroup>
 
 </Project>

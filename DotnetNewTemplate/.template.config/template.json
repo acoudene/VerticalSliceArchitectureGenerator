@@ -10,7 +10,7 @@
     "language": "C#",
     "type": "solution"
   },
-  "sourceName": "UseCase", // Will replace this string with the value provided via -n.
+  "sourceName": "Feature", // Will replace this string with the value provided via -n.
   "symbols": {
     "entityContentName": {
       "type": "parameter",
@@ -23,13 +23,13 @@
       "valueTransform": "replace",
       "fileRename": "EntityName"
     },
-    "useCaseContentName": {
+    "featureContentName": {
       "type": "derived",
       "valueSource": "name",
       "valueTransform": "replace",
-      "replaces": "UseCase"
+      "replaces": "Feature"
     },
-    "useCaseSolutionName": {
+    "featureSolutionName": {
       "type": "derived",
       "valueSource": "name",
       "valueTransform": "replace",
