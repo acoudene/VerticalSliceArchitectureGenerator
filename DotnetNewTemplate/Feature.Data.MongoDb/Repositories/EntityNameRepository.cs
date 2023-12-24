@@ -3,7 +3,7 @@
 public class EntityNameRepository : MongoRepositoryBase<EntityName, EntityNameMongo>
   , IEntityNameRepository
 {
-  public const string CollectionName = "EntityName";
+  public const string CollectionName = "entityName";
 
   public EntityNameRepository(IMongoContext mongoContext)
     : base(mongoContext, CollectionName)

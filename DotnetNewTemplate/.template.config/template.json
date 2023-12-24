@@ -17,6 +17,12 @@
       "defaultValue": "MyEntity",
       "replaces": "EntityName"
     },
+    "entityCamelCaseContentName": {
+      "type": "derived",
+      "valueSource": "entityContentName",
+      "valueTransform": "replace", // TODO - Find a right way of preserving camel case here...
+      "replaces": "entityName"
+    },
     "entityFileName": {
       "type": "derived",
       "valueSource": "entityContentName",
