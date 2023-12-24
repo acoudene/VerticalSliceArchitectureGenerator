@@ -68,15 +68,15 @@ try
     //options.OperationFilter<HttpResultsOperationFilter>();
   });
 
-  //const string allowSpecificOrigins = "frontend";
-  //builder.Services.AddCors(options =>
-  //{
-  //  options.AddPolicy(name: allowSpecificOrigins,
-  //                    policy =>
-  //                    {
-  //                      policy.WithOrigins("https://localhost:7297");
-  //                    });
-  //});
+  const string allowSpecificOrigins = "frontend";
+  builder.Services.AddCors(options =>
+  {
+    options.AddPolicy(name: allowSpecificOrigins,
+                      policy =>
+                      {
+                        policy.WithOrigins("https://localhost:7146");
+                      });
+  });
 
   var app = builder.Build();
 
@@ -101,7 +101,7 @@ try
 
   app.UseAuthorization();
 
-  //app.UseCors(allowSpecificOrigins);
+  app.UseCors(allowSpecificOrigins);
 
   app.MapControllers();
 
