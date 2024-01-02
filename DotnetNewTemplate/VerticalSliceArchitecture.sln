@@ -36,15 +36,16 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4D4F7748-77D5-4332-9321-045206DA1B49}"
 	ProjectSection(SolutionItems) = preProject
 		.template.config\ide.host.json = .template.config\ide.host.json
+		README.md = README.md
 		.template.config\template.json = .template.config\template.json
 		.template.config\VerticalSliceArchitecture.png = .template.config\VerticalSliceArchitecture.png
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Presentation", "Core.Presentation\Core.Presentation.csproj", "{5F45A71B-85F9-4E2C-B9FA-16BE044E7533}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feature.BlazorApp", "Feature.BlazorApp\Feature.BlazorApp\Feature.BlazorApp.csproj", "{4161559C-CAFD-4FA5-8C2E-49549547C251}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Feature.BlazorApp", "Feature.BlazorApp\Feature.BlazorApp\Feature.BlazorApp.csproj", "{4161559C-CAFD-4FA5-8C2E-49549547C251}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feature.BlazorApp.Client", "Feature.BlazorApp\Feature.BlazorApp.Client\Feature.BlazorApp.Client.csproj", "{C3EDBE81-F481-4307-96E7-37C506147D48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Feature.BlazorApp.Client", "Feature.BlazorApp\Feature.BlazorApp.Client\Feature.BlazorApp.Client.csproj", "{C3EDBE81-F481-4307-96E7-37C506147D48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
