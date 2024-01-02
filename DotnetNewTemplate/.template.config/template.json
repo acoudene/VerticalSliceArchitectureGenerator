@@ -17,11 +17,32 @@
       "defaultValue": "MyEntity",
       "replaces": "EntityName"
     },
-    "entityCamelCaseContentName": {
+    "lcFirstLetter": {
       "type": "derived",
       "valueSource": "entityContentName",
-      "valueTransform": "replace", // TODO - Find a right way of preserving camel case here...
-      "replaces": "entityName"
+      "valueTransform": "lowerCaseFirstLetter"
+    },
+    "aftFirstLetter": {
+      "type": "derived",
+      "valueSource": "entityContentName",
+      "valueTransform": "afterFirstLetter"
+    },
+    "entityCamelCaseContentName": {
+      "type": "generated",
+      "generator": "join",
+      "replaces": "entityName",
+      "parameters": {
+        "symbols": [
+          {
+            "type": "ref",
+            "value": "lcFirstLetter"
+          },
+          {
+            "type": "ref",
+            "value": "aftFirstLetter"
+          }
+        ]
+      }
     },
     "entityFileName": {
       "type": "derived",
@@ -40,6 +61,28 @@
       "valueSource": "name",
       "valueTransform": "replace",
       "fileRename": "VerticalSliceArchitecture"
+    }
+  },
+  "forms": {
+    "lowerCaseFirstLetter": {
+      "identifier": "chain",
+      "steps": [
+        "firstLetter",
+        "lowerCase"
+      ]
+    },
+    "firstLetter": {
+      "identifier": "replace",
+      "pattern": "^(.)(.*)",
+      "replacement": "$1"
+    },
+    "afterFirstLetter": {
+      "identifier": "replace",
+      "pattern": "^(.)(.*)",
+      "replacement": "$2"
+    },
+    "lowerCase": {
+      "identifier": "lowerCase"
     }
   },
   "sources": [
