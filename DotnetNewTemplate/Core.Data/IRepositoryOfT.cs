@@ -7,9 +7,9 @@ public interface IRepository<TEntity> : IRepository where TEntity : IEntity
 {
   Task<List<TEntity>> GetAllAsync();
 
-  Task<TEntity?> GetAsync(Guid id);
+  Task<TEntity?> GetByIdAsync(Guid id);
 
-  Task<List<TEntity>?> GetAsync(List<Guid> ids);
+  Task<List<TEntity>> GetByIdsAsync(List<Guid> ids);
 
   Task CreateAsync(TEntity newItem);
 

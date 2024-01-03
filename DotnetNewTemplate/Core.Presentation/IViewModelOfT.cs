@@ -13,7 +13,7 @@ public interface IViewModel<TViewObject> : IViewModel where TViewObject : IViewO
 
   Task CreateAsync(TViewObject newItem, bool checkSuccessStatusCode = true, CancellationToken cancellationToken = default);
 
-  Task UpdateAsync(TViewObject updatedItem, bool checkSuccessStatusCode = true, CancellationToken cancellationToken = default);
+  Task UpdateAsync(Guid id, TViewObject updatedItem, bool checkSuccessStatusCode = true, CancellationToken cancellationToken = default);
 
   Task RemoveAsync(Guid id, CancellationToken cancellationToken = default);
 }

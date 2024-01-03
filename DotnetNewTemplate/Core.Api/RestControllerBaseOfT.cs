@@ -36,10 +36,10 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository>  : Controll
       .ToList());
   }
 
-  [HttpGet("{id:length(36)}")]
-  public virtual async Task<Results<Ok<TDto>, NotFound, ProblemHttpResult>> GetAsync(Guid id)
+  [HttpGet("{id:guid}")]
+  public virtual async Task<Results<Ok<TDto>, NotFound, ProblemHttpResult>> GetByIdAsync(Guid id)
   {
-    var entity = await _repository.GetAsync(id);
+    var entity = await _repository.GetByIdAsync(id);
 
     if (entity is null)
     {
@@ -49,28 +49,32 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository>  : Controll
     return TypedResults.Ok(ToDto(entity));
   }
 
+  [HttpGet("byIds")]
+  public virtual async Task<Results<Ok<List<TDto>>, NotFound, ProblemHttpResult>> GetByIdsAsync([FromQuery] List<Guid> ids)
+  {
+    var entities = await _repository.GetByIdsAsync(ids);
+    return TypedResults.Ok(entities
+      .Select(entity => ToDto(entity))
+      .ToList());
+  }
+
   [HttpPost]
   public virtual async Task<Results<Created<TDto>, ProblemHttpResult>> CreateAsync([FromBody] TDto newDto)
   {
     var toCreateEntity = ToEntity(newDto);
     await _repository.CreateAsync(toCreateEntity);
-
-    string? location = Url.Action("get", new { id = newDto.Id });
-    if (string.IsNullOrWhiteSpace(location))
-      throw new InvalidOperationException($"Can't create {nameof(location)} url");
-    return TypedResults.Created(location, newDto);
+    return TypedResults.Created("{newDto.Id}", newDto);
   }
 
-  [HttpPut]
-  public virtual async Task<Results<NoContent, NotFound, ProblemHttpResult>> UpdateAsync([FromBody] TDto updatedDto)
+  [HttpPut("{id:guid}")]
+  public virtual async Task<Results<NoContent, BadRequest, NotFound, ProblemHttpResult>> UpdateAsync(Guid id, [FromBody] TDto updatedDto)
   {
-    Guid id = updatedDto.Id;
+    if (id != updatedDto.Id)
+      return TypedResults.BadRequest();    
 
-    var existingEntity = await _repository.GetAsync(id);
+    var existingEntity = await _repository.GetByIdAsync(id);
     if (existingEntity is null)
-    {
       return TypedResults.NotFound();
-    }
 
     var toUpdateEntity = ToEntity(updatedDto);
     await _repository.UpdateAsync(toUpdateEntity);
@@ -78,10 +82,10 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository>  : Controll
     return TypedResults.NoContent();
   }
 
-  [HttpDelete("{id:length(36)}")]
+  [HttpDelete("{id:guid}")]
   public virtual async Task<Results<NoContent, NotFound, ProblemHttpResult>> DeleteAsync(Guid id)
   {
-    var item = await _repository.GetAsync(id);
+    var item = await _repository.GetByIdAsync(id);
 
     if (item is null)
     {
@@ -94,17 +98,17 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository>  : Controll
   }
 
   [HttpPatch]
-  public virtual async Task<ActionResult<TDto>> PatchAsync(Guid id, [FromBody] JsonPatchDocument<TDto> patchDto)
+  public virtual async Task<Results<Ok<TDto>, BadRequest, NotFound, ProblemHttpResult>> PatchAsync(Guid id, [FromBody] JsonPatchDocument<TDto> patchDto)
   {
     if (patchDto == null)
     {
-      return BadRequest(ModelState);
+      return TypedResults.BadRequest();
     }
 
-    var existingEntity = await _repository.GetAsync(id);
+    var existingEntity = await _repository.GetByIdAsync(id);
     if (existingEntity is null)
     {
-      return NotFound();
+      return TypedResults.NotFound();
     }
 
     var toUpdateDto = ToDto(existingEntity);
@@ -112,12 +116,12 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository>  : Controll
 
     if (!ModelState.IsValid)
     {
-      return BadRequest(ModelState);
+      return TypedResults.BadRequest();
     }
 
     var toUpdateEntity = ToEntity(toUpdateDto);
     await _repository.UpdateAsync(toUpdateEntity);
 
-    return toUpdateDto;
+    return TypedResults.Ok(toUpdateDto);
   }
 }

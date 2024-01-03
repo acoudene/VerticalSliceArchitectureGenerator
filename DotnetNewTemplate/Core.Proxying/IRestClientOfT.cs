@@ -10,14 +10,17 @@ public interface IRestClient<TDto> where TDto : class, IIdentifierDto
 {
   Task<List<TDto>> GetAllAsync(CancellationToken cancellationToken = default);
   
-  Task<TDto> GetAsync(Guid id, CancellationToken cancellationToken = default);
-  
+  Task<TDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+
+  Task<List<TDto>> GetByIdsAsync(List<Guid> ids, CancellationToken cancellationToken = default);
+
   Task<HttpResponseMessage> CreateAsync(
     TDto dto,
     bool checkSuccessStatusCode = true, 
     CancellationToken cancellationToken = default);
   
   Task<HttpResponseMessage> UpdateAsync(
+    Guid id,
     TDto dto,
     bool checkSuccessStatusCode = true,
     CancellationToken cancellationToken= default);

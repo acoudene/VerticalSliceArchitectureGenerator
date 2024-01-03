@@ -36,7 +36,7 @@ public abstract class RestViewModelBase<TViewObject, TDto> : IViewModel<TViewObj
   public virtual async Task<TViewObject?> GetAsync(Guid id, CancellationToken cancellationToken = default)
   {
     return ToViewObject((await _restClient
-      .GetAsync(id, cancellationToken)));
+      .GetByIdAsync(id, cancellationToken)));
       
   }
 
@@ -50,8 +50,8 @@ public abstract class RestViewModelBase<TViewObject, TDto> : IViewModel<TViewObj
     await _restClient.DeleteAsync(id, cancellationToken);
   }
 
-  public virtual async Task UpdateAsync(TViewObject updatedItem, bool checkSuccessStatusCode = true, CancellationToken cancellationToken = default)
+  public virtual async Task UpdateAsync(Guid id, TViewObject updatedItem, bool checkSuccessStatusCode = true, CancellationToken cancellationToken = default)
   {
-    await _restClient.UpdateAsync(ToDto(updatedItem), checkSuccessStatusCode, cancellationToken);
+    await _restClient.UpdateAsync(id, ToDto(updatedItem), checkSuccessStatusCode, cancellationToken);
   }
 }

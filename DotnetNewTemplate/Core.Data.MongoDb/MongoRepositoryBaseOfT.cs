@@ -37,7 +37,7 @@ public abstract class MongoRepositoryBase<TEntity, TMongoEntity> : IRepository<T
     .Select(mongoEntity => MapToEntity(mongoEntity))
     .ToList();
 
-  public virtual async Task<TEntity?> GetAsync(Guid id)
+  public virtual async Task<TEntity?> GetByIdAsync(Guid id)
   {
     if (id == Guid.Empty)
       throw new ArgumentOutOfRangeException(nameof(id));
@@ -49,7 +49,7 @@ public abstract class MongoRepositoryBase<TEntity, TMongoEntity> : IRepository<T
     return MapToEntity(mongoEntity);
   }
 
-  public virtual async Task<List<TEntity>?> GetAsync(List<Guid> ids)
+  public virtual async Task<List<TEntity>> GetByIdsAsync(List<Guid> ids)
   {
     // db.getCollection("<CollectionName>").find({id: {$in: [UUID("3FA85F64-5717-4562-B3FC-2C963F66AFA1"),UUID("3FA85F64-5717-4562-B3FC-2C963F66AFA2")]}})
 

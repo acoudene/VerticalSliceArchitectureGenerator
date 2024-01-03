@@ -1,6 +1,8 @@
 ﻿// Changelogs Date  | Author                | Description
 // 2023-12-23       | Anthony Coudène       | Creation
 
+using Feature.Host.Tests;
+
 namespace UseCase.Host.Tests;
 
 /// WARNING - for the moment, I don't have found a solution to reset settings like connexion string on a static test server
@@ -11,45 +13,54 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
   public GivenEntityNameApi(
     WebApplicationFactory<Program> webApplicationFactory,
     ITestOutputHelper output)
-    : base("EntityName", webApplicationFactory, output)
+    : base("entityName", webApplicationFactory, output)
   {
   }
 
   private const string ApiPath = "/api";
-  private const string ApiRelativePath = $"{ApiPath}/EntityName";
+  private const string ApiRelativePath = $"{ApiPath}/EntityName/"; // Warning, this ending slash is important in HttpClientFactory... :(
 
-  [Fact]
-  public async Task ThenGetAllAsync()
+  [Theory]
+  [ClassData(typeof(EntityNameData))]
+  public async Task WhenCreatingItem_ThenSingleItemIsCreatedAsync(EntityNameDto item)
   {
     // Arrange
     var httpClientFactory = CreateHttpClientFactory(ApiRelativePath);
     var client = new HttpEntityNameClient(httpClientFactory);
 
     // Act
-    var items = (await client.GetAllAsync());
+    HttpResponseMessage response = await client.CreateAsync(item, false);
 
-    // Assert
+    // Assert    
+    Assert.Null(Record.Exception(() =>
+    {
+      if (!response.IsSuccessStatusCode)
+        OutputHelper.WriteLine(response.Content.ReadAsStringAsync().Result);
+      response.EnsureSuccessStatusCode();
+    }));
+
+    item = await client.GetByIdAsync(item.Id);
+    Assert.NotNull(item);
   }
 
-  [Fact]
-  public async Task ThenCreateItemAsync()
+  [Theory]
+  [ClassData(typeof(EntityNamesData))]
+  public async Task WhenCreatingItems_ThenAllItemsAreGot_Async(List<EntityNameDto> items)
   {
     // Arrange
     var httpClientFactory = CreateHttpClientFactory(ApiRelativePath);
     var client = new HttpEntityNameClient(httpClientFactory);
-    var dtoToCreate = new EntityNameDto() 
-    { 
-      Id = Guid.NewGuid()
-
-      // TODO - EntityProperties - Fields to complete
-    };
+    foreach (var item in items)
+      await WhenCreatingItem_ThenSingleItemIsCreatedAsync(item);
+    var ids = items.Select(item => item.Id).ToList();
+    int expectedCount = items.Count;
 
     // Act
-    HttpResponseMessage response = await client.CreateAsync(dtoToCreate, false);
+    var gotItems = (await client.GetByIdsAsync(ids));
 
     // Assert
-    if (!response.IsSuccessStatusCode)
-      OutputHelper.WriteLine(response.Content.ReadAsStringAsync().Result);
-    response.EnsureSuccessStatusCode();
+    Assert.True(items is not null && expectedCount == items.Count);
+    Assert.Equal(items.Select(item=>item.Id), gotItems.Select(item=>item.Id));
   }
+
 }

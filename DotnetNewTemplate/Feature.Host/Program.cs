@@ -54,7 +54,7 @@ try
 
   /// Form templates API
   builder.Services.AddScoped<IMongoContext, MongoContext>();
-  builder.Services.AddScoped<IEntityNameRepository, EntityNameRepository > ();
+  builder.Services.AddScoped<IEntityNameRepository, EntityNameRepository>();
 
   /// Add module to controller scanning, for clarty I have been redundant on controllers even if they share the same assembly 
   builder.Services.AddControllers()
