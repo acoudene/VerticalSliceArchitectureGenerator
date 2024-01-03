@@ -1,3 +1,6 @@
+// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
 using Core.Api;
 using Core.Api.Swaggers;
 using Core.Data.MongoDb;

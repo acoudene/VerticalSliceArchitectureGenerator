@@ -1,3 +1,5 @@
+_2023-12-23 - Anthony Coudène - Creation_
+
 # VerticalSliceArchitectureGenerator
 
 A generator to produce a vertical slice architecture from API to integration coded tests

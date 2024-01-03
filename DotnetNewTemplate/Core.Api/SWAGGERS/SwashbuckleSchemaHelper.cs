@@ -1,4 +1,7 @@
-﻿namespace Core.Api.Swaggers;
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
+namespace Core.Api.Swaggers;
 
 public static class SwashbuckleSchemaHelper
 {

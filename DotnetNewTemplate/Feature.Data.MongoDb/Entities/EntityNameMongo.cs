@@ -1,4 +1,7 @@
-﻿namespace UseCase.Data.MongoDb.Entities;
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
+namespace UseCase.Data.MongoDb.Entities;
 
 [BsonIgnoreExtraElements]
 public record EntityNameMongo : IIdentifierMongoEntity

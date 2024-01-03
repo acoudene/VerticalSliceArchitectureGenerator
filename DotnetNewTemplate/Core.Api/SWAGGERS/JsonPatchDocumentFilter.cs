@@ -1,4 +1,7 @@
-﻿using Microsoft.OpenApi.Models;
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Core.Api.Swaggers;

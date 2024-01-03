@@ -1,4 +1,7 @@
-﻿namespace UseCase.Dtos;
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
+namespace UseCase.Dtos;
 
 public class EntityNameDto : IIdentifierDto
 {

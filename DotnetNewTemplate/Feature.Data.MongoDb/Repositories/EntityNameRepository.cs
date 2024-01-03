@@ -1,4 +1,7 @@
-﻿namespace UseCase.Data.MongoDb.Repositories;
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
+namespace UseCase.Data.MongoDb.Repositories;
 
 public class EntityNameRepository : MongoRepositoryBase<EntityName, EntityNameMongo>
   , IEntityNameRepository

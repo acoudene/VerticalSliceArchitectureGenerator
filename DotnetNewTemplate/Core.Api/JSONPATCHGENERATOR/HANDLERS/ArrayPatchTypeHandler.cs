@@ -1,3 +1,6 @@
+// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
 using Newtonsoft.Json.Linq;
 
 namespace Core.Api.JsonPatchGenerator.Handlers;

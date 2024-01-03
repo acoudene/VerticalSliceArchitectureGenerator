@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Options;
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace Core.Data.MongoDb;

@@ -1,4 +1,6 @@
-﻿
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
 using Core.Dtos;
 using Core.Proxying;
 

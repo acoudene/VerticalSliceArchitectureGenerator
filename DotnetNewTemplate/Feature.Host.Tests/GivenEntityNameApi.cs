@@ -1,4 +1,7 @@
-﻿namespace UseCase.Host.Tests;
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
+namespace UseCase.Host.Tests;
 
 /// WARNING - for the moment, I don't have found a solution to reset settings like connexion string on a static test server
 /// So be careful when changing settings, the same first settings will remain for server for all tests in this class even if this container is reset.

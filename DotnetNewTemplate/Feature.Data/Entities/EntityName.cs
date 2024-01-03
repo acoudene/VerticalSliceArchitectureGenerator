@@ -1,4 +1,7 @@
-﻿namespace UseCase.Data.Entities;
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
+namespace UseCase.Data.Entities;
 
 public record EntityName : IIdentifierEntity
 {

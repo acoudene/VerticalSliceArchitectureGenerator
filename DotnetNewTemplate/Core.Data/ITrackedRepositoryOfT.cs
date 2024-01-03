@@ -1,4 +1,7 @@
-﻿namespace Core.Data;
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
+namespace Core.Data;
 
 public interface ITrackedRepository<TEntity, TTrackedMetadata> : IRepository
   where TEntity : IEntity

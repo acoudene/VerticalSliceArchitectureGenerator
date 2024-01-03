@@ -1,4 +1,6 @@
 ﻿# For more info on HTTP files go to https://aka.ms/vs/httpfile
+# Changelogs Date  | Author                | Description
+# 2023-12-23       | Anthony Coudène       | Creation
 
 @schema=https
 @hostname=localhost
