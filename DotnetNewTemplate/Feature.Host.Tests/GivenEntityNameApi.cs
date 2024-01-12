@@ -60,7 +60,7 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
 
     // Assert
     Assert.True(items is not null && expectedCount == items.Count);
-    Assert.Equal(items.Select(item=>item.Id), gotItems.Select(item=>item.Id));
+    Assert.Equivalent(items.Select(item=>item.Id), gotItems.Select(item=>item.Id));
   }
 
 }
