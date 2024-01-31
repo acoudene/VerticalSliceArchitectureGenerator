@@ -83,18 +83,20 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository>  : Controll
   }
 
   [HttpDelete("{id:guid}")]
-  public virtual async Task<Results<NoContent, NotFound, ProblemHttpResult>> DeleteAsync(Guid id)
+  public virtual async Task<Results<Ok<TDto>, BadRequest, NotFound, ProblemHttpResult>> DeleteAsync(Guid id)
   {
-    var item = await _repository.GetByIdAsync(id);
+    if (id == Guid.Empty)
+      return TypedResults.BadRequest();
 
-    if (item is null)
+    var beforeRemoveEntity = await _repository.GetByIdAsync(id);
+    if (beforeRemoveEntity is null)
     {
       return TypedResults.NotFound();
     }
 
     await _repository.RemoveAsync(id);
 
-    return TypedResults.NoContent();
+    return TypedResults.Ok(ToDto(beforeRemoveEntity));
   }
 
   [HttpPatch]

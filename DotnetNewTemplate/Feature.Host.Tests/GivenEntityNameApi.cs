@@ -22,7 +22,7 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
 
   [Theory]
   [ClassData(typeof(EntityNameData))]
-  public async Task WhenCreatingItem_ThenSingleItemIsCreatedAsync(EntityNameDto item)
+  public async Task WhenCreatingItem_ThenSingleItemIsCreated_Async(EntityNameDto item)
   {
     // Arrange
     var httpClientFactory = CreateHttpClientFactory(ApiRelativePath);
@@ -60,7 +60,29 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
 
     // Assert
     Assert.True(items is not null && expectedCount == items.Count);
-    Assert.Equivalent(items.Select(item=>item.Id), gotItems.Select(item=>item.Id));
+    Assert.Equivalent(items.Select(item => item.Id), gotItems.Select(item => item.Id));
+  }
+
+  [Theory]
+  [ClassData(typeof(EntityNamesData))]
+  public async Task WhenDeletingItems_ThenItemAreDeleted_Async(List<EntityNameDto> items)
+  {
+    // Arrange
+    var httpClientFactory = CreateHttpClientFactory(ApiRelativePath);
+    var client = new HttpEntityNameClient(httpClientFactory);
+    foreach (var item in items)
+      await WhenCreatingItem_ThenSingleItemIsCreatedAsync(item);
+    var ids = items.Select(item => item.Id).ToList();
+    int expectedCount = items.Count;
+
+    // Act
+    foreach (Guid id in ids)
+      await client.DeleteAsync(id);
+
+    var gotItems = (await client.GetByIdsAsync(ids));
+
+    // Assert    
+    Assert.Empty(gotItems);    
   }
 
 }
