@@ -1,129 +1,74 @@
 ﻿// Changelogs Date  | Author                | Description
 // 2023-12-23       | Anthony Coudène       | Creation
 
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.Mvc;
 using Core.Data;
 using Core.Dtos;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Core.Api;
 
-public abstract class RestControllerBase<TDto, TEntity, TRepository>  : ControllerBase
+public abstract class RestControllerBase<TDto, TEntity, TRepository> : ControllerBase
   where TDto : class, IIdentifierDto
   where TEntity : class, IIdentifierEntity
-  where TRepository : IRepository<TEntity> 
+  where TRepository : IRepository<TEntity>
 {
-  private readonly TRepository _repository;
+  private readonly RestBehavior<TDto, TEntity, TRepository> _restBehavior;
 
-  protected TRepository Repository { get => _repository; }
+  protected RestBehavior<TDto, TEntity, TRepository> RestBehavior { get => _restBehavior; }
+
+  public RestControllerBase(RestBehavior<TDto, TEntity, TRepository> restBehavior)
+  {
+    _restBehavior = restBehavior ?? throw new ArgumentNullException(nameof(restBehavior));
+  }
 
   public RestControllerBase(TRepository repository)
-  {
-    _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-  }
+    : this(new RestBehavior<TDto, TEntity, TRepository>(repository))
+  { }
 
   protected abstract TEntity ToEntity(TDto dto);
   protected abstract TDto ToDto(TEntity entity);
 
   [HttpGet]
-  public virtual async Task<Results<Ok<List<TDto>>, ProblemHttpResult>> GetAllAsync()
+  public virtual async Task<Results<Ok<List<TDto>>, BadRequest, ProblemHttpResult>> GetAllAsync()
   {
-    var entities = await _repository.GetAllAsync();
-    return TypedResults.Ok(entities
-      .Select(entity => ToDto(entity))
-      .ToList());
+    return await _restBehavior.GetAllAsync(ToDto);
   }
 
   [HttpGet("{id:guid}")]
-  public virtual async Task<Results<Ok<TDto>, NotFound, ProblemHttpResult>> GetByIdAsync(Guid id)
+  public virtual async Task<Results<Ok<TDto>, BadRequest, NotFound, ProblemHttpResult>> GetByIdAsync(Guid id)
   {
-    var entity = await _repository.GetByIdAsync(id);
-
-    if (entity is null)
-    {
-      return TypedResults.NotFound();
-    }
-
-    return TypedResults.Ok(ToDto(entity));
+    return await _restBehavior.GetByIdAsync(id, ToDto);
   }
 
   [HttpGet("byIds")]
-  public virtual async Task<Results<Ok<List<TDto>>, NotFound, ProblemHttpResult>> GetByIdsAsync([FromQuery] List<Guid> ids)
+  public virtual async Task<Results<Ok<List<TDto>>, BadRequest, NotFound, ProblemHttpResult>> GetByIdsAsync([FromQuery] List<Guid> ids)
   {
-    var entities = await _repository.GetByIdsAsync(ids);
-    return TypedResults.Ok(entities
-      .Select(entity => ToDto(entity))
-      .ToList());
+    return await _restBehavior.GetByIdsAsync(ids, ToDto);
   }
 
   [HttpPost]
-  public virtual async Task<Results<Created<TDto>, ProblemHttpResult>> CreateAsync([FromBody] TDto newDto)
+  public virtual async Task<Results<Created<TDto>, BadRequest, ProblemHttpResult>> CreateAsync([FromBody] TDto newDto)
   {
-    var toCreateEntity = ToEntity(newDto);
-    await _repository.CreateAsync(toCreateEntity);
-    return TypedResults.Created("{newDto.Id}", newDto);
+    return await _restBehavior.CreateAsync(newDto, ToEntity);
   }
 
   [HttpPut("{id:guid}")]
   public virtual async Task<Results<NoContent, BadRequest, NotFound, ProblemHttpResult>> UpdateAsync(Guid id, [FromBody] TDto updatedDto)
   {
-    if (id != updatedDto.Id)
-      return TypedResults.BadRequest();    
-
-    var existingEntity = await _repository.GetByIdAsync(id);
-    if (existingEntity is null)
-      return TypedResults.NotFound();
-
-    var toUpdateEntity = ToEntity(updatedDto);
-    await _repository.UpdateAsync(toUpdateEntity);
-
-    return TypedResults.NoContent();
+    return await _restBehavior.UpdateAsync(id, updatedDto, ToEntity);
   }
 
   [HttpDelete("{id:guid}")]
   public virtual async Task<Results<Ok<TDto>, BadRequest, NotFound, ProblemHttpResult>> DeleteAsync(Guid id)
   {
-    if (id == Guid.Empty)
-      return TypedResults.BadRequest();
-
-    var beforeRemoveEntity = await _repository.GetByIdAsync(id);
-    if (beforeRemoveEntity is null)
-    {
-      return TypedResults.NotFound();
-    }
-
-    await _repository.RemoveAsync(id);
-
-    return TypedResults.Ok(ToDto(beforeRemoveEntity));
+    return await _restBehavior.DeleteAsync(id, ToDto);
   }
 
   [HttpPatch]
   public virtual async Task<Results<Ok<TDto>, BadRequest, NotFound, ProblemHttpResult>> PatchAsync(Guid id, [FromBody] JsonPatchDocument<TDto> patchDto)
   {
-    if (patchDto == null)
-    {
-      return TypedResults.BadRequest();
-    }
-
-    var existingEntity = await _repository.GetByIdAsync(id);
-    if (existingEntity is null)
-    {
-      return TypedResults.NotFound();
-    }
-
-    var toUpdateDto = ToDto(existingEntity);
-    patchDto.ApplyTo(toUpdateDto, ModelState);
-
-    if (!ModelState.IsValid)
-    {
-      return TypedResults.BadRequest();
-    }
-
-    var toUpdateEntity = ToEntity(toUpdateDto);
-    await _repository.UpdateAsync(toUpdateEntity);
-
-    return TypedResults.Ok(toUpdateDto);
+    return await _restBehavior.PatchAsync(id, patchDto, ModelState, ToEntity, ToDto);
   }
 }

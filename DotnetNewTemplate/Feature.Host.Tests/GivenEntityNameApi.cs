@@ -51,7 +51,7 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
     var httpClientFactory = CreateHttpClientFactory(ApiRelativePath);
     var client = new HttpEntityNameClient(httpClientFactory);
     foreach (var item in items)
-      await WhenCreatingItem_ThenSingleItemIsCreatedAsync(item);
+      await WhenCreatingItem_ThenSingleItemIsCreated_Async(item);
     var ids = items.Select(item => item.Id).ToList();
     int expectedCount = items.Count;
 
@@ -71,7 +71,7 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
     var httpClientFactory = CreateHttpClientFactory(ApiRelativePath);
     var client = new HttpEntityNameClient(httpClientFactory);
     foreach (var item in items)
-      await WhenCreatingItem_ThenSingleItemIsCreatedAsync(item);
+      await WhenCreatingItem_ThenSingleItemIsCreated_Async(item);
     var ids = items.Select(item => item.Id).ToList();
     int expectedCount = items.Count;
 
