@@ -19,10 +19,9 @@ GET {{baseAddress}}/3fa85f64-5717-4562-b3fc-2c963f66afa9
 POST {{baseAddress}}
 Content-Type: application/json
 
+ # TODO - EntityProperties - Fields to complete
 {
   "id": "3fa85f64-5717-4562-b3fc-2c963f66afa9"
-
-  # TODO - EntityProperties - Fields to complete
 }
 
 ###
@@ -30,10 +29,9 @@ Content-Type: application/json
 PUT {{baseAddress}}/3fa85f64-5717-4562-b3fc-2c963f66afa9
 Content-Type: application/json
 
+ # TODO - EntityProperties - Fields to complete
 {
   "id": "3fa85f64-5717-4562-b3fc-2c963f66afa9"
-
-  # TODO - EntityProperties - Fields to complete
 }
 
 ###
