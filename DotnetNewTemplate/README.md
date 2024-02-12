@@ -1,4 +1,4 @@
-_2023-12-23 - Anthony Coudène - Creation_
+_2023-12-23 - Anthony CoudÃ¨ne - Creation_
 
 # VerticalSliceArchitectureGenerator
 
@@ -153,4 +153,19 @@ For example:
 
 `groupIdentity` value in `.template.config\template.json` remains important to link with Visual Studio wizards.
 `symbolInfo` array is used to link with template options given by user or computed.
+
+# Runing solution
+
+## Prerequesites
+
+Having Docker Desktop installed on the hosted computer.
+Run a MongoDb container (default port: 27017 on local machine) to use and manipulate API Host : [Feature.Host](./Feature.Host/)
+
+```
+docker run --name mymongo -d mongo:tag
+```
+
+See: https://hub.docker.com/_/mongo
+
+Nothing to install for Integration tests : [Feature.Host.Tests](./Feature.Host.Tests/)
 
