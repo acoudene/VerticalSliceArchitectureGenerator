@@ -7,9 +7,9 @@ public interface IViewModel<TViewObject> : IViewModel where TViewObject : IViewO
 {
   Task<List<TViewObject>> GetAllAsync(CancellationToken cancellationToken = default);
 
-  Task<TViewObject?> GetAsync(Guid id, CancellationToken cancellationToken = default);
+  Task<TViewObject?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
-  Task<List<TViewObject>?> GetAsync(List<Guid> ids, CancellationToken cancellationToken = default);
+  Task<List<TViewObject>?> GetByIdsAsync(List<Guid> ids, CancellationToken cancellationToken = default);
 
   Task CreateAsync(TViewObject newItem, bool checkSuccessStatusCode = true, CancellationToken cancellationToken = default);
 

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Core.Api;
 
-public class RestBehavior<TDto, TEntity, TRepository>
+public class RestComponent<TDto, TEntity, TRepository>
   where TDto : class, IIdentifierDto
   where TEntity : class, IIdentifierEntity
   where TRepository : IRepository<TEntity> 
@@ -20,7 +20,7 @@ public class RestBehavior<TDto, TEntity, TRepository>
   
   public TRepository Repository { get => _repository; }
 
-  public RestBehavior(TRepository repository)
+  public RestComponent(TRepository repository)
   {
     _repository = repository ?? throw new ArgumentNullException(nameof(repository));
   }

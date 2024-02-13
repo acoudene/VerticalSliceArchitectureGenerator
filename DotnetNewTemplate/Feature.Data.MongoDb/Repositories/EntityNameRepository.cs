@@ -13,12 +13,12 @@ public class EntityNameRepository : MongoRepositoryBase<EntityName, EntityNameMo
   { 
   }
 
-  protected override EntityName MapToEntity(EntityNameMongo mongoEntity)
+  protected override EntityName ToEntity(EntityNameMongo mongoEntity)
   {
     return mongoEntity.ToEntity();
   }
 
-  protected override EntityNameMongo MapToMongoEntity(EntityName entity)
+  protected override EntityNameMongo ToMongoEntity(EntityName entity)
   {
     return entity.ToMongo();
   }

@@ -14,17 +14,17 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   where TEntity : class, IIdentifierEntity
   where TRepository : IRepository<TEntity>
 {
-  private readonly RestBehavior<TDto, TEntity, TRepository> _restBehavior;
+  private readonly RestComponent<TDto, TEntity, TRepository> _restComponent;
 
-  protected RestBehavior<TDto, TEntity, TRepository> RestBehavior { get => _restBehavior; }
+  protected RestComponent<TDto, TEntity, TRepository> RestComponent { get => _restComponent; }
 
-  public RestControllerBase(RestBehavior<TDto, TEntity, TRepository> restBehavior)
+  public RestControllerBase(RestComponent<TDto, TEntity, TRepository> restComponent)
   {
-    _restBehavior = restBehavior ?? throw new ArgumentNullException(nameof(restBehavior));
+    _restComponent = restComponent ?? throw new ArgumentNullException(nameof(restComponent));
   }
 
   public RestControllerBase(TRepository repository)
-    : this(new RestBehavior<TDto, TEntity, TRepository>(repository))
+    : this(new RestComponent<TDto, TEntity, TRepository>(repository))
   { }
 
   protected abstract TEntity ToEntity(TDto dto);
@@ -33,42 +33,42 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   [HttpGet]
   public virtual async Task<Results<Ok<List<TDto>>, BadRequest, ProblemHttpResult>> GetAllAsync()
   {
-    return await _restBehavior.GetAllAsync(ToDto);
+    return await _restComponent.GetAllAsync(ToDto);
   }
 
   [HttpGet("{id:guid}")]
   public virtual async Task<Results<Ok<TDto>, BadRequest, NotFound, ProblemHttpResult>> GetByIdAsync(Guid id)
   {
-    return await _restBehavior.GetByIdAsync(id, ToDto);
+    return await _restComponent.GetByIdAsync(id, ToDto);
   }
 
   [HttpGet("byIds")]
   public virtual async Task<Results<Ok<List<TDto>>, BadRequest, NotFound, ProblemHttpResult>> GetByIdsAsync([FromQuery] List<Guid> ids)
   {
-    return await _restBehavior.GetByIdsAsync(ids, ToDto);
+    return await _restComponent.GetByIdsAsync(ids, ToDto);
   }
 
   [HttpPost]
   public virtual async Task<Results<Created<TDto>, BadRequest, ProblemHttpResult>> CreateAsync([FromBody] TDto newDto)
   {
-    return await _restBehavior.CreateAsync(newDto, ToEntity);
+    return await _restComponent.CreateAsync(newDto, ToEntity);
   }
 
   [HttpPut("{id:guid}")]
   public virtual async Task<Results<NoContent, BadRequest, NotFound, ProblemHttpResult>> UpdateAsync(Guid id, [FromBody] TDto updatedDto)
   {
-    return await _restBehavior.UpdateAsync(id, updatedDto, ToEntity);
+    return await _restComponent.UpdateAsync(id, updatedDto, ToEntity);
   }
 
   [HttpDelete("{id:guid}")]
   public virtual async Task<Results<Ok<TDto>, BadRequest, NotFound, ProblemHttpResult>> DeleteAsync(Guid id)
   {
-    return await _restBehavior.DeleteAsync(id, ToDto);
+    return await _restComponent.DeleteAsync(id, ToDto);
   }
 
   [HttpPatch]
   public virtual async Task<Results<Ok<TDto>, BadRequest, NotFound, ProblemHttpResult>> PatchAsync(Guid id, [FromBody] JsonPatchDocument<TDto> patchDto)
   {
-    return await _restBehavior.PatchAsync(id, patchDto, ModelState, ToEntity, ToDto);
+    return await _restComponent.PatchAsync(id, patchDto, ModelState, ToEntity, ToDto);
   }
 }
