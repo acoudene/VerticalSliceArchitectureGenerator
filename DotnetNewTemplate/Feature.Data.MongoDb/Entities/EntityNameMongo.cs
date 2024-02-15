@@ -3,6 +3,12 @@
 
 namespace UseCase.Data.MongoDb.Entities;
 
+// This commented part could be used to have benefits of mongo entity typing
+//[BsonIgnoreExtraElements]
+//[BsonDiscriminator("entityName", Required = true, RootClass = true)]
+//[BsonKnownTypes(typeof(entityNameInherited))]
+//public record EntityNameMongoBase : IIdentifierMongoEntity
+
 [BsonIgnoreExtraElements]
 public record EntityNameMongo : IIdentifierMongoEntity
 {
@@ -18,3 +24,11 @@ public record EntityNameMongo : IIdentifierMongoEntity
 
   // TODO - EntityProperties - Fields to complete
 }
+
+// This commented part could be used to have benefits of mongo entity typing
+// Example of inherited class
+//[BsonIgnoreExtraElements]
+//[BsonDiscriminator("entityNameInherited", Required = true)]
+//public record EntityNameInheritedMongo : EntityNameMongoBase
+//{
+//}

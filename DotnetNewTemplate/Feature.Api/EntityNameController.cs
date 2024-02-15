@@ -13,6 +13,14 @@ public class EntityNameController : RestControllerBase<EntityNameDto, EntityName
 
   }
 
+  // This commented part could be used to have benefits of json entity typing
+  //protected override EntityNameDtoBase ToDto(EntityNameBase entity)
+  //  => entity.ToInheritedDto();
+
+  // This commented part could be used to have benefits of json entity typing
+  //protected override EntityNameBase ToEntity(EntityNameDtoBase dto)
+  //  => dto.ToInheritedEntity();
+
   protected override EntityNameDto ToDto(EntityName entity)
     => entity.ToDto();
 

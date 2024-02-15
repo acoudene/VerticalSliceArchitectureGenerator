@@ -13,6 +13,18 @@ public class EntityNameRepository : MongoRepositoryBase<EntityName, EntityNameMo
   { 
   }
 
+  // This commented part could be used to have benefits of mongo entity typing
+  //protected override EntityNameBase ToEntity(EntityNameMongoBase mongoEntity)
+  //{
+  //  return mongoEntity.ToInheritedEntity();
+  //}
+
+  // This commented part could be used to have benefits of mongo entity typing
+  //protected override EntityNameMongoBase ToMongoEntity(EntityNameBase entity)
+  //{
+  //  return entity.ToInheritedMongo();
+  //}
+
   protected override EntityName ToEntity(EntityNameMongo mongoEntity)
   {
     return mongoEntity.ToEntity();

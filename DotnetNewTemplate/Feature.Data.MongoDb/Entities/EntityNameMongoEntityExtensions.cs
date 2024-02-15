@@ -5,6 +5,28 @@ namespace UseCase.Data.MongoDb.Entities;
 
 public static class EntityNameMongoEntityExtensions
 {
+  // This commented part could be used to have benefits of mongo entity typing
+  //public static EntityNameMongoBase ToInheritedMongo(this EntityNameBase entity)
+  //{
+  //  switch (entity)
+  //  {
+  //    case EntityNameInheritedMongo inheritedEntity: return inheritedEntity.ToMongo();
+  //    default:
+  //      throw new NotImplementedException();
+  //  }
+  //}
+
+  // This commented part could be used to have benefits of mongo entity typing
+  //public static EntityNameBase ToInheritedEntity(this EntityNameInheritedMongo mongoEntity)
+  //{
+  //  switch (mongoEntity)
+  //  {
+  //    case EntityNameInherited inheritedMongo: return inheritedMongo.ToEntity();
+  //    default:
+  //      throw new NotImplementedException();
+  //  }
+  //}
+
   public static EntityNameMongo ToMongo(this EntityName entity)
   {
     return new EntityNameMongo()
