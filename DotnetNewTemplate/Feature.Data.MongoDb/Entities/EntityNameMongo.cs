@@ -6,7 +6,7 @@ namespace Feature.Data.MongoDb.Entities;
 // This commented part could be used to have benefits of mongo entity typing
 //[BsonIgnoreExtraElements]
 //[BsonDiscriminator("entityName", Required = true, RootClass = true)]
-//[BsonKnownTypes(typeof(entityNameInherited))]
+//[BsonKnownTypes(typeof(EntityNameInheritedMongo))]
 //public record EntityNameMongoBase : IIdentifierMongoEntity
 
 [BsonIgnoreExtraElements]
