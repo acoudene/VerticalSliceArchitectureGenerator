@@ -10,18 +10,18 @@ public static class EntityNameMongoEntityExtensions
   //{
   //  switch (entity)
   //  {
-  //    case EntityNameInheritedMongo inheritedEntity: return inheritedEntity.ToMongo();
+  //    case EntityNameInherited inheritedEntity: return inheritedEntity.ToMongo();
   //    default:
   //      throw new NotImplementedException();
   //  }
   //}
 
   // This commented part could be used to have benefits of mongo entity typing
-  //public static EntityNameBase ToInheritedEntity(this EntityNameInheritedMongo mongoEntity)
+  //public static EntityNameBase ToInheritedEntity(this EntityNameMongoBase mongoEntity)
   //{
   //  switch (mongoEntity)
   //  {
-  //    case EntityNameInherited inheritedMongo: return inheritedMongo.ToEntity();
+  //    case EntityNameInheritedMongo inheritedMongo: return inheritedMongo.ToEntity();
   //    default:
   //      throw new NotImplementedException();
   //  }
