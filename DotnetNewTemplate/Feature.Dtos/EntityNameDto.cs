@@ -5,7 +5,7 @@ namespace Feature.Dtos;
 
 // This commented part could be used to have benefits of json entity typing
 //[JsonDerivedType(typeof(EntityNameInheritedDto), EntityNameInheritedDto.TypeId)]
-public class EntityNameDto : IIdentifierDto
+public record EntityNameDto : IIdentifierDto
 {
   public required Guid Id { get; set; }
 
