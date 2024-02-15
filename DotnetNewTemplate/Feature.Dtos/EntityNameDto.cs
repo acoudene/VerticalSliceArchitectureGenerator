@@ -7,7 +7,7 @@ namespace Feature.Dtos;
 //[JsonDerivedType(typeof(EntityNameInheritedDto), EntityNameInheritedDto.TypeId)]
 public class EntityNameDto : IIdentifierDto
 {
-  public Guid Id { get; set; }
+  public required Guid Id { get; set; }
 
   // TODO - EntityProperties - Fields to complete
 }
