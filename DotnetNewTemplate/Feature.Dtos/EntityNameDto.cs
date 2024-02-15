@@ -1,7 +1,7 @@
 ﻿// Changelogs Date  | Author                | Description
 // 2023-12-23       | Anthony Coudène       | Creation
 
-namespace UseCase.Dtos;
+namespace Feature.Dtos;
 
 // This commented part could be used to have benefits of json entity typing
 //[JsonDerivedType(typeof(EntityNameInheritedDto), EntityNameInheritedDto.TypeId)]

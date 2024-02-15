@@ -5,6 +5,6 @@ global using Core.Data.MongoDb;
 global using MongoDB.Bson;
 global using MongoDB.Bson.Serialization.Attributes;
 
-global using UseCase.Data.MongoDb.Entities;
-global using UseCase.Data.Entities;
-global using UseCase.Data.Repositories;
+global using Feature.Data.MongoDb.Entities;
+global using Feature.Data.Entities;
+global using Feature.Data.Repositories;

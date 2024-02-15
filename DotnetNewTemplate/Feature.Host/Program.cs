@@ -4,15 +4,14 @@
 using Core.Api;
 using Core.Api.Swaggers;
 using Core.Data.MongoDb;
+using Feature.Api;
+using Feature.Data.MongoDb.Repositories;
+using Feature.Data.Repositories;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using Serilog;
-
-using UseCase.Api;
-using UseCase.Data.MongoDb.Repositories;
-using UseCase.Data.Repositories;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()

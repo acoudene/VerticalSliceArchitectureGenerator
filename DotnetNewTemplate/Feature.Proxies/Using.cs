@@ -3,4 +3,4 @@
 
 global using Core.Proxying;
 
-global using UseCase.Dtos;
+global using Feature.Dtos;

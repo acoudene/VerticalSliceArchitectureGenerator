@@ -1,7 +1,7 @@
 ﻿// Changelogs Date  | Author                | Description
 // 2023-12-23       | Anthony Coudène       | Creation
 
-namespace UseCase.Data.MongoDb.Repositories;
+namespace Feature.Data.MongoDb.Repositories;
 
 public class EntityNameRepository : MongoRepositoryBase<EntityName, EntityNameMongo>
   , IEntityNameRepository

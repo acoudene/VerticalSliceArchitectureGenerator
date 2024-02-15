@@ -6,5 +6,5 @@ global using Microsoft.AspNetCore.Mvc.Testing;
 global using Xunit;
 global using Xunit.Abstractions;
 
-global using UseCase.Dtos;
-global using UseCase.Proxies;
+global using Feature.Dtos;
+global using Feature.Proxies;

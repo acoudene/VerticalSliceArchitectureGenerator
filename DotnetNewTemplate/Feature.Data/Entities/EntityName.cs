@@ -1,7 +1,7 @@
 ﻿// Changelogs Date  | Author                | Description
 // 2023-12-23       | Anthony Coudène       | Creation
 
-namespace UseCase.Data.Entities;
+namespace Feature.Data.Entities;
 
 public record EntityName : IIdentifierEntity
 {
