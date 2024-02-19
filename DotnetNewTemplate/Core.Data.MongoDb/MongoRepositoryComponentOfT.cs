@@ -24,9 +24,7 @@ public class MongoRepositoryComponent<TEntity, TMongoEntity>
       throw new ArgumentNullException(nameof(collectionName));
 
     _mongoContext = mongoContext;
-    _mongoSet = new MongoSet<TMongoEntity>(mongoContext, collectionName);
-
-    SetUniqueIndex(entity => entity.Id);
+    _mongoSet = new MongoSet<TMongoEntity>(mongoContext, collectionName);    
   }
 
   public virtual async Task<List<TEntity>> GetAllAsync(Func<TMongoEntity, TEntity> toEntityFunc)
