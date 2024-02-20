@@ -13,18 +13,22 @@ public class MongoContext : IMongoContext
   public IMongoDatabase GetDatabase() => _database;
 
   public MongoContext(IOptions<DatabaseSettings> databaseSettings)
+          : this(databaseSettings.Value)
   {
-    if (databaseSettings is null || databaseSettings.Value is null)
-      throw new ArgumentNullException(nameof(databaseSettings));
+  }
+
+  public MongoContext(DatabaseSettings databaseSettings)
+  {
+    if (databaseSettings is null) throw new ArgumentNullException(nameof(databaseSettings));
 
     /// Extract connection string and database name
     /// from configuration settings, then create a mongodb instance of <see cref="IMongoDatabase"/>
 
-    string connectionString = databaseSettings.Value.ConnectionString;
+    string connectionString = databaseSettings.ConnectionString;
     if (string.IsNullOrWhiteSpace(connectionString))
       throw new InvalidOperationException("Missing connection string");
 
-    string databaseName = databaseSettings.Value.DatabaseName;
+    string databaseName = databaseSettings.DatabaseName;
     if (string.IsNullOrWhiteSpace(databaseName))
       throw new InvalidOperationException("Missing database name");
 
