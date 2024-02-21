@@ -23,8 +23,9 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
   public async Task WhenCreatingItem_ThenSingleItemIsCreated_Async(EntityNameDto item)
   {
     // Arrange
+    var logger = CreateLogger<HttpEntityNameClient>();
     var httpClientFactory = CreateHttpClientFactory(ApiRelativePath);
-    var client = new HttpEntityNameClient(httpClientFactory);
+    var client = new HttpEntityNameClient(logger, httpClientFactory);
 
     // Act
     await client.CreateAsync(item);
@@ -39,8 +40,9 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
   public async Task WhenCreatingItems_ThenAllItemsAreGot_Async(List<EntityNameDto> items)
   {
     // Arrange
+    var logger = CreateLogger<HttpEntityNameClient>();
     var httpClientFactory = CreateHttpClientFactory(ApiRelativePath);
-    var client = new HttpEntityNameClient(httpClientFactory);
+    var client = new HttpEntityNameClient(logger,httpClientFactory);
     foreach (var item in items)
       await WhenCreatingItem_ThenSingleItemIsCreated_Async(item);
     var ids = items.Select(item => item.Id).ToList();
@@ -59,8 +61,9 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
   public async Task WhenDeletingItems_ThenItemAreDeleted_Async(List<EntityNameDto> items)
   {
     // Arrange
+    var logger = CreateLogger<HttpEntityNameClient>();
     var httpClientFactory = CreateHttpClientFactory(ApiRelativePath);
-    var client = new HttpEntityNameClient(httpClientFactory);
+    var client = new HttpEntityNameClient(logger, httpClientFactory);
     foreach (var item in items)
       await WhenCreatingItem_ThenSingleItemIsCreated_Async(item);
     var ids = items.Select(item => item.Id).ToList();

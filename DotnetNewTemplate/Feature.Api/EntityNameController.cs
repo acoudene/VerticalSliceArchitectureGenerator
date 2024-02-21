@@ -52,6 +52,8 @@ public class EntityNameController : ControllerBase
   {
     try
     {
+      _logger.LogDebug("Receiving request for {Method}...", nameof(GetAllAsync));
+
       return TypedResults.Ok(await _restComponent.GetAllAsync(ToDto));
     }
     catch (ArgumentException ex)
@@ -71,6 +73,8 @@ public class EntityNameController : ControllerBase
   {
     try
     {
+      _logger.LogDebug("Receiving request for {Method}({Id})...", nameof(GetByIdAsync), id);
+
       var foundEntity = await _restComponent.GetByIdAsync(id, ToDto);
       if (foundEntity is null)
         return TypedResults.NotFound();
@@ -95,6 +99,8 @@ public class EntityNameController : ControllerBase
   {
     try
     {
+      _logger.LogDebug("Receiving request for {Method}({Ids})...", nameof(GetByIdsAsync), string.Join(',', ids));
+
       return TypedResults.Ok(await _restComponent.GetByIdsAsync(ids, ToDto));
     }
     catch (ArgumentException ex)
@@ -115,6 +121,8 @@ public class EntityNameController : ControllerBase
   {
     try
     {
+      _logger.LogDebug("Receiving request for {Method}({Dto})...", nameof(CreateAsync), newDto);
+
       return TypedResults.Created("{newDto.Id}", await _restComponent.CreateAsync(newDto, ToEntity));
     }
     catch (ArgumentException ex)
@@ -136,6 +144,8 @@ public class EntityNameController : ControllerBase
   {
     try
     {
+      _logger.LogDebug("Receiving request for {Method}({Id},{Dto})...", nameof(UpdateAsync), id, updatedDto);
+
       var updatedEntity = await _restComponent.UpdateAsync(id, updatedDto, ToEntity);
       if (updatedEntity is null)
         return TypedResults.NotFound();
@@ -159,6 +169,8 @@ public class EntityNameController : ControllerBase
   {
     try
     {
+      _logger.LogDebug("Receiving request for {Method}({Id})...", nameof(DeleteAsync), id);
+
       var deletedEntity = await _restComponent.DeleteAsync(id, ToDto);
       if (deletedEntity is null)
         return TypedResults.NotFound();
@@ -184,6 +196,8 @@ public class EntityNameController : ControllerBase
   {
     try
     {
+      _logger.LogDebug("Receiving request for {Method}({Id},{Patch})...", nameof(PatchAsync), id, patchDto);
+
       var patchedEntity = await _restComponent.PatchAsync(id, patchDto, ModelState, ToEntity, ToDto);
       if (patchedEntity is null)
         return TypedResults.NotFound();

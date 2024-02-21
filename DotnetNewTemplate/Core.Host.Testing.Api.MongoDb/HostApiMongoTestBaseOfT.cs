@@ -4,6 +4,7 @@
 using Core.Data.MongoDb;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Testcontainers.MongoDb;
 using Xunit.Abstractions;
 
@@ -19,7 +20,7 @@ public abstract class HostApiMongoTestBase<TEntryPoint>
   protected ITestOutputHelper OutputHelper { get { return _outputHelper; } }
 
   private WebApplicationFactory<TEntryPoint> _webApplicationFactory;
-  protected WebApplicationFactory<TEntryPoint> WebApplicationFactory { get { return _webApplicationFactory; } } 
+  protected WebApplicationFactory<TEntryPoint> WebApplicationFactory { get { return _webApplicationFactory; } }
 
   //private const int Port = 27017;  
 
@@ -34,6 +35,9 @@ public abstract class HostApiMongoTestBase<TEntryPoint>
 
   protected string DatabaseName { get; private set; }
 
+  private readonly ILoggerFactory _loggerFactory;
+  protected ILoggerFactory LoggerFactory { get => _loggerFactory; }
+
   public HostApiMongoTestBase(
     string databaseName,
     WebApplicationFactory<TEntryPoint> webApplicationFactory,
@@ -42,6 +46,15 @@ public abstract class HostApiMongoTestBase<TEntryPoint>
     DatabaseName = databaseName;
     _webApplicationFactory = webApplicationFactory;
     _outputHelper = outputHelper;
+
+    var serviceProvider = new ServiceCollection()
+        .AddLogging(builder => {
+          builder.AddXunit(outputHelper, LogLevel.Debug);
+          builder.SetMinimumLevel(LogLevel.Debug);
+        })
+        .BuildServiceProvider();
+
+    _loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
   }
 
   /// <summary>
@@ -52,10 +65,8 @@ public abstract class HostApiMongoTestBase<TEntryPoint>
   {
     await _mongoDbContainer.StartAsync();
 
-    _webApplicationFactory = _webApplicationFactory.WithWebHostBuilder(builder =>
-    {
-      builder.ConfigureServices(services => services.Configure<DatabaseSettings>(Options =>
-      {
+    _webApplicationFactory = _webApplicationFactory.WithWebHostBuilder(builder => {
+      builder.ConfigureServices(services => services.Configure<DatabaseSettings>(Options => {
         Options.ConnectionString = _mongoDbContainer.GetConnectionString();
         Options.DatabaseName = DatabaseName;
       }));
@@ -77,4 +88,10 @@ public abstract class HostApiMongoTestBase<TEntryPoint>
     return TestHttpClientFactory<TEntryPoint>
       .CreateHttpClientFactory(_webApplicationFactory, relativePath, givenOptions);
   }
+
+  public virtual ILogger<TCategoryName> CreateLogger<TCategoryName>()
+  {
+    return _loggerFactory.CreateLogger<TCategoryName>();
+  }
+
 }

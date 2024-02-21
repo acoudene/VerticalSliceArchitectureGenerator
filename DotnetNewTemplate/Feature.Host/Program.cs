@@ -23,6 +23,10 @@ try
 
   builder.Host.UseSerilog();
 
+  Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(builder.Configuration)
+                .CreateLogger();
+
   /// <see cref="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/handle-errors?view=aspnetcore-7.0#problem-details"/>
   /// <seealso cref="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-7.0&preserve-view=true#pds7"/>
   builder.Services.AddProblemDetails();
