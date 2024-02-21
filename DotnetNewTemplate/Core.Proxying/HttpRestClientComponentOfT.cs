@@ -67,10 +67,9 @@ public class HttpRestClientComponent<TDto>
     return items;
   }
 
-  public virtual async Task<HttpResponseMessage> CreateAsync(
+  public virtual async Task CreateAsync(
     TDto dto,
     string configurationName,
-    bool checkSuccessStatusCode = true,
     CancellationToken cancellationToken = default)
   {
     if (string.IsNullOrWhiteSpace(configurationName))
@@ -81,16 +80,13 @@ public class HttpRestClientComponent<TDto>
     if (response is null)
       throw new InvalidOperationException($"Problem while creating resource from: [{httpClient.BaseAddress}]");
 
-    if (checkSuccessStatusCode)
-      response.EnsureSuccessStatusCode();
-    return response;
+    response.EnsureSuccessStatusCode();
   }
 
-  public virtual async Task<HttpResponseMessage> UpdateAsync(
+  public virtual async Task UpdateAsync(
     Guid id,
     TDto dto,
     string configurationName,
-    bool checkSuccessStatusCode = true,
     CancellationToken cancellationToken = default)
   {
     if (string.IsNullOrWhiteSpace(configurationName))
@@ -101,9 +97,7 @@ public class HttpRestClientComponent<TDto>
     if (response is null)
       throw new InvalidOperationException($"Problem while updating resource from: [{httpClient.BaseAddress}]");
 
-    if (checkSuccessStatusCode)
-      response.EnsureSuccessStatusCode();
-    return response;
+    response.EnsureSuccessStatusCode();
   }
 
   public virtual async Task<TDto> DeleteAsync(
@@ -122,11 +116,10 @@ public class HttpRestClientComponent<TDto>
     return item;
   }
 
-  public virtual async Task<HttpResponseMessage> PatchAsync(
+  public virtual async Task PatchAsync(
     Guid id,
     JsonPatchDocument<TDto> patch,
     string configurationName,
-    bool checkSuccessStatusCode = true,
     CancellationToken cancellationToken = default)
   {
     if (string.IsNullOrWhiteSpace(configurationName))
@@ -137,9 +130,7 @@ public class HttpRestClientComponent<TDto>
     if (response is null)
       throw new InvalidOperationException($"Problem while patching resource from: [{httpClient.BaseAddress}]");
 
-    if (checkSuccessStatusCode)
-      response.EnsureSuccessStatusCode();
-    return response;
+    response.EnsureSuccessStatusCode();
   }
 }
 

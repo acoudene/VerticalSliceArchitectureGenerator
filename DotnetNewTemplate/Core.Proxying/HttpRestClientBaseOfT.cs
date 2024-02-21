@@ -42,30 +42,27 @@ public abstract class HttpRestClientBase<TDto> : IRestClient<TDto>
   public virtual async Task<List<TDto>> GetByIdsAsync(List<Guid> ids, CancellationToken cancellationToken = default)
       => await _httpRestClientComponent.GetByIdsAsync(ids, GetConfigurationName(), cancellationToken);
 
-  public virtual async Task<HttpResponseMessage> CreateAsync(
+  public virtual async Task CreateAsync(
     TDto dto,
-    bool checkSuccessStatusCode = true,
     CancellationToken cancellationToken = default)
-     => await _httpRestClientComponent.CreateAsync(dto, GetConfigurationName(), checkSuccessStatusCode, cancellationToken);
+     => await _httpRestClientComponent.CreateAsync(dto, GetConfigurationName(), cancellationToken);
 
-  public virtual async Task<HttpResponseMessage> UpdateAsync(
+  public virtual async Task UpdateAsync(
     Guid id,
     TDto dto,
-    bool checkSuccessStatusCode = true,
     CancellationToken cancellationToken = default)
-    => await _httpRestClientComponent.UpdateAsync(id, dto, GetConfigurationName(), checkSuccessStatusCode, cancellationToken);
+    => await _httpRestClientComponent.UpdateAsync(id, dto, GetConfigurationName(), cancellationToken);
 
   public virtual async Task<TDto> DeleteAsync(
     Guid id,
     CancellationToken cancellationToken = default)
     => await _httpRestClientComponent.DeleteAsync(id, GetConfigurationName(), cancellationToken);
 
-  public virtual async Task<HttpResponseMessage> PatchAsync(
+  public virtual async Task PatchAsync(
     Guid id,
     JsonPatchDocument<TDto> patch,
-    bool checkSuccessStatusCode = true,
     CancellationToken cancellationToken = default)
-    => await _httpRestClientComponent.PatchAsync(id, patch, GetConfigurationName(), checkSuccessStatusCode, cancellationToken);
+    => await _httpRestClientComponent.PatchAsync(id, patch, GetConfigurationName(), cancellationToken);
 }
 
 

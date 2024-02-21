@@ -9,27 +9,24 @@ namespace Core.Proxying;
 public interface IRestClient<TDto> where TDto : class, IIdentifierDto
 {
   Task<List<TDto>> GetAllAsync(CancellationToken cancellationToken = default);
-  
+
   Task<TDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
   Task<List<TDto>> GetByIdsAsync(List<Guid> ids, CancellationToken cancellationToken = default);
 
-  Task<HttpResponseMessage> CreateAsync(
+  Task CreateAsync(
     TDto dto,
-    bool checkSuccessStatusCode = true, 
     CancellationToken cancellationToken = default);
-  
-  Task<HttpResponseMessage> UpdateAsync(
+
+  Task UpdateAsync(
     Guid id,
     TDto dto,
-    bool checkSuccessStatusCode = true,
-    CancellationToken cancellationToken= default);
-  
+    CancellationToken cancellationToken = default);
+
   Task<TDto> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
-  
-  Task<HttpResponseMessage> PatchAsync(
-    Guid id, 
+
+  Task PatchAsync(
+    Guid id,
     JsonPatchDocument<TDto> patch,
-    bool checkSuccessStatusCode = true,
     CancellationToken cancellationToken = default);
 }

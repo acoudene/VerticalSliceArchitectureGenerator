@@ -19,8 +19,8 @@ public abstract class RestViewModelBase<TViewObject, TDto> : IViewModel<TViewObj
   protected abstract TViewObject ToViewObject(TDto dto);
   protected abstract TDto ToDto(TViewObject viewObject);
 
-  public virtual async Task CreateAsync(TViewObject newItem, bool checkSuccessStatusCode = true, CancellationToken cancellationToken = default)
-    => await _restViewModelComponent.CreateAsync(newItem, ToDto, checkSuccessStatusCode, cancellationToken);
+  public virtual async Task CreateAsync(TViewObject newItem, CancellationToken cancellationToken = default)
+    => await _restViewModelComponent.CreateAsync(newItem, ToDto, cancellationToken);
 
   public virtual async Task<List<TViewObject>> GetAllAsync(CancellationToken cancellationToken = default)
     => await _restViewModelComponent.GetAllAsync(ToViewObject, cancellationToken);
@@ -34,7 +34,7 @@ public abstract class RestViewModelBase<TViewObject, TDto> : IViewModel<TViewObj
   public virtual async Task RemoveAsync(Guid id, CancellationToken cancellationToken = default)
     => await _restViewModelComponent.RemoveAsync(id, cancellationToken);
 
-  public virtual async Task UpdateAsync(Guid id, TViewObject updatedItem, bool checkSuccessStatusCode = true, CancellationToken cancellationToken = default)
-   => await _restViewModelComponent.UpdateAsync(id, updatedItem, ToDto, checkSuccessStatusCode, cancellationToken);
+  public virtual async Task UpdateAsync(Guid id, TViewObject updatedItem, CancellationToken cancellationToken = default)
+   => await _restViewModelComponent.UpdateAsync(id, updatedItem, ToDto, cancellationToken);
 
 }

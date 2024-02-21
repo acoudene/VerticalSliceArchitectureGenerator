@@ -27,16 +27,9 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
     var client = new HttpEntityNameClient(httpClientFactory);
 
     // Act
-    HttpResponseMessage response = await client.CreateAsync(item, false);
+    await client.CreateAsync(item);
 
-    // Assert    
-    Assert.Null(Record.Exception(() =>
-    {
-      if (!response.IsSuccessStatusCode)
-        OutputHelper.WriteLine(response.Content.ReadAsStringAsync().Result);
-      response.EnsureSuccessStatusCode();
-    }));
-
+    // Assert      
     item = await client.GetByIdAsync(item.Id);
     Assert.NotNull(item);
   }

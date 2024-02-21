@@ -11,9 +11,9 @@ public interface IViewModel<TViewObject> : IViewModel where TViewObject : IViewO
 
   Task<List<TViewObject>?> GetByIdsAsync(List<Guid> ids, CancellationToken cancellationToken = default);
 
-  Task CreateAsync(TViewObject newItem, bool checkSuccessStatusCode = true, CancellationToken cancellationToken = default);
+  Task CreateAsync(TViewObject newItem, CancellationToken cancellationToken = default);
 
-  Task UpdateAsync(Guid id, TViewObject updatedItem, bool checkSuccessStatusCode = true, CancellationToken cancellationToken = default);
+  Task UpdateAsync(Guid id, TViewObject updatedItem, CancellationToken cancellationToken = default);
 
   Task RemoveAsync(Guid id, CancellationToken cancellationToken = default);
 }

@@ -18,15 +18,14 @@ public class RestViewModelComponent<TViewObject, TDto>
   }
 
   public virtual async Task CreateAsync(
-    TViewObject newItem, 
+    TViewObject newItem,
     Func<TViewObject, TDto> toDtoFunc,
-    bool checkSuccessStatusCode = true, 
     CancellationToken cancellationToken = default)
   {
     if (toDtoFunc is null)
       throw new ArgumentNullException(nameof(toDtoFunc));
-    
-    await _restClient.CreateAsync(toDtoFunc(newItem), checkSuccessStatusCode, cancellationToken);
+
+    await _restClient.CreateAsync(toDtoFunc(newItem), cancellationToken);
   }
 
   public virtual async Task<List<TViewObject>> GetAllAsync(
@@ -52,11 +51,11 @@ public class RestViewModelComponent<TViewObject, TDto>
 
     return toViewFunc((await _restClient
       .GetByIdAsync(id, cancellationToken)));
-      
+
   }
 
   public virtual async Task<List<TViewObject>?> GetByIdsAsync(
-    List<Guid> ids, 
+    List<Guid> ids,
     Func<TDto, TViewObject> toViewFunc,
     CancellationToken cancellationToken = default)
   {
@@ -66,7 +65,7 @@ public class RestViewModelComponent<TViewObject, TDto>
     return (await _restClient
       .GetByIdsAsync(ids, cancellationToken))
       .Select(dto => toViewFunc(dto))
-      .ToList();      
+      .ToList();
   }
 
   public virtual async Task RemoveAsync(Guid id, CancellationToken cancellationToken = default)
@@ -75,15 +74,14 @@ public class RestViewModelComponent<TViewObject, TDto>
   }
 
   public virtual async Task UpdateAsync(
-    Guid id, 
+    Guid id,
     TViewObject updatedItem,
     Func<TViewObject, TDto> toDtoFunc,
-    bool checkSuccessStatusCode = true, 
     CancellationToken cancellationToken = default)
   {
     if (toDtoFunc is null)
       throw new ArgumentNullException(nameof(toDtoFunc));
 
-    await _restClient.UpdateAsync(id, toDtoFunc(updatedItem), checkSuccessStatusCode, cancellationToken);
+    await _restClient.UpdateAsync(id, toDtoFunc(updatedItem), cancellationToken);
   }
 }
