@@ -12,6 +12,7 @@ public class HttpRestClientComponent<TDto>
   where TDto : class, IIdentifierDto
 {
   private readonly IHttpClientFactory _httpClientFactory;
+  protected IHttpClientFactory HttpClientFactory { get => _httpClientFactory; }
 
   /// <summary>
   /// Constructor
