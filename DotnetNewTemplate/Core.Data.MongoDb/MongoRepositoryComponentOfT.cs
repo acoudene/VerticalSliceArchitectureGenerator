@@ -24,7 +24,7 @@ public class MongoRepositoryComponent<TEntity, TMongoEntity>
       throw new ArgumentNullException(nameof(collectionName));
 
     _mongoContext = mongoContext;
-    _mongoSet = new MongoSet<TMongoEntity>(mongoContext, collectionName);    
+    _mongoSet = new MongoSet<TMongoEntity>(mongoContext, collectionName);
   }
 
   public virtual async Task<List<TEntity>> GetAllAsync(Func<TMongoEntity, TEntity> toEntityFunc)
@@ -46,7 +46,7 @@ public class MongoRepositoryComponent<TEntity, TMongoEntity>
     if (toEntityFunc is null)
       throw new ArgumentNullException(nameof(toEntityFunc));
 
-    var mongoEntity = await _mongoSet.FindFirstOrDefaultAsync(x => x.Id == id);
+    var mongoEntity = await _mongoSet.GetByFilterAsync(mongoEntity => mongoEntity.Id == id);
     if (mongoEntity is null)
       return default;
 
@@ -56,18 +56,13 @@ public class MongoRepositoryComponent<TEntity, TMongoEntity>
   public virtual async Task<List<TEntity>> GetByIdsAsync(List<Guid> ids, Func<TMongoEntity, TEntity> toEntityFunc)
   {
     // db.getCollection("<CollectionName>").find({id: {$in: [UUID("3FA85F64-5717-4562-B3FC-2C963F66AFA1"),UUID("3FA85F64-5717-4562-B3FC-2C963F66AFA2")]}})
-    
+
     if (toEntityFunc is null)
       throw new ArgumentNullException(nameof(toEntityFunc));
 
-    var filter = Builders<TMongoEntity>.Filter.In(f => f.Id, ids);
-
-    return (await MongoSet
-      .GetCollection()
-      .Find(filter)
-      .ToListAsync())
-      .Select(mongoEntity => toEntityFunc(mongoEntity))
-      .ToList();
+    return (await MongoSet.GetItemsInAsync(mongoEntity => mongoEntity.Id, ids))
+            .Select(mongoEntity => toEntityFunc(mongoEntity))
+            .ToList();
   }
 
   public virtual async Task CreateAsync(TEntity newItem, Func<TEntity, TMongoEntity> toMongoEntityFunc)

@@ -6,55 +6,69 @@ using System.Linq.Expressions;
 
 namespace Core.Data.MongoDb;
 
-public class MongoSet<TEntity> : IMongoSet<TEntity> where TEntity : IIdentifierMongoEntity
+public class MongoSet<TMongoEntity> : IMongoSet<TMongoEntity> where TMongoEntity : IIdentifierMongoEntity
 {
-    private readonly string _collectionName;
-    private readonly IMongoContext _mongoContext;
+  private readonly string _collectionName;
+  private readonly IMongoContext _mongoContext;
 
-    public string GetCollectionName() => _collectionName;
+  public string GetCollectionName() => _collectionName;
 
-    public MongoSet(IMongoContext mongoContext, string collectionName)
-    {
-        if (string.IsNullOrWhiteSpace(collectionName))
-            throw new ArgumentNullException(nameof(collectionName));
+  public MongoSet(IMongoContext mongoContext, string collectionName)
+  {
+    if (string.IsNullOrWhiteSpace(collectionName))
+      throw new ArgumentNullException(nameof(collectionName));
 
-        if (mongoContext is null)
-            throw new ArgumentNullException(nameof(mongoContext));
+    if (mongoContext is null)
+      throw new ArgumentNullException(nameof(mongoContext));
 
-        _collectionName = collectionName;
-        _mongoContext = mongoContext;
-    }
+    _collectionName = collectionName;
+    _mongoContext = mongoContext;
+  }
 
-    public IMongoCollection<TEntity> GetCollection()
-    {
-        var database = _mongoContext.GetDatabase();
-        if (database is null)
-            throw new InvalidOperationException($"No MongoDb database for {_collectionName}");
+  public IMongoCollection<TMongoEntity> GetCollection()
+  {
+    var database = _mongoContext.GetDatabase();
+    if (database is null)
+      throw new InvalidOperationException($"No MongoDb database for {_collectionName}");
 
-        return database.GetCollection<TEntity>(_collectionName);
-    }
+    return database.GetCollection<TMongoEntity>(_collectionName);
+  }
 
-    public async Task<List<TEntity>> GetAllAsync() =>
-      await GetCollection()
-      .Find(_ => true)
-      .ToListAsync();
+  public async Task<List<TMongoEntity>> GetAllAsync() =>
+    await GetCollection()
+    .Find(_ => true)
+    .ToListAsync();
 
-    public async Task<TEntity?> FindFirstOrDefaultAsync(Expression<Func<TEntity, bool>> filter) =>
-      await GetCollection()
+  public async Task<TMongoEntity?> GetByFilterAsync(Expression<Func<TMongoEntity, bool>> filter) =>
+    await GetCollection()
+    .Find(filter)
+    .FirstOrDefaultAsync();
+
+  public async Task<List<TMongoEntity>> GetItemsByFilterAsync(Expression<Func<TMongoEntity, bool>> filter) =>
+    await GetCollection()
+    .Find(filter)
+    .ToListAsync();
+
+  public async Task<List<TMongoEntity>> GetItemsInAsync<TField>(Expression<Func<TMongoEntity, TField>> field, IEnumerable<TField> values)
+  {
+    var filter = Builders<TMongoEntity>.Filter.In(field, values);
+
+    return (await GetCollection()
       .Find(filter)
-      .FirstOrDefaultAsync();
+      .ToListAsync());
+  }
 
-    public async Task CreateAsync(TEntity newItem) =>
-      await GetCollection()
-      .InsertOneAsync(newItem);
+  public async Task CreateAsync(TMongoEntity newItem) =>
+    await GetCollection()
+    .InsertOneAsync(newItem);
 
-    public async Task UpdateAsync(Expression<Func<TEntity, bool>> filter, TEntity updatedItem)
-    {
-        await GetCollection()
-          .ReplaceOneAsync(filter, updatedItem);
-    }
+  public async Task UpdateAsync(Expression<Func<TMongoEntity, bool>> filter, TMongoEntity updatedItem)
+  {
+    await GetCollection()
+      .ReplaceOneAsync(filter, updatedItem);
+  }
 
-    public async Task RemoveAsync(Expression<Func<TEntity, bool>> filter) =>
-      await GetCollection()
-      .DeleteOneAsync(filter);
+  public async Task RemoveAsync(Expression<Func<TMongoEntity, bool>> filter) =>
+    await GetCollection()
+    .DeleteOneAsync(filter);
 }
