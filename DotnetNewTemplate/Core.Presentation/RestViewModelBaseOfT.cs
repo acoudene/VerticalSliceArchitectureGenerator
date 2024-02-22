@@ -2,16 +2,18 @@
 // 2023-12-23       | Anthony Coudène       | Creation
 
 using Core.Dtos;
+using Core.Proxying;
 
 namespace Core.Presentation;
 
-public abstract class RestViewModelBase<TViewObject, TDto> : IViewModel<TViewObject>
-  where TViewObject : class, IIdentifierViewObject
-  where TDto : class, IIdentifierDto
+public abstract class RestViewModelBase<TViewObject, TDto, TRestClient> : IViewModel<TViewObject>
+    where TViewObject : class, IIdentifierViewObject
+    where TDto : class, IIdentifierDto
+    where TRestClient : IRestClient<TDto>
 {
-  private readonly RestViewModelComponent<TViewObject, TDto> _restViewModelComponent;
+  private readonly RestViewModelComponent<TViewObject, TDto, TRestClient> _restViewModelComponent;
 
-  public RestViewModelBase(RestViewModelComponent<TViewObject, TDto> restViewModelComponent)
+  public RestViewModelBase(RestViewModelComponent<TViewObject, TDto, TRestClient> restViewModelComponent)
   {
     _restViewModelComponent = restViewModelComponent ?? throw new ArgumentNullException(nameof(restViewModelComponent));
   }
@@ -26,7 +28,7 @@ public abstract class RestViewModelBase<TViewObject, TDto> : IViewModel<TViewObj
     => await _restViewModelComponent.GetAllAsync(ToViewObject, cancellationToken);
 
   public virtual async Task<TViewObject?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-    => await _restViewModelComponent.GetByIDAsync(id, ToViewObject, cancellationToken);
+    => await _restViewModelComponent.GetByIdAsync(id, ToViewObject, cancellationToken);
 
   public virtual async Task<List<TViewObject>?> GetByIdsAsync(List<Guid> ids, CancellationToken cancellationToken = default)
     => await _restViewModelComponent.GetByIdsAsync(ids, ToViewObject, cancellationToken);

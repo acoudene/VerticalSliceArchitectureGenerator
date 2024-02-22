@@ -6,13 +6,15 @@ using Core.Proxying;
 
 namespace Core.Presentation;
 
-public class RestViewModelComponent<TViewObject, TDto>
-  where TViewObject : class, IIdentifierViewObject
-  where TDto : class, IIdentifierDto
+public class RestViewModelComponent<TViewObject, TDto, TRestClient>
+    where TViewObject : class, IIdentifierViewObject
+    where TDto : class, IIdentifierDto
+    where TRestClient : IRestClient<TDto>
 {
-  private readonly IRestClient<TDto> _restClient;
+  private readonly TRestClient _restClient;
+  protected TRestClient RestClient { get => _restClient; }
 
-  public RestViewModelComponent(IRestClient<TDto> restClient)
+  public RestViewModelComponent(TRestClient restClient)
   {
     _restClient = restClient ?? throw new ArgumentNullException(nameof(restClient));
   }
@@ -41,7 +43,7 @@ public class RestViewModelComponent<TViewObject, TDto>
       .ToList();
   }
 
-  public virtual async Task<TViewObject?> GetByIDAsync(
+  public virtual async Task<TViewObject?> GetByIdAsync(
     Guid id,
     Func<TDto, TViewObject> toViewFunc,
     CancellationToken cancellationToken = default)
