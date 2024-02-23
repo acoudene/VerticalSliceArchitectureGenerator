@@ -10,7 +10,7 @@ public interface IRestClient<TDto> where TDto : class, IIdentifierDto
 {
   Task<List<TDto>> GetAllAsync(CancellationToken cancellationToken = default);
 
-  Task<TDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+  Task<TDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
   Task<List<TDto>> GetByIdsAsync(List<Guid> ids, CancellationToken cancellationToken = default);
 
@@ -23,7 +23,7 @@ public interface IRestClient<TDto> where TDto : class, IIdentifierDto
     TDto dto,
     CancellationToken cancellationToken = default);
 
-  Task<TDto> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+  Task<TDto?> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
 
   Task PatchAsync(
     Guid id,

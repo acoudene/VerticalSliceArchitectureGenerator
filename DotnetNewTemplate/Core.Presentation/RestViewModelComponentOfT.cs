@@ -51,8 +51,11 @@ public class RestViewModelComponent<TViewObject, TDto, TRestClient>
     if (toViewFunc is null)
       throw new ArgumentNullException(nameof(toViewFunc));
 
-    return toViewFunc((await _restClient
-      .GetByIdAsync(id, cancellationToken)));
+    var foundItem = await _restClient.GetByIdAsync(id, cancellationToken);
+    if (foundItem is null)
+      return null;
+
+    return toViewFunc(foundItem);
 
   }
 

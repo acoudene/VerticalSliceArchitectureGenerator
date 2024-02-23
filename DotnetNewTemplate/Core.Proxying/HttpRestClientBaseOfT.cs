@@ -42,7 +42,7 @@ public abstract class HttpRestClientBase<TDto> : IRestClient<TDto>
     return await _httpRestClientComponent.GetAllAsync(GetConfigurationName(), cancellationToken);
   }
 
-  public virtual async Task<TDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+  public virtual async Task<TDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
   {
     _logger.LogDebug("Processing call to {Method}({Id})...", nameof(GetByIdAsync), id);
     return await _httpRestClientComponent.GetByIdAsync(id, GetConfigurationName(), cancellationToken);
@@ -87,7 +87,7 @@ public abstract class HttpRestClientBase<TDto> : IRestClient<TDto>
 #endif
   }
 
-  public virtual async Task<TDto> DeleteAsync(
+  public virtual async Task<TDto?> DeleteAsync(
     Guid id,
     CancellationToken cancellationToken = default)
   {

@@ -31,8 +31,8 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
     await client.CreateAsync(item);
 
     // Assert      
-    item = await client.GetByIdAsync(item.Id);
-    Assert.NotNull(item);
+    var foundItem = await client.GetByIdAsync(item.Id);
+    Assert.NotNull(foundItem);
   }
 
   [Theory]

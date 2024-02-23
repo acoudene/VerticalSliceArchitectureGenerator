@@ -36,7 +36,7 @@ public class HttpEntityNameClient : IEntityNameClient
     return await _httpRestClientComponent.GetAllAsync(GetConfigurationName(), cancellationToken);
   }
 
-  public virtual async Task<EntityNameDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+  public virtual async Task<EntityNameDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
   {
     _logger.LogDebug("Processing remote call to {Method}({Id})...", nameof(GetByIdAsync), id);
 
@@ -83,7 +83,7 @@ public class HttpEntityNameClient : IEntityNameClient
 #endif
   }
 
-  public virtual async Task<EntityNameDto> DeleteAsync(
+  public virtual async Task<EntityNameDto?> DeleteAsync(
     Guid id,
     CancellationToken cancellationToken = default)
   {

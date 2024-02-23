@@ -37,16 +37,13 @@ public class HttpRestClientComponent<TDto>
     return items;
   }
 
-  public virtual async Task<TDto> GetByIdAsync(Guid id, string configurationName, CancellationToken cancellationToken = default)
+  public virtual async Task<TDto?> GetByIdAsync(Guid id, string configurationName, CancellationToken cancellationToken = default)
   {
     if (string.IsNullOrWhiteSpace(configurationName))
       throw new InvalidOperationException("Missing configuration name");
 
     using HttpClient httpClient = _httpClientFactory.CreateClient(configurationName);
-    var item = await httpClient.GetFromJsonAsync<TDto>($"{id}", cancellationToken);
-    if (item is null)
-      throw new InvalidOperationException($"Problem while getting a resource from: [{httpClient.BaseAddress}]");
-    return item;
+    return await httpClient.GetFromJsonAsync<TDto>($"{id}", cancellationToken);
   }
 
   public virtual async Task<List<TDto>> GetByIdsAsync(List<Guid> ids, string configurationName, CancellationToken cancellationToken = default)
@@ -107,7 +104,7 @@ public class HttpRestClientComponent<TDto>
     return response;
   }
 
-  public virtual async Task<TDto> DeleteAsync(
+  public virtual async Task<TDto?> DeleteAsync(
     Guid id,
     string configurationName,
     CancellationToken cancellationToken = default)
@@ -116,11 +113,7 @@ public class HttpRestClientComponent<TDto>
       throw new InvalidOperationException("Missing configuration name");
 
     using HttpClient httpClient = _httpClientFactory.CreateClient(configurationName);
-    var item = await httpClient.DeleteFromJsonAsync<TDto>($"{id}", cancellationToken);
-    if (item is null)
-      throw new InvalidOperationException($"Problem while deleteing resource from: [{httpClient.BaseAddress}]");
-
-    return item;
+    return await httpClient.DeleteFromJsonAsync<TDto>($"{id}", cancellationToken);
   }
 
   public virtual async Task<HttpResponseMessage> PatchAsync(
