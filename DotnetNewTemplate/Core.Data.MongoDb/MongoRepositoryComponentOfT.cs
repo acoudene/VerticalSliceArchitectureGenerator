@@ -46,7 +46,7 @@ public class MongoRepositoryComponent<TEntity, TMongoEntity>
     if (toEntityFunc is null)
       throw new ArgumentNullException(nameof(toEntityFunc));
 
-    var mongoEntity = await _mongoSet.GetByFilterAsync(mongoEntity => mongoEntity.Id == id);
+    var mongoEntity = await _mongoSet.GetByFilterAsync(x => x.Id == id);
     if (mongoEntity is null)
       return default;
 
@@ -60,7 +60,7 @@ public class MongoRepositoryComponent<TEntity, TMongoEntity>
     if (toEntityFunc is null)
       throw new ArgumentNullException(nameof(toEntityFunc));
 
-    return (await MongoSet.GetItemsInAsync(mongoEntity => mongoEntity.Id, ids))
+    return (await MongoSet.GetItemsInAsync(x => x.Id, ids))
             .Select(mongoEntity => toEntityFunc(mongoEntity))
             .ToList();
   }
