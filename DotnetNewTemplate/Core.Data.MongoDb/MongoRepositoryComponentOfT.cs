@@ -10,8 +10,8 @@ public class MongoRepositoryComponent<TEntity, TMongoEntity>
   where TEntity : IIdentifierEntity
   where TMongoEntity : IIdentifierMongoEntity
 {
-  protected IMongoContext MongoContext { get => _mongoContext; }
-  protected IMongoSet<TMongoEntity> MongoSet { get => _mongoSet; }
+  public IMongoContext MongoContext { get => _mongoContext; }
+  public IMongoSet<TMongoEntity> MongoSet { get => _mongoSet; }
 
   private readonly IMongoContext _mongoContext;
   private readonly IMongoSet<TMongoEntity> _mongoSet;
