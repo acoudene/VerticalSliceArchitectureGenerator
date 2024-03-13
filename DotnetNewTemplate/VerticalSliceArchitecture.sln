@@ -47,6 +47,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Feature.BlazorApp", "Featur
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Feature.BlazorApp.Client", "Feature.BlazorApp\Feature.BlazorApp.Client\Feature.BlazorApp.Client.csproj", "{C3EDBE81-F481-4307-96E7-37C506147D48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feature.Presentation", "Feature.Presentation\Feature.Presentation.csproj", "{5DE61130-66E7-4348-8434-55A776193E8E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +123,10 @@ Global
 		{C3EDBE81-F481-4307-96E7-37C506147D48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3EDBE81-F481-4307-96E7-37C506147D48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3EDBE81-F481-4307-96E7-37C506147D48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DE61130-66E7-4348-8434-55A776193E8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DE61130-66E7-4348-8434-55A776193E8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DE61130-66E7-4348-8434-55A776193E8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DE61130-66E7-4348-8434-55A776193E8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core.Presentation\Core.Presentation.csproj" />
+    <ProjectReference Include="..\Feature.Dtos\Feature.Dtos.csproj" />
+    <ProjectReference Include="..\Feature.Proxies\Feature.Proxies.csproj" />
+  </ItemGroup>
+
+</Project>

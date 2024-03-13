@@ -45,7 +45,7 @@ public class EntityNameController : ControllerBase
     => entity.ToDto();
 
   protected virtual EntityName ToEntity(EntityNameDto dto)
-  => dto.ToEntity();
+    => dto.ToEntity();
 
   [HttpGet]
   public virtual async Task<Results<Ok<List<EntityNameDto>>, BadRequest, ProblemHttpResult>> GetAllAsync()
