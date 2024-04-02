@@ -1,6 +1,7 @@
 ﻿// Changelogs Date  | Author                | Description
 // 2023-12-23       | Anthony Coudène       | Creation
 
+using MongoDB.Driver;
 using System.Linq.Expressions;
 
 namespace Feature.Data.MongoDb.Repositories;
@@ -52,5 +53,12 @@ public class EntityNameRepository : IEntityNameRepository
 
   public virtual async Task RemoveAsync(Guid id) => await _mongoRepositoryComponent.RemoveAsync(id);
 
-  public virtual void SetUniqueIndex(Expression<Func<EntityNameMongo, object>> field) => _mongoRepositoryComponent.SetUniqueIndex(field);
+  public virtual void SetUniqueIndex(params Expression<Func<EntityNameMongo, object>>[] fields)
+    => _mongoRepositoryComponent.SetUniqueIndex(fields);
+
+  public virtual void SetUniqueIndex(params string[] fields)
+    => _mongoRepositoryComponent.SetUniqueIndex(fields);
+
+  public virtual void SetUniqueIndex(IEnumerable<IndexKeysDefinition<EntityNameMongo>> fields)
+    => _mongoRepositoryComponent.SetUniqueIndex(fields);
 }

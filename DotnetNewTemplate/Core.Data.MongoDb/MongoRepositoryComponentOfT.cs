@@ -32,8 +32,7 @@ public class MongoRepositoryComponent<TEntity, TMongoEntity>
     if (toEntityFunc is null)
       throw new ArgumentNullException(nameof(toEntityFunc));
 
-    return (await _mongoSet.GetAllAsync())
-    .OfType<TMongoEntity>()
+    return (await _mongoSet.GetAllAsync())    
     .Select(mongoEntity => toEntityFunc(mongoEntity))
     .ToList();
   }
@@ -104,10 +103,18 @@ public class MongoRepositoryComponent<TEntity, TMongoEntity>
     await _mongoSet.RemoveAsync(x => x.Id == id);
   }
 
-  public virtual void SetUniqueIndex(Expression<Func<TMongoEntity, object>> field)
+  public virtual void SetUniqueIndex(params Expression<Func<TMongoEntity, object>>[] fields)
+      => SetUniqueIndex(fields.Select(f => Builders<TMongoEntity>.IndexKeys.Ascending(f)));
+
+  public virtual void SetUniqueIndex(params string[] fields)
+      => SetUniqueIndex(fields.Select(f => Builders<TMongoEntity>.IndexKeys.Ascending(f)));
+
+  public virtual void SetUniqueIndex(IEnumerable<IndexKeysDefinition<TMongoEntity>> fields)
   {
-    var indexKeysDefinition = Builders<TMongoEntity>.IndexKeys
-      .Ascending(field);
+    if (!fields.Any())
+      return;
+
+    var indexKeysDefinition = Builders<TMongoEntity>.IndexKeys.Combine(fields);
 
     var indexModel = new CreateIndexModel<TMongoEntity>(indexKeysDefinition, new CreateIndexOptions() { Unique = true });
 

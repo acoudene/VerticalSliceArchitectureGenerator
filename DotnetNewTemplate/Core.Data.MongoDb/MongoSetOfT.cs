@@ -31,7 +31,9 @@ public class MongoSet<TMongoEntity> : IMongoSet<TMongoEntity> where TMongoEntity
     if (database is null)
       throw new InvalidOperationException($"No MongoDb database for {_collectionName}");
 
-    return database.GetCollection<TMongoEntity>(_collectionName);
+    return database
+      .GetCollection<TMongoEntity>(_collectionName)
+      .OfType<TMongoEntity>();
   }
 
   public async Task<List<TMongoEntity>> GetAllAsync() =>
