@@ -59,6 +59,6 @@ public class EntityNameRepository : IEntityNameRepository
   public virtual void SetUniqueIndex(params string[] fields)
     => _mongoRepositoryComponent.SetUniqueIndex(fields);
 
-  public virtual void SetUniqueIndex(IEnumerable<IndexKeysDefinition<EntityNameMongo>> fields)
+  public virtual void SetUniqueIndex(params IndexKeysDefinition<EntityNameMongo>[] fields)
     => _mongoRepositoryComponent.SetUniqueIndex(fields);
 }

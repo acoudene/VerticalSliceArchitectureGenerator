@@ -44,6 +44,6 @@ public abstract class MongoRepositoryBase<TEntity, TMongoEntity> : IRepository<T
   public virtual void SetUniqueIndex(params string[] fields)
       => _mongoRepositoryComponent.SetUniqueIndex(fields);
 
-  public virtual void SetUniqueIndex(IEnumerable<IndexKeysDefinition<TMongoEntity>> fields)
+  public virtual void SetUniqueIndex(params IndexKeysDefinition<TMongoEntity>[] fields)
       => _mongoRepositoryComponent.SetUniqueIndex(fields);
 }

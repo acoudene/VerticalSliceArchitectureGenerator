@@ -104,12 +104,12 @@ public class MongoRepositoryComponent<TEntity, TMongoEntity>
   }
 
   public virtual void SetUniqueIndex(params Expression<Func<TMongoEntity, object>>[] fields)
-      => SetUniqueIndex(fields.Select(f => Builders<TMongoEntity>.IndexKeys.Ascending(f)));
+      => SetUniqueIndex(fields.Select(f => Builders<TMongoEntity>.IndexKeys.Ascending(f)).ToArray());
 
   public virtual void SetUniqueIndex(params string[] fields)
-      => SetUniqueIndex(fields.Select(f => Builders<TMongoEntity>.IndexKeys.Ascending(f)));
+      => SetUniqueIndex(fields.Select(f => Builders<TMongoEntity>.IndexKeys.Ascending(f)).ToArray());
 
-  public virtual void SetUniqueIndex(IEnumerable<IndexKeysDefinition<TMongoEntity>> fields)
+  public virtual void SetUniqueIndex(params IndexKeysDefinition<TMongoEntity>[] fields)
   {
     if (!fields.Any())
       return;
