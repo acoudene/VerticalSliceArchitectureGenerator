@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Feature.Api;
@@ -22,13 +23,15 @@ public class EntityNameController : ControllerBase
   /// </remarks>
   /// 
 
+  private readonly IHostEnvironment _hostEnvironment;
   private readonly ILogger<EntityNameController> _logger;
 
   protected RestComponent<EntityNameDto, EntityName, IEntityNameRepository> RestComponent { get => _restComponent; }
   private readonly RestComponent<EntityNameDto, EntityName, IEntityNameRepository> _restComponent;
 
-  public EntityNameController(ILogger<EntityNameController> logger, IEntityNameRepository repository)
+  public EntityNameController(IHostEnvironment hostEnvironment, ILogger<EntityNameController> logger, IEntityNameRepository repository)
   {
+    _hostEnvironment = hostEnvironment ?? throw new ArgumentNullException(nameof(hostEnvironment));
     _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     _restComponent = new RestComponent<EntityNameDto, EntityName, IEntityNameRepository>(repository);
   }
@@ -56,10 +59,20 @@ public class EntityNameController : ControllerBase
 
       return TypedResults.Ok(await _restComponent.GetAllAsync(ToDto));
     }
+    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Bad request");
+      throw;
+    }
     catch (ArgumentException ex)
     {
       _logger.LogError(ex, "Bad request");
       return TypedResults.BadRequest();
+    }
+    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Internal error");
+      throw;
     }
     catch (Exception ex)
     {
@@ -81,10 +94,20 @@ public class EntityNameController : ControllerBase
 
       return TypedResults.Ok(foundEntity);
     }
+    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Bad request");
+      throw;
+    }
     catch (ArgumentException ex)
     {
       _logger.LogError(ex, "Bad request");
       return TypedResults.BadRequest();
+    }
+    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Internal error");
+      throw;
     }
     catch (Exception ex)
     {
@@ -103,10 +126,20 @@ public class EntityNameController : ControllerBase
 
       return TypedResults.Ok(await _restComponent.GetByIdsAsync(ids, ToDto));
     }
+    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Bad request");
+      throw;
+    }
     catch (ArgumentException ex)
     {
       _logger.LogError(ex, "Bad request");
       return TypedResults.BadRequest();
+    }
+    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Internal error");
+      throw;
     }
     catch (Exception ex)
     {
@@ -125,10 +158,20 @@ public class EntityNameController : ControllerBase
 
       return TypedResults.Created("{newDto.Id}", await _restComponent.CreateAsync(newDto, ToEntity));
     }
+    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Bad request");
+      throw;
+    }
     catch (ArgumentException ex)
     {
       _logger.LogError(ex, "Bad request");
       return TypedResults.BadRequest();
+    }
+    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Internal error");
+      throw;
     }
     catch (Exception ex)
     {
@@ -152,10 +195,20 @@ public class EntityNameController : ControllerBase
 
       return TypedResults.NoContent();
     }
+    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Bad request");
+      throw;
+    }
     catch (ArgumentException ex)
     {
       _logger.LogError(ex, "Bad request");
       return TypedResults.BadRequest();
+    }
+    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Internal error");
+      throw;
     }
     catch (Exception ex)
     {
@@ -177,10 +230,20 @@ public class EntityNameController : ControllerBase
 
       return TypedResults.Ok(deletedEntity);
     }
+    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Bad request");
+      throw;
+    }
     catch (ArgumentException ex)
     {
       _logger.LogError(ex, "Bad request");
       return TypedResults.BadRequest();
+    }
+    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Internal error");
+      throw;
     }
     catch (Exception ex)
     {
@@ -204,10 +267,20 @@ public class EntityNameController : ControllerBase
 
       return TypedResults.Ok(patchedEntity);
     }
+    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Bad request");
+      throw;
+    }
     catch (ArgumentException ex)
     {
       _logger.LogError(ex, "Bad request");
       return TypedResults.BadRequest();
+    }
+    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Internal error");
+      throw;
     }
     catch (Exception ex)
     {

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Core.Api;
@@ -16,21 +17,24 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   where TEntity : class, IIdentifierEntity
   where TRepository : IRepository<TEntity>
 {
+  private readonly IHostEnvironment _hostEnvironment;
   private readonly ILogger<RestControllerBase<TDto, TEntity, TRepository>> _logger;
   private readonly RestComponent<TDto, TEntity, TRepository> _restComponent;
 
   protected RestComponent<TDto, TEntity, TRepository> RestComponent { get => _restComponent; }
 
   public RestControllerBase(
-    ILogger<RestControllerBase<TDto, TEntity, TRepository>> logger, 
+    IHostEnvironment hostEnvironment,
+    ILogger<RestControllerBase<TDto, TEntity, TRepository>> logger,
     RestComponent<TDto, TEntity, TRepository> restComponent)
   {
+    _hostEnvironment = hostEnvironment ?? throw new ArgumentNullException(nameof(hostEnvironment));
     _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     _restComponent = restComponent ?? throw new ArgumentNullException(nameof(restComponent));
   }
 
-  public RestControllerBase(ILogger<RestControllerBase<TDto, TEntity, TRepository>> logger, TRepository repository)
-    : this(logger, new RestComponent<TDto, TEntity, TRepository>(repository))
+  public RestControllerBase(IHostEnvironment hostEnvironment, ILogger<RestControllerBase<TDto, TEntity, TRepository>> logger, TRepository repository)
+    : this(hostEnvironment, logger, new RestComponent<TDto, TEntity, TRepository>(repository))
   { }
 
   protected abstract TEntity ToEntity(TDto dto);
@@ -43,12 +47,22 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
     {
       return TypedResults.Ok(await _restComponent.GetAllAsync(ToDto));
     }
-    catch(ArgumentException ex) 
+    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Bad request");
+      throw;
+    }
+    catch (ArgumentException ex)
     {
       _logger.LogError(ex, "Bad request");
       return TypedResults.BadRequest();
     }
-    catch(Exception ex)
+    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Internal error");
+      throw;
+    }
+    catch (Exception ex)
     {
       _logger.LogError(ex, "Internal error");
       return TypedResults.Problem();
@@ -66,10 +80,20 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
 
       return TypedResults.Ok(foundEntity);
     }
+    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Bad request");
+      throw;
+    }
     catch (ArgumentException ex)
     {
       _logger.LogError(ex, "Bad request");
       return TypedResults.BadRequest();
+    }
+    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Internal error");
+      throw;
     }
     catch (Exception ex)
     {
@@ -85,29 +109,49 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
     {
       return TypedResults.Ok(await _restComponent.GetByIdsAsync(ids, ToDto));
     }
+    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Bad request");
+      throw;
+    }
     catch (ArgumentException ex)
     {
       _logger.LogError(ex, "Bad request");
       return TypedResults.BadRequest();
     }
+    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Internal error");
+      throw;
+    }
     catch (Exception ex)
     {
       _logger.LogError(ex, "Internal error");
       return TypedResults.Problem();
-    }    
+    }
   }
 
   [HttpPost]
   public virtual async Task<Results<Created<TDto>, BadRequest, ProblemHttpResult>> CreateAsync([FromBody] TDto newDto)
   {
     try
-    {      
+    {
       return TypedResults.Created("{newDto.Id}", await _restComponent.CreateAsync(newDto, ToEntity));
+    }
+    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Bad request");
+      throw;
     }
     catch (ArgumentException ex)
     {
       _logger.LogError(ex, "Bad request");
       return TypedResults.BadRequest();
+    }
+    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Internal error");
+      throw;
     }
     catch (Exception ex)
     {
@@ -117,9 +161,7 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   }
 
   [HttpPut("{id:guid}")]
-  public virtual async Task<Results<NoContent, NotFound, BadRequest, ProblemHttpResult>> UpdateAsync(
-    Guid id, 
-    [FromBody] TDto updatedDto)
+  public virtual async Task<Results<NoContent, NotFound, BadRequest, ProblemHttpResult>> UpdateAsync(Guid id, [FromBody] TDto updatedDto)
   {
     try
     {
@@ -129,10 +171,20 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
 
       return TypedResults.NoContent();
     }
+    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Bad request");
+      throw;
+    }
     catch (ArgumentException ex)
     {
       _logger.LogError(ex, "Bad request");
       return TypedResults.BadRequest();
+    }
+    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Internal error");
+      throw;
     }
     catch (Exception ex)
     {
@@ -152,10 +204,20 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
 
       return TypedResults.Ok(deletedEntity);
     }
+    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Bad request");
+      throw;
+    }
     catch (ArgumentException ex)
     {
       _logger.LogError(ex, "Bad request");
       return TypedResults.BadRequest();
+    }
+    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Internal error");
+      throw;
     }
     catch (Exception ex)
     {
@@ -165,9 +227,7 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   }
 
   [HttpPatch]
-  public virtual async Task<Results<Ok<TDto>, NotFound, BadRequest, ProblemHttpResult>> PatchAsync(
-    Guid id, 
-    [FromBody] JsonPatchDocument<TDto> patchDto)
+  public virtual async Task<Results<Ok<TDto>, NotFound, BadRequest, ProblemHttpResult>> PatchAsync(Guid id, [FromBody] JsonPatchDocument<TDto> patchDto)
   {
     try
     {
@@ -177,10 +237,20 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
 
       return TypedResults.Ok(patchedEntity);
     }
+    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Bad request");
+      throw;
+    }
     catch (ArgumentException ex)
     {
       _logger.LogError(ex, "Bad request");
       return TypedResults.BadRequest();
+    }
+    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Internal error");
+      throw;
     }
     catch (Exception ex)
     {
