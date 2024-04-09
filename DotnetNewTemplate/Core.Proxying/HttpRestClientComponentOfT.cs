@@ -84,6 +84,25 @@ public class HttpRestClientComponent<TDto>
     return response;
   }
 
+  public virtual async Task<HttpResponseMessage> CreateOrUpdateAsync(
+    TDto dto,
+    string configurationName,
+    bool checkSuccessStatusCode = true,
+    CancellationToken cancellationToken = default)
+  {
+    if (string.IsNullOrWhiteSpace(configurationName))
+      throw new InvalidOperationException("Missing configuration name");
+
+    using HttpClient httpClient = _httpClientFactory.CreateClient(configurationName);
+    var response = await httpClient.PostAsJsonAsync("CreateOrUpdate", dto, cancellationToken);
+    if (response is null)
+      throw new InvalidOperationException($"Problem while creating resource from: [{httpClient.BaseAddress}]");
+
+    if (checkSuccessStatusCode)
+      response.EnsureSuccessStatusCode();
+    return response;
+  }
+
   public virtual async Task<HttpResponseMessage> UpdateAsync(
     Guid id,
     TDto dto,

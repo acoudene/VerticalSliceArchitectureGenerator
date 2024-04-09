@@ -36,6 +36,23 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
   }
 
   [Theory]
+  [ClassData(typeof(EntityNameData))]
+  public async Task WhenCreatingOrUpdatingItem_ThenSingleItemIsCreatedOrUpdated_Async(EntityNameDto item)
+  {
+    // Arrange
+    var logger = CreateLogger<HttpEntityNameClient>();
+    var httpClientFactory = CreateHttpClientFactory(ApiRelativePath);
+    var client = new HttpEntityNameClient(logger, httpClientFactory);
+
+    // Act
+    await client.CreateOrUpdateAsync(item);
+
+    // Assert      
+    var foundItem = await client.GetByIdAsync(item.Id);
+    Assert.NotNull(foundItem);
+  }
+
+  [Theory]
   [ClassData(typeof(EntityNamesData))]
   public async Task WhenCreatingItems_ThenAllItemsAreGot_Async(List<EntityNameDto> items)
   {
@@ -49,6 +66,29 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
     int expectedCount = items.Count;
 
     // Act
+    var gotItems = (await client.GetByIdsAsync(ids));
+
+    // Assert
+    Assert.True(items is not null && expectedCount == items.Count);
+    Assert.Equivalent(items.Select(item => item.Id), gotItems.Select(item => item.Id));
+  }
+
+  [Theory]
+  [ClassData(typeof(EntityNamesData))]
+  public async Task WhenCreatingOrUpdatingItems_ThenAllItemsAreGot_Async(List<EntityNameDto> items)
+  {
+    // Arrange
+    var logger = CreateLogger<HttpEntityNameClient>();
+    var httpClientFactory = CreateHttpClientFactory(ApiRelativePath);
+    var client = new HttpEntityNameClient(logger, httpClientFactory);
+    foreach (var item in items)
+      await WhenCreatingOrUpdatingItem_ThenSingleItemIsCreatedOrUpdated_Async(item);
+    var ids = items.Select(item => item.Id).ToList();
+    int expectedCount = items.Count;
+
+    // Act
+    foreach (var item in items)
+      await WhenCreatingOrUpdatingItem_ThenSingleItemIsCreatedOrUpdated_Async(item);
     var gotItems = (await client.GetByIdsAsync(ids));
 
     // Assert

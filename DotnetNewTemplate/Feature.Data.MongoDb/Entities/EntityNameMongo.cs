@@ -10,6 +10,7 @@ namespace Feature.Data.MongoDb.Entities;
 //public record EntityNameMongoBase : IIdentifierMongoEntity
 
 [BsonIgnoreExtraElements]
+[BsonDiscriminator("entityName", Required = true)]
 public record EntityNameMongo : IIdentifierMongoEntity
 {
   [BsonId]

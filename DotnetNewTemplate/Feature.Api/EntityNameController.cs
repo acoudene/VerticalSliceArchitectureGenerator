@@ -1,6 +1,7 @@
 ﻿// Changelogs Date  | Author                | Description
 // 2023-12-23       | Anthony Coudène       | Creation
 
+using Core.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
@@ -157,6 +158,48 @@ public class EntityNameController : ControllerBase
       _logger.LogDebug("Receiving request for {Method}({Dto})...", nameof(CreateAsync), newDto);
 
       return TypedResults.Created("{newDto.Id}", await _restComponent.CreateAsync(newDto, ToEntity));
+    }
+    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Bad request");
+      throw;
+    }
+    catch (ArgumentException ex)
+    {
+      _logger.LogError(ex, "Bad request");
+      return TypedResults.BadRequest();
+    }
+    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
+    {
+      _logger.LogError(ex, "Internal error");
+      throw;
+    }
+    catch (Exception ex)
+    {
+      _logger.LogError(ex, "Internal error");
+      return TypedResults.Problem();
+    }
+  }
+
+  [HttpPost("CreateOrUpdate")]
+  public virtual async Task<Results<NoContent, Created<EntityNameDto>, BadRequest, ProblemHttpResult>> CreateOrUpdateAsync(
+      [FromBody] EntityNameDto newOrToUpdateDto)
+  {
+    try
+    {
+      _logger.LogDebug("Receiving request for {Method}({Dto})...", nameof(CreateOrUpdateAsync), newOrToUpdateDto);
+      if (newOrToUpdateDto is null)
+        throw new ArgumentNullException(nameof(newOrToUpdateDto));
+
+      Guid id = newOrToUpdateDto.Id;
+      if (id == Guid.Empty)
+        throw new ArgumentNullException(nameof(newOrToUpdateDto.Id));
+
+      var updatedDto = await _restComponent.UpdateAsync(id, newOrToUpdateDto, ToEntity);
+      if (updatedDto is not null)
+        return TypedResults.NoContent();
+
+      return TypedResults.Created("{newOrToUpdateDto.Id}", await _restComponent.CreateAsync(newOrToUpdateDto, ToEntity));
     }
     catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
     {

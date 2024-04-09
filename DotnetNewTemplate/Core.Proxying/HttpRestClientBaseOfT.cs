@@ -55,8 +55,8 @@ public abstract class HttpRestClientBase<TDto> : IRestClient<TDto>
   }
 
   public virtual async Task CreateAsync(
-    TDto dto,
-    CancellationToken cancellationToken = default)
+      TDto dto,
+      CancellationToken cancellationToken = default)
   {
     _logger.LogDebug("Processing call to {Method}({dto})...", nameof(CreateAsync), dto);
 
@@ -67,6 +67,22 @@ public abstract class HttpRestClientBase<TDto> : IRestClient<TDto>
     response.EnsureSuccessStatusCode();
 #else
         await _httpRestClientComponent.CreateAsync(dto, GetConfigurationName(), true, cancellationToken);
+#endif
+  }
+
+  public virtual async Task CreateOrUpdateAsync(
+      TDto dto,
+      CancellationToken cancellationToken = default)
+  {
+    _logger.LogDebug("Processing call to {Method}({dto})...", nameof(CreateOrUpdateAsync), dto);
+
+#if DEBUG // For security reasons      
+    var response = await _httpRestClientComponent.CreateOrUpdateAsync(dto, GetConfigurationName(), false, cancellationToken);
+    if (!response.IsSuccessStatusCode)
+      _logger.LogDebug(response.Content.ReadAsStringAsync().Result);
+    response.EnsureSuccessStatusCode();
+#else
+        await _httpRestClientComponent.CreateOrUpdateAsync(dto, GetConfigurationName(), true, cancellationToken);
 #endif
   }
 

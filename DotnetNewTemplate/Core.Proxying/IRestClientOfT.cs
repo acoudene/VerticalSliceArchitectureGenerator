@@ -18,6 +18,10 @@ public interface IRestClient<TDto> where TDto : class, IIdentifierDto
     TDto dto,
     CancellationToken cancellationToken = default);
 
+  Task CreateOrUpdateAsync(
+      TDto newOrToUpdateDto,
+      CancellationToken cancellationToken = default);
+
   Task UpdateAsync(
     Guid id,
     TDto dto,

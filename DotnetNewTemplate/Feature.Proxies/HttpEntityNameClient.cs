@@ -66,6 +66,22 @@ public class HttpEntityNameClient : IEntityNameClient
 #endif
   }
 
+  public virtual async Task CreateOrUpdateAsync(
+      EntityNameDto dto,
+      CancellationToken cancellationToken = default)
+  {
+    _logger.LogDebug("Processing call to {Method}({dto})...", nameof(CreateOrUpdateAsync), dto);
+
+#if DEBUG // For security reasons      
+    var response = await _httpRestClientComponent.CreateOrUpdateAsync(dto, GetConfigurationName(), false, cancellationToken);
+    if (!response.IsSuccessStatusCode)
+      _logger.LogDebug(response.Content.ReadAsStringAsync().Result);
+    response.EnsureSuccessStatusCode();
+#else
+        await _httpRestClientComponent.CreateOrUpdateAsync(dto, GetConfigurationName(), true, cancellationToken);
+#endif
+  }
+
   public virtual async Task UpdateAsync(
     Guid id,
     EntityNameDto dto,
@@ -94,7 +110,7 @@ public class HttpEntityNameClient : IEntityNameClient
 
   public virtual async Task PatchAsync(
     Guid id,
-    JsonPatchDocument<EntityNameDto> patch,    
+    JsonPatchDocument<EntityNameDto> patch,
     CancellationToken cancellationToken = default)
   {
     _logger.LogDebug("Processing remote call to {Method}({Id},{Patch})...", nameof(PatchAsync), id, patch);
