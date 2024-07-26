@@ -5,12 +5,8 @@ using Core.Api;
 using Core.Api.Swaggers;
 using Core.Data.MongoDb;
 using Feature.Api;
-using Feature.Data.MongoDb.Repositories;
-using Feature.Data.Repositories;
+using Feature.Host;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Serializers;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -31,36 +27,14 @@ try
   /// <seealso cref="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-7.0&preserve-view=true#pds7"/>
   builder.Services.AddProblemDetails();
 
-  // https://kevsoft.net/2022/02/18/setting-up-mongodb-to-use-standard-guids-in-csharp.html
-#pragma warning disable CS0618
-  BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
-  //BsonDefaults.GuidRepresentationMode = GuidRepresentationMode.V3;
-#pragma warning restore CS0618
-  try
-  {
-    BsonSerializer.TryRegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
-  }
-  catch (BsonSerializationException)
-  {
-    // Just to let integration tests work
-  }
-
-  builder.Services.AddControllers(options =>
-  {
-    options.InputFormatters.Insert(0, JsonPatchHelper.GetJsonPatchInputFormatter());
-  });
-
-  // Add services to the container.
-
-  /// Connexion strings
-  builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection(nameof(DatabaseSettings)));
-
-  /// Form templates API
-  builder.Services.AddScoped<IMongoContext, MongoContext>();
-  builder.Services.AddScoped<IEntityNameRepository, EntityNameRepository>();
+  /// Data
+  builder.Services.ConfigureDataAdapters(builder.Configuration.GetSection(nameof(DatabaseSettings)));
 
   /// Add module to controller scanning, for clarty I have been redundant on controllers even if they share the same assembly 
-  builder.Services.AddControllers()
+  builder.Services.AddControllers(options =>
+                  {
+                    options.InputFormatters.Insert(0, JsonPatchHelper.GetJsonPatchInputFormatter());
+                  })
                   .ConfigureApplicationPartManager(apm => apm.ApplicationParts.Add(new AssemblyPart(typeof(EntityNameController).Assembly)))
                   ;
 
@@ -74,13 +48,19 @@ try
     //options.OperationFilter<HttpResultsOperationFilter>();
   });
 
+  /// Cors
+  const string frontEndBaseAddressKey = "FRONTEND_BASEADDRESS";
+  string frontEndBaseAddress = builder.Configuration[frontEndBaseAddressKey] ?? string.Empty;
+  if (string.IsNullOrWhiteSpace(frontEndBaseAddress))
+    throw new InvalidOperationException($"Missing value for configuration key: {frontEndBaseAddressKey}");
+
   const string allowSpecificOrigins = "frontend";
   builder.Services.AddCors(options =>
   {
     options.AddPolicy(name: allowSpecificOrigins,
                       policy =>
                       {
-                        policy.WithOrigins("https://localhost:7146");
+                        policy.WithOrigins(frontEndBaseAddress);
                       });
   });
 
@@ -90,6 +70,7 @@ try
 
   /// <see cref="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-7.0&preserve-view=true#exception-handler-page"/>
   app.UseExceptionHandler();
+
   /// <see cref="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-7.0&preserve-view=true#usestatuscodepages"/>
   app.UseStatusCodePages();
 
