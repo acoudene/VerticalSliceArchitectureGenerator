@@ -1,9 +1,9 @@
 ﻿namespace Feature.Presentation;
 
-public class FeatureViewModel : IFeatureViewModel
+public class EntityNameViewModel : IEntityNameViewModel
 {
   private readonly RestViewModelComponent<EntityNameVo, EntityNameDto, IEntityNameClient> _restViewModelComponent;
-  public FeatureViewModel(RestViewModelComponent<EntityNameVo, EntityNameDto, IEntityNameClient> restViewModelComponent)
+  public EntityNameViewModel(RestViewModelComponent<EntityNameVo, EntityNameDto, IEntityNameClient> restViewModelComponent)
   {
     _restViewModelComponent = restViewModelComponent ?? throw new ArgumentNullException(nameof(restViewModelComponent));
   }
