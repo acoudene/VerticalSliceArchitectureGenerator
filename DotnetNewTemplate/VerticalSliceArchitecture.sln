@@ -12,6 +12,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Dtos", "Core.Dtos\Core.Dtos.csproj", "{32F2811E-174F-4A4F-82D2-034AE7062332}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{78652819-E746-46C1-B3B4-5FFC52C078BC}"
+	ProjectSection(SolutionItems) = preProject
+		Feature.Api\EntityNameDtoMappingExtensions.cs = Feature.Api\EntityNameDtoMappingExtensions.cs
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Host.Testing", "Core.Host.Testing\Core.Host.Testing.csproj", "{967DAA6D-4A81-4392-8829-22B5A1AD8A05}"
 EndProject
@@ -54,7 +57,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01_MongoEntities", "01_MongoEntities", "{49B1B820-58DE-4FB7-B8E6-E3598F82A755}"
 	ProjectSection(SolutionItems) = preProject
 		Feature.Data.MongoDb\Entities\EntityNameMongo.cs = Feature.Data.MongoDb\Entities\EntityNameMongo.cs
-		Feature.Data.MongoDb\Entities\EntityNameMongoEntityExtensions.cs = Feature.Data.MongoDb\Entities\EntityNameMongoEntityExtensions.cs
+		Feature.Data.MongoDb\Entities\EntityNameMongoMappingExtensions.cs = Feature.Data.MongoDb\Entities\EntityNameMongoMappingExtensions.cs
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02_Entities", "02_Entities", "{F4795D55-8A4A-46F4-823D-59F86F628C8D}"
@@ -65,7 +68,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03_Dtos", "03_Dtos", "{239578C2-D137-4E6B-9C83-709A5F1CA158}"
 	ProjectSection(SolutionItems) = preProject
 		Feature.Dtos\EntityNameDto.cs = Feature.Dtos\EntityNameDto.cs
-		Feature.Api\EntityNameDtoEntityExtensions.cs = Feature.Api\EntityNameDtoEntityExtensions.cs
+		Feature.Api\EntityNameDtoMappingExtensions.cs = Feature.Api\EntityNameDtoMappingExtensions.cs
 	EndProjectSection
 EndProject
 Global
@@ -159,9 +162,9 @@ Global
 		{C68176AE-9011-4CE0-8511-120B980C03C7} = {78652819-E746-46C1-B3B4-5FFC52C078BC}
 		{8EEC62A9-198F-4ABE-80C3-86219FB262C3} = {78652819-E746-46C1-B3B4-5FFC52C078BC}
 		{5F45A71B-85F9-4E2C-B9FA-16BE044E7533} = {78652819-E746-46C1-B3B4-5FFC52C078BC}
+		{49B1B820-58DE-4FB7-B8E6-E3598F82A755} = {F2259150-5024-42CE-BE6E-C4FA726D3F63}
 		{F4795D55-8A4A-46F4-823D-59F86F628C8D} = {F2259150-5024-42CE-BE6E-C4FA726D3F63}
 		{239578C2-D137-4E6B-9C83-709A5F1CA158} = {F2259150-5024-42CE-BE6E-C4FA726D3F63}
-		{49B1B820-58DE-4FB7-B8E6-E3598F82A755} = {F2259150-5024-42CE-BE6E-C4FA726D3F63}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CDDA49FA-B05A-4DB3-9900-4C35F2BAB2C6}

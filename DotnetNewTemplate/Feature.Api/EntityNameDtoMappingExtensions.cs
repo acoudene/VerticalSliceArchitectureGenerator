@@ -3,7 +3,7 @@
 
 namespace Feature.Api;
 
-public static class EntityNameDtoEntityExtensions
+public static class EntityNameDtoMappingExtensions
 {
   // This commented part could be used to have benefits of json entity typing
   //public static EntityNameDtoBase ToInheritedDto(this EntityNameBase entity)

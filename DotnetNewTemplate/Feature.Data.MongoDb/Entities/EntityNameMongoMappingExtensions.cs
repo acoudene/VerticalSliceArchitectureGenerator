@@ -3,7 +3,7 @@
 
 namespace Feature.Data.MongoDb.Entities;
 
-public static class EntityNameMongoEntityExtensions
+public static class EntityNameMongoMappingExtensions
 {
   // This commented part could be used to have benefits of mongo entity typing
   //public static EntityNameMongoBase ToInheritedMongo(this EntityNameBase entity)
