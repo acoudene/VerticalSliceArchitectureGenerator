@@ -3,7 +3,7 @@
 
 namespace Feature.Presentation;
 
-public static class EntityNameVoDtoExtensions
+public static class EntityNameVoMappingExtensions
 {
   public static EntityNameDto ToDto(this EntityNameVo entity)
   {
