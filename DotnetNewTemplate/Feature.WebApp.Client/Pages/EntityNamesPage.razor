@@ -1,0 +1,18 @@
+﻿@page "/entitynames"
+@using Feature.RazorComponents
+
+<PageTitle>EntityName</PageTitle>
+
+<EntityNamesGrid Vos="@_vos" />
+
+<MudGrid Justify="Justify.Center">
+  <MudItem>
+    <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick=@(async () => await AddViewObjectAsync())>Add</MudButton>
+  </MudItem>
+  <MudItem>
+    <MudButton Variant="Variant.Filled" Color="Color.Tertiary" OnClick=@(async () => await UpdateViewObjectAsync())>Update</MudButton>
+  </MudItem>
+  <MudItem>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick=@(async () => await RemoveViewObjectAsync())>Delete</MudButton>
+  </MudItem>
+</MudGrid>

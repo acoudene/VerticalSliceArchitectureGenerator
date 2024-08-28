@@ -1,0 +1,34 @@
+﻿@using MudBlazor
+
+<MudCard>
+  <MudForm @ref="@_form" Model="@Vo" Validation="@(_entityNameValidator.ValidateValue)" ValidationDelay="0">
+    <MudCardContent>
+      <MudTextField @bind-Value="Vo.Id"
+                    For="@(() => Vo.Id)"
+                    Immediate="true"
+                    Label="Code" />
+
+      @* // TODO - Complete with other fields *@
+
+    </MudCardContent>
+
+    @* // TODO - Complete with other sub items fields *@
+    @* <MudCardContent Class="pa-0">
+
+      <MudTable Items="@Vo.SubItems" Hover="true" Breakpoint="Breakpoint.None" Dense="@true" Elevation="0">
+        <HeaderContent>
+
+    
+        </HeaderContent>
+        <RowTemplate>
+          
+         
+        </RowTemplate>
+      </MudTable>
+
+    </MudCardContent> *@
+  </MudForm>
+  <MudCardActions>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await ValidateSubmit())">Submit</MudButton>
+  </MudCardActions>
+</MudCard>

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Feature.Api.BackendForFrontend\Feature.Api.BackendForFrontend.csproj" />
+    <ProjectReference Include="..\Feature.Proxies\Feature.Proxies.csproj" />
+    <ProjectReference Include="..\Feature.WebApp.Client\Feature.WebApp.Client.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.7" />
+    <PackageReference Include="MudBlazor" Version="7.6.0" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,46 @@
+﻿@using MudBlazor
+@using Feature.ViewObjects
+
+@namespace Feature.RazorComponents
+
+<MudTable T="EntityNameVo" Items="@Vos"
+          MultiSelection="true"
+          Hover="true"
+          FixedFooter="true"
+          FixedHeader="true"
+          Filter="new Func<EntityNameVo,bool>(FilterFunc)"
+          ReadOnly="false"
+          Dense="true"
+          CanCancelEdit="true"
+          OnCommitEditClick="@(() => Snackbar.Add("Items are updated."))"
+          @bind-SelectedItems="_selectedVos">
+  <ToolBarContent>
+    <MudText Typo="Typo.h6">EntityNames</MudText>
+    <MudProgressCircular Color="Color.Info" Value="@_progressIncrement" />
+    <MudSpacer />
+    <MudTextField @bind-Value="_searchString" Placeholder="Recherche" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+  </ToolBarContent>
+  <HeaderContent>
+    <MudTh>
+      <MudTableSortLabel SortBy="new Func<EntityNameVo, object>(x=>x.Id)">Id</MudTableSortLabel>
+      
+      @* // TODO - Complete with other fields *@
+    
+    </MudTh>
+  </HeaderContent>
+  <RowTemplate>
+    <MudTd DataLabel="Id">@context.Id</MudTd>
+
+    @* // TODO - Complete with other fields *@
+  
+  </RowTemplate>
+  <RowEditingTemplate>
+    <MudTd DataLabel="Id"><MudTextField @bind-Value="@context.Id" Required /></MudTd>
+
+    @* // TODO - Complete with other fields *@
+
+  </RowEditingTemplate>
+  <PagerContent>
+    <MudTablePager PageSizeOptions="new int[] { 5, 10 }" />    
+  </PagerContent>
+</MudTable>
