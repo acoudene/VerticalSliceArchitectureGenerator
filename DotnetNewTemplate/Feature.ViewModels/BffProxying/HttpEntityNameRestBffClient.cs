@@ -1,9 +1,9 @@
 ﻿// Changelogs Date  | Author                | Description
 // 2023-12-23       | Anthony Coudène       | Creation
 
+using Feature.ViewObjects;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Logging;
-using Feature.ViewObjects;
 
 namespace Feature.ViewModels.BffProxying;
 
@@ -66,7 +66,7 @@ public class HttpEntityNameRestBffClient : IEntityNameRestBffClient
       _logger.LogDebug(response.Content.ReadAsStringAsync().Result);
     response.EnsureSuccessStatusCode();
 #else
-        await _httpRestClientComponent.CreateAsync(dto, GetConfigurationName(), true, cancellationToken);
+    await _httpRestClientComponent.CreateAsync(vo, GetConfigurationName(), true, cancellationToken);
 #endif
   }
 
@@ -82,7 +82,7 @@ public class HttpEntityNameRestBffClient : IEntityNameRestBffClient
       _logger.LogDebug(response.Content.ReadAsStringAsync().Result);
     response.EnsureSuccessStatusCode();
 #else
-        await _httpRestClientComponent.CreateOrUpdateAsync(dto, GetConfigurationName(), true, cancellationToken);
+    await _httpRestClientComponent.CreateOrUpdateAsync(vo, GetConfigurationName(), true, cancellationToken);
 #endif
   }
 
@@ -99,7 +99,7 @@ public class HttpEntityNameRestBffClient : IEntityNameRestBffClient
       _logger.LogDebug(response.Content.ReadAsStringAsync().Result);
     response.EnsureSuccessStatusCode();
 #else
-        await _httpRestClientComponent.UpdateAsync(id, dto, GetConfigurationName(), true, cancellationToken);
+    await _httpRestClientComponent.UpdateAsync(id, vo, GetConfigurationName(), true, cancellationToken);
 #endif
   }
 
@@ -124,7 +124,7 @@ public class HttpEntityNameRestBffClient : IEntityNameRestBffClient
       _logger.LogDebug(response.Content.ReadAsStringAsync().Result);
     response.EnsureSuccessStatusCode();
 #else
-        await _httpRestClientComponent.PatchAsync(id, patch, GetConfigurationName(), true, cancellationToken);
+    await _httpRestClientComponent.PatchAsync(id, patch, GetConfigurationName(), true, cancellationToken);
 #endif
   }
 }
