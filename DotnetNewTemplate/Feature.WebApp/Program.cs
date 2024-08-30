@@ -8,6 +8,8 @@ using Feature.WebApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 /// Add module to controller scanning, for clarty I have been redundant on controllers even if they share the same assembly 
 builder.Services.AddControllersWithViews()
                 .ConfigureApplicationPartManager(apm => apm.ApplicationParts.Add(new AssemblyPart(typeof(EntityNameBffController).Assembly)))
@@ -47,6 +49,8 @@ builder.Services
 builder.Services.AddScoped<IEntityNameClient, HttpEntityNameClient>();
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

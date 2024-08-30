@@ -20,6 +20,7 @@
     <ProjectReference Include="..\Feature.Api\Feature.Api.csproj" />
     <ProjectReference Include="..\Feature.Data.MongoDb\Feature.Data.MongoDb.csproj" />
     <ProjectReference Include="..\Feature.Data\Feature.Data.csproj" />
+    <ProjectReference Include="..\Feature.ServiceDefaults\Feature.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>

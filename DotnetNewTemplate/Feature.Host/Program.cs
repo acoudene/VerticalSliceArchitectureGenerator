@@ -1,5 +1,5 @@
 // Changelogs Date  | Author                | Description
-// 2023-12-23       | Anthony Coudène       | Creation
+// 2023-12-23       | Anthony CoudÃ¨ne       | Creation
 
 using Core.Api;
 using Core.Api.Swaggers;
@@ -16,6 +16,8 @@ Log.Logger = new LoggerConfiguration()
 try
 {
   var builder = WebApplication.CreateBuilder(args);
+
+  builder.AddServiceDefaults();
 
   builder.Host.UseSerilog();
 
@@ -65,6 +67,8 @@ try
   });
 
   var app = builder.Build();
+
+  app.MapDefaultEndpoints();
 
   app.UseSerilogRequestLogging();
 

@@ -91,6 +91,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Feature.WebApp", "Feature.W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Feature.WebApp.Client", "Feature.WebApp.Client\Feature.WebApp.Client.csproj", "{90657E5E-4159-47A5-BF4D-42A470A8AE03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feature.AppHost", "Feature.AppHost\Feature.AppHost.csproj", "{2B26F415-10C7-49FE-8F73-782F33440124}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feature.ServiceDefaults", "Feature.ServiceDefaults\Feature.ServiceDefaults.csproj", "{CEE6F10C-A909-420B-A60F-5931DDA5D223}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -193,6 +197,14 @@ Global
 		{90657E5E-4159-47A5-BF4D-42A470A8AE03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90657E5E-4159-47A5-BF4D-42A470A8AE03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90657E5E-4159-47A5-BF4D-42A470A8AE03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B26F415-10C7-49FE-8F73-782F33440124}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B26F415-10C7-49FE-8F73-782F33440124}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B26F415-10C7-49FE-8F73-782F33440124}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B26F415-10C7-49FE-8F73-782F33440124}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEE6F10C-A909-420B-A60F-5931DDA5D223}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEE6F10C-A909-420B-A60F-5931DDA5D223}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEE6F10C-A909-420B-A60F-5931DDA5D223}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEE6F10C-A909-420B-A60F-5931DDA5D223}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
