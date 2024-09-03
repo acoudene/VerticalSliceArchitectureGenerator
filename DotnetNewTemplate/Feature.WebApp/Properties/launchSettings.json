@@ -17,7 +17,7 @@
         "applicationUrl": "http://localhost:5217",
         "environmentVariables": {
           "ASPNETCORE_ENVIRONMENT": "Development",
-          "ENTITYNAME_API_BASEADDRESS": "https://localhost:7059/api/EntityName/"
+          "EntityName_API_BASEADDRESS": "https://localhost:7059/api/EntityName/"
         }
       },
       "https": {
@@ -28,7 +28,7 @@
         "applicationUrl": "https://localhost:7134;http://localhost:5217",
         "environmentVariables": {
           "ASPNETCORE_ENVIRONMENT": "Development",
-          "ENTITYNAME_API_BASEADDRESS": "https://localhost:7059/api/EntityName/"
+          "EntityName_API_BASEADDRESS": "https://localhost:7059/api/EntityName/"
         }
       },
       "IIS Express": {
@@ -37,7 +37,7 @@
         "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
         "environmentVariables": {
           "ASPNETCORE_ENVIRONMENT": "Development",
-          "ENTITYNAME_API_BASEADDRESS": "https://localhost:7059/api/EntityName/"
+          "EntityName_API_BASEADDRESS": "https://localhost:7059/api/EntityName/"
         }
       }
     }

@@ -1,10 +1,8 @@
+using Feature.Api.BackendForFrontend;
+using Feature.WebApp;
+using Feature.WebApp.Components;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using MudBlazor.Services;
-using Feature.Api.BackendForFrontend;
-using Feature.Proxies;
-using Feature.ViewModels;
-using Feature.ViewModels.BffProxying;
-using Feature.WebApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,33 +18,23 @@ builder.Services.AddRazorComponents(options =>
     options.DetailedErrors = builder.Environment.IsDevelopment())
     .AddInteractiveWebAssemblyComponents();
 
+const string bffApiBaseAddressesKey = "ASPNETCORE_URLS";
+string bffApiBaseAddress = ((builder.Configuration[bffApiBaseAddressesKey] ?? string.Empty).Split(";").FirstOrDefault()) ?? string.Empty;
 
-builder.Services.AddScoped<IEntityNameViewModel, EntityNameViewModel>();
+if (string.IsNullOrWhiteSpace(bffApiBaseAddress))
+  throw new InvalidOperationException($"Missing value for configuration key: {bffApiBaseAddress}");
 
-const string entityNameBffApiBaseAddressesKey = "ASPNETCORE_URLS";
-string entityNameBffApiBaseAddress = ((builder.Configuration[entityNameBffApiBaseAddressesKey] ?? string.Empty).Split(";").FirstOrDefault()) ?? string.Empty;
+builder.Services.AddViewModels();
+builder.Services.AddBffClients(bffApiBaseAddress);
 
-if (string.IsNullOrWhiteSpace(entityNameBffApiBaseAddress))
-  throw new InvalidOperationException($"Missing value for configuration key: {entityNameBffApiBaseAddress}");
-
-builder.Services
-    .AddHttpClient(
-    HttpEntityNameRestBffClient.ConfigurationName,
-    client => client.BaseAddress = new Uri(new Uri(entityNameBffApiBaseAddress), "api/EntityNameBff/"));
-builder.Services.AddScoped<IEntityNameRestBffClient, HttpEntityNameRestBffClient>();
-
-builder.Services.AddMudServices();
-
-const string entityNameApiBaseAddressKey = "ENTITYNAME_API_BASEADDRESS";
+const string entityNameApiBaseAddressKey = "EntityName_API_BASEADDRESS";
 string entityNameApiBaseAddress = builder.Configuration[entityNameApiBaseAddressKey] ?? string.Empty;
 if (string.IsNullOrWhiteSpace(entityNameApiBaseAddress))
   throw new InvalidOperationException($"Missing value for configuration key: {entityNameApiBaseAddressKey}");
 
-builder.Services
-    .AddHttpClient(
-    HttpEntityNameClient.ConfigurationName,
-    client => client.BaseAddress = new Uri(entityNameApiBaseAddress));
-builder.Services.AddScoped<IEntityNameClient, HttpEntityNameClient>();
+builder.Services.AddEntityNameApiClient(entityNameApiBaseAddress);
+
+builder.Services.AddMudServices();
 
 var app = builder.Build();
 

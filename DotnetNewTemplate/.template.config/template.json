@@ -1,7 +1,7 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "Anthony COUDENE",
-  "classifications": [ "Api", "Architecture" ],
+  "classifications": [ "Api", "Architecture", "Blazor" ],
   "name": "Vertical Slice Architecture generator",
   "identity": "acoudene.vsa.generator", // Unique name for this template
   "groupIdentity": "acoudene.vsa.generator",
@@ -83,7 +83,7 @@
     },
     "lowerCase": {
       "identifier": "lowerCase"
-    }
+    }    
   },
   "sources": [
     {
