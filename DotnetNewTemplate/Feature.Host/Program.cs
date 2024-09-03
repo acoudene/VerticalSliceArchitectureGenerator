@@ -51,20 +51,22 @@ try
   });
 
   /// Cors
+  const string allowSpecificOrigins = "frontend";
   const string frontEndBaseAddressKey = "FRONTEND_BASEADDRESS";
   string frontEndBaseAddress = builder.Configuration[frontEndBaseAddressKey] ?? string.Empty;
-  if (string.IsNullOrWhiteSpace(frontEndBaseAddress))
-    throw new InvalidOperationException($"Missing value for configuration key: {frontEndBaseAddressKey}");
+  bool corsManagementExpected = !string.IsNullOrWhiteSpace(frontEndBaseAddress);
 
-  const string allowSpecificOrigins = "frontend";
-  builder.Services.AddCors(options =>
-  {
-    options.AddPolicy(name: allowSpecificOrigins,
-                      policy =>
-                      {
-                        policy.WithOrigins(frontEndBaseAddress);
-                      });
-  });
+  if (corsManagementExpected)
+  {    
+    builder.Services.AddCors(options =>
+    {
+      options.AddPolicy(name: allowSpecificOrigins,
+                        policy =>
+                        {
+                          policy.WithOrigins(frontEndBaseAddress);
+                        });
+    });
+  }
 
   var app = builder.Build();
 
@@ -92,7 +94,10 @@ try
 
   app.UseAuthorization();
 
-  app.UseCors(allowSpecificOrigins);
+  if (corsManagementExpected)
+  {
+    app.UseCors(allowSpecificOrigins);
+  }
 
   app.MapControllers();
 
