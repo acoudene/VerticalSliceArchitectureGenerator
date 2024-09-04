@@ -24,9 +24,19 @@ public class TestHttpClientFactory<TEntryPoint> : IHttpClientFactory where TEntr
   public virtual HttpClient CreateClient(string name) => _appFactory.CreateClient(_options);
 
 
+  // Warning be careful on Uri code when merging: 
+  // - Given baseAddress = https://localhost:8080/BaseAddress and relativePath = /api/myApi
+  // - When using new Uri(baseAddress, relativePath); 
+  // - Then Uri will generate: https://localhost:8080/api/myApi (BaseAddress has been removed)
+  // - Whereas expected Uri: https://localhost:8080/BaseAddress/api/myApi
+  // Idem for this kind of merge: baseUri = https://localhost:8080/BaseAddress/api/myApi and relativePath=/Create
   private static Uri GenerateUrl(Uri baseAddress, string relativePath)
-    => new Uri($"{baseAddress.AbsoluteUri.TrimEnd('/')}{relativePath}");
-
+  {
+    Uri baseUri = new Uri($"{baseAddress.AbsoluteUri.TrimEnd('/')}/", UriKind.Absolute); // Always add a slash at the end
+    Uri relativeUri = new Uri($"{relativePath.Trim('/')}/", UriKind.Relative); // Always add a slash at the end for a future concatenation
+    return new Uri(baseUri, relativePath);
+  }
+  
   private static WebApplicationFactoryClientOptions SetBaseAddress(WebApplicationFactoryClientOptions options, string relativePath)
   {
     options.BaseAddress = GenerateUrl(options.BaseAddress, relativePath);
