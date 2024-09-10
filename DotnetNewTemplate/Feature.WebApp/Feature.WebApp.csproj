@@ -10,6 +10,7 @@
     <ProjectReference Include="..\Feature.Api.BackendForFrontend\Feature.Api.BackendForFrontend.csproj" />
     <ProjectReference Include="..\Feature.Proxies\Feature.Proxies.csproj" />
     <ProjectReference Include="..\Feature.ServiceDefaults\Feature.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\Feature.ViewObjects.Validators\Feature.ViewObjects.Validators.csproj" />
     <ProjectReference Include="..\Feature.WebApp.Client\Feature.WebApp.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.7" />
     <PackageReference Include="MudBlazor" Version="7.6.0" />

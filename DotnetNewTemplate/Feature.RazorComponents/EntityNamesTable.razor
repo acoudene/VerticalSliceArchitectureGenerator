@@ -3,20 +3,23 @@
 
 @namespace Feature.RazorComponents
 
-<MudTable T="EntityNameVo" Items="@Vos"
+@inherits MudTable<EntityNameVo>
+
+<MudTable T="EntityNameVo" 
+          Items="@ViewObjects"
+          SelectedItem="@SelectedViewObject"
+          SelectedItems="@SelectedViewObjects"
           MultiSelection="true"
           Hover="true"
           FixedFooter="true"
           FixedHeader="true"
           Filter="new Func<EntityNameVo,bool>(FilterFunc)"
-          ReadOnly="false"
+          ReadOnly="true"
           Dense="true"
           CanCancelEdit="true"
-          OnCommitEditClick="@(() => Snackbar.Add("Items are updated."))"
-          @bind-SelectedItems="_selectedVos">
+          SelectedItemsChanged="OnSelectedItemsChanged">
   <ToolBarContent>
     <MudText Typo="Typo.h6">EntityNames</MudText>
-    <MudProgressCircular Color="Color.Info" Value="@_progressIncrement" />
     <MudSpacer />
     <MudTextField @bind-Value="_searchString" Placeholder="Recherche" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
   </ToolBarContent>
@@ -35,7 +38,11 @@
   
   </RowTemplate>
   <RowEditingTemplate>
-    <MudTd DataLabel="Id"><MudTextField @bind-Value="@context.Id" Required /></MudTd>
+    <MudTd DataLabel="Id">
+      <MudTextField @bind-Value="@context.Id" 
+      For="@(() => context.Id)" 
+      Validation=@(_entityNameValidator.ValidateValue(context, "Id")) />
+    </MudTd>
 
     @* // TODO - Complete with other fields *@
 
@@ -44,3 +51,6 @@
     <MudTablePager PageSizeOptions="new int[] { 5, 10 }" />    
   </PagerContent>
 </MudTable>
+@{
+  base.BuildRenderTree(__builder);
+}

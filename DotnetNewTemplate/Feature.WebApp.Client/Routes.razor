@@ -1,6 +1,6 @@
 ﻿@using Feature.RazorComponents
 
-<Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="new[] {typeof(EntityNamesGrid).Assembly}">
+<Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="new[] {typeof(EntityNamesTable).Assembly, typeof(EntityNameForm).Assembly}">
     <Found Context="routeData">
         <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
         <FocusOnNavigate RouteData="routeData" Selector="h1" />

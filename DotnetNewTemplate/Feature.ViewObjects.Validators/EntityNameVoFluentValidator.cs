@@ -20,6 +20,8 @@ public class EntityNameVoFluentValidator : AbstractValidator<EntityNameVo>
   private Task<bool> IsUniqueAsync(Guid id)
   {
     // TODO - Api call for example
+    if (id == Guid.Empty)
+      return Task.FromResult(false);
 
     return Task.FromResult(true);
   }

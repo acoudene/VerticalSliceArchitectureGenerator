@@ -1,4 +1,5 @@
-﻿using Feature.ViewModels;
+﻿using Feature.RazorComponents;
+using Feature.ViewModels;
 using Feature.ViewObjects;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -7,6 +8,8 @@ namespace Feature.WebApp.Client.Pages;
 
 public partial class EntityNamePage : ComponentBase
 {
+  private EntityNameForm _form = null!;
+
   [Inject]
   protected ISnackbar Snackbar { get; set; } = null!;
 
@@ -20,28 +23,49 @@ public partial class EntityNamePage : ComponentBase
   protected NavigationManager Navigation { get; set; } = null!;
 
   [Parameter]
-  public Guid? Id { get; set; } = null;
+  public string? Id { get; set; } = null;
 
-  public EntityNameVo Vo { get; set; } = new EntityNameVo() { Id = Guid.NewGuid() };
-
-  protected override async Task OnInitializedAsync()
-  {
-    if (ViewModel is null)
-      throw new InvalidOperationException(nameof(ViewModel));
-
-    if (Id is not null)
+  protected override async Task OnParametersSetAsync()
+  {    
+    if (!string.IsNullOrWhiteSpace(Id) && Guid.TryParse(Id, out Guid guid))
     {
-      Vo = await ViewModel.GetByIdAsync(Id.Value) ?? Vo;
+      ViewModel.SelectedItem = await ViewModel.GetByIdAsync(guid);
     }
 
-    if (Vo is null)
-      throw new InvalidOperationException(nameof(Vo));
+    if (ViewModel.SelectedItem is null)
+      throw new InvalidOperationException($"Missing {nameof(ViewModel.SelectedItem)}");
   }
 
-  private async Task DoSubmitAsync()
+  protected override Task OnInitializedAsync()
+  {    
+    if (ViewModel is null)
+      throw new InvalidOperationException($"Missing {nameof(ViewModel)}");
+
+    ViewModel.SelectedItem = new EntityNameVo() { Id = Guid.NewGuid() };         
+
+    return Task.CompletedTask;
+  }
+
+  protected override Task OnAfterRenderAsync(bool firstRender)
   {
-    await ViewModel.CreateOrUpdateAsync(Vo);
-    Snackbar.Add("Submitted!");
+    if (_form is null)
+      throw new InvalidOperationException($"Missing {nameof(_form)}");
+
+    return Task.CompletedTask;
+  }
+
+  private async Task ValidateSubmitAsync()
+  {
+    if (ViewModel.SelectedItem is null)
+      return;
+    
+    await _form.Validate();
+
+    if (!_form.IsValid)
+      return;
+
+    await ViewModel.CreateOrUpdateAsync(ViewModel.SelectedItem);
+    Snackbar.Add("Saved!");
     Navigation.NavigateTo("/entityNames");
   }
 }

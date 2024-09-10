@@ -1,10 +1,14 @@
 ﻿// Changelogs Date  | Author                | Description
 // 2023-12-23       | Anthony Coudène       | Creation
 
+using Core.Dtos;
+using Feature.Dtos;
 using Feature.Proxies;
 using Feature.ViewObjects;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Net.Mime;
 
@@ -26,9 +30,10 @@ public class EntityNameBffController : ControllerBase
 
   [HttpGet]
   [Consumes(MediaTypeNames.Application.Json)]
+  [ProducesResponseType(StatusCodes.Status200OK)]
   [ProducesResponseType(StatusCodes.Status400BadRequest)]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-  public async Task<ActionResult<List<EntityNameVo>>> GetAllAsync(CancellationToken cancellationToken = default)
+  public virtual async Task<ActionResult<List<EntityNameVo>>> GetAllAsync(CancellationToken cancellationToken = default)
   {
     try
     {
@@ -47,6 +52,32 @@ public class EntityNameBffController : ControllerBase
       return Problem();
     }
   }
+
+  [HttpGet("{id:guid}")]
+  [Consumes(MediaTypeNames.Application.Json)]
+  [ProducesResponseType(StatusCodes.Status200OK)]
+  [ProducesResponseType(StatusCodes.Status404NotFound)]
+  [ProducesResponseType(StatusCodes.Status400BadRequest)]
+  [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+  public virtual async Task<ActionResult<EntityNameVo?>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+  {
+    try
+    {
+      return (await _client.GetByIdAsync(id, cancellationToken))?      
+        .ToViewObject();        
+    }
+    catch (ArgumentException ex)
+    {
+      _logger.LogError(ex, "Bad request");
+      return BadRequest();
+    }
+    catch (Exception ex)
+    {
+      _logger.LogError(ex, "Internal error");
+      return Problem();
+    }
+  }
+
 
   [HttpPost("CreateOrUpdate")]
   [Consumes(MediaTypeNames.Application.Json)]
@@ -68,6 +99,37 @@ public class EntityNameBffController : ControllerBase
         throw new InvalidOperationException("Problem while converting to view object");
 
       await _client.CreateOrUpdateAsync(dto, cancellationToken);
+      return dto.ToViewObject();
+    }
+    catch (ArgumentException ex)
+    {
+      _logger.LogError(ex, "Bad request");
+      return BadRequest();
+    }
+    catch (Exception ex)
+    {
+      _logger.LogError(ex, "Internal error");
+      return Problem();
+    }
+  }
+
+  [HttpDelete("{id:guid}")]
+  [Consumes(MediaTypeNames.Application.Json)]
+  [ProducesResponseType(StatusCodes.Status200OK)]
+  [ProducesResponseType(StatusCodes.Status404NotFound)]
+  [ProducesResponseType(StatusCodes.Status400BadRequest)]
+  [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+  public virtual async Task<ActionResult<EntityNameVo>> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+  {
+    try
+    {
+      if (id == Guid.Empty)
+        throw new ArgumentException(nameof(id));      
+
+      var dto = await _client.DeleteAsync(id, cancellationToken);
+      if (dto is null)
+        throw new InvalidOperationException("Problem while deleting view object");
+      
       return dto.ToViewObject();
     }
     catch (ArgumentException ex)

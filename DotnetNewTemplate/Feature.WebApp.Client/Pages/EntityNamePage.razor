@@ -3,4 +3,9 @@
 
 <PageTitle>EntityName</PageTitle>
 
-<EntityNameForm Vo="@Vo" DoSubmitAsync="@DoSubmitAsync" />
+<MudCard>
+  <EntityNameForm @ref="@_form" ViewObject="@ViewModel.SelectedItem" />
+  <MudCardActions>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await ValidateSubmitAsync())">Submit</MudButton>
+  </MudCardActions>
+</MudCard>

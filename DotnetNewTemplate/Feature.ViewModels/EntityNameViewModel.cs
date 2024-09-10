@@ -1,5 +1,4 @@
-﻿using Core.ViewObjects;
-using Feature.ViewModels.BffProxying;
+﻿using Feature.ViewModels.BffProxying;
 using Feature.ViewObjects;
 
 namespace Feature.ViewModels;
@@ -10,7 +9,13 @@ public class EntityNameViewModel : IEntityNameViewModel
   public EntityNameViewModel(IEntityNameRestBffClient client)
   {
     _restViewModelComponent = new EntityNameRestViewModelComponent(client);
+    Items = Enumerable.Empty<EntityNameVo>().ToList();
+    SelectedItems = Enumerable.Empty<EntityNameVo>().ToHashSet();
   }
+
+  public List<EntityNameVo> Items { get; set; }
+  public HashSet<EntityNameVo> SelectedItems { get; set; }
+  public EntityNameVo? SelectedItem { get; set; }
 
   public virtual async Task CreateAsync(EntityNameVo newItem, CancellationToken cancellationToken = default)
     => await _restViewModelComponent.CreateAsync(newItem, cancellationToken);

@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Feature.ViewModels;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Feature.ViewModels;
-using Feature.ViewObjects;
 
 namespace Feature.WebApp.Client.Pages;
 
@@ -19,14 +18,12 @@ public partial class EntityNamesPage : ComponentBase
   [Inject]
   protected NavigationManager Navigation { get; set; } = null!;
 
-  private List<EntityNameVo> _vos = Enumerable.Empty<EntityNameVo>().ToList();
-
   protected override async Task OnInitializedAsync()
   {
     if (ViewModel is null)
       throw new InvalidOperationException(nameof(ViewModel));
 
-    _vos = await ViewModel.GetAllAsync();
+    ViewModel.Items = await ViewModel.GetAllAsync();
   }
 
   protected Task AddViewObjectAsync()
@@ -35,13 +32,27 @@ public partial class EntityNamesPage : ComponentBase
     return Task.CompletedTask;
   }
 
-  protected async Task UpdateViewObjectAsync()
+  protected Task UpdateViewObjectAsync()
   {
-    await Task.CompletedTask;
+    if (ViewModel.SelectedItems.Count() != 1)
+      return Task.CompletedTask;
+
+    Guid id = ViewModel.SelectedItems.Single().Id;
+    if (id == Guid.Empty)
+      return Task.CompletedTask;
+
+    Navigation.NavigateTo($"/entityName/{id}");
+    return Task.CompletedTask;
   }
 
   protected async Task RemoveViewObjectAsync()
   {
-    await Task.CompletedTask;
+    foreach (var item in ViewModel.SelectedItems)
+    {
+      await ViewModel.RemoveAsync(item.Id);
+    }
+
+    Snackbar.Add("Deleted!");
+    ViewModel.Items = await ViewModel.GetAllAsync();
   }
 }
