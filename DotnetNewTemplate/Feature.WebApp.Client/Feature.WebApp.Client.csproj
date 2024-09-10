@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Feature.Localization\Feature.Localization.csproj" />
     <ProjectReference Include="..\Feature.RazorComponents\Feature.RazorComponents.csproj" />
   </ItemGroup>
 

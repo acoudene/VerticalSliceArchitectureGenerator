@@ -6,6 +6,6 @@
 <MudCard>
   <EntityNameForm @ref="@_form" ViewObject="@ViewModel.SelectedItem" />
   <MudCardActions>
-    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await ValidateSubmitAsync())">Submit</MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await ValidateSubmitAsync())">@Localizer["Submit"]</MudButton>
   </MudCardActions>
 </MudCard>

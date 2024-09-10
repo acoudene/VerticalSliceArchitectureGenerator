@@ -1,5 +1,7 @@
-﻿using Feature.ViewModels;
+﻿using Feature.Localization;
+using Feature.ViewModels;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using MudBlazor;
 
 namespace Feature.WebApp.Client.Pages;
@@ -18,8 +20,14 @@ public partial class EntityNamesPage : ComponentBase
   [Inject]
   protected NavigationManager Navigation { get; set; } = null!;
 
+  [Inject]
+  protected IStringLocalizer<FeatureResource> Localizer { get; set; } = null!;
+
   protected override async Task OnInitializedAsync()
   {
+    if (Localizer is null)
+      throw new InvalidOperationException($"Misssing {nameof(Localizer)}");
+
     if (ViewModel is null)
       throw new InvalidOperationException(nameof(ViewModel));
 
@@ -52,7 +60,7 @@ public partial class EntityNamesPage : ComponentBase
       await ViewModel.RemoveAsync(item.Id);
     }
 
-    Snackbar.Add("Deleted!");
+    Snackbar.Add(Localizer["Deleted!"]);
     ViewModel.Items = await ViewModel.GetAllAsync();
   }
 }

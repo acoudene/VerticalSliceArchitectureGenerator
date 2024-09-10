@@ -8,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
+builder.Services.AddLocalization();
+
 /// Add module to controller scanning, for clarty I have been redundant on controllers even if they share the same assembly 
 builder.Services.AddControllersWithViews()
                 .ConfigureApplicationPartManager(apm => apm.ApplicationParts.Add(new AssemblyPart(typeof(EntityNameBffController).Assembly)))

@@ -1,7 +1,9 @@
-﻿using Feature.RazorComponents;
+﻿using Feature.Localization;
+using Feature.RazorComponents;
 using Feature.ViewModels;
 using Feature.ViewObjects;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using MudBlazor;
 
 namespace Feature.WebApp.Client.Pages;
@@ -22,6 +24,9 @@ public partial class EntityNamePage : ComponentBase
   [Inject]
   protected NavigationManager Navigation { get; set; } = null!;
 
+  [Inject]
+  protected IStringLocalizer<FeatureResource> Localizer { get; set; } = null!;
+
   [Parameter]
   public string? Id { get; set; } = null;
 
@@ -37,7 +42,10 @@ public partial class EntityNamePage : ComponentBase
   }
 
   protected override Task OnInitializedAsync()
-  {    
+  {
+    if (Localizer is null)
+      throw new InvalidOperationException($"Misssing {nameof(Localizer)}");
+
     if (ViewModel is null)
       throw new InvalidOperationException($"Missing {nameof(ViewModel)}");
 
@@ -65,7 +73,7 @@ public partial class EntityNamePage : ComponentBase
       return;
 
     await ViewModel.CreateOrUpdateAsync(ViewModel.SelectedItem);
-    Snackbar.Add("Saved!");
+    Snackbar.Add(Localizer["Saved!"]);
     Navigation.NavigateTo("/entityNames");
   }
 }
