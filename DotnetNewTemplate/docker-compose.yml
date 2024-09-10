@@ -1,0 +1,13 @@
+services:
+  feature.host:
+    image: ${DOCKER_REGISTRY-}featurehost
+    build:
+      context: .
+      dockerfile: Feature.Host/Dockerfile
+
+  feature.webapp:
+    image: ${DOCKER_REGISTRY-}featurewebapp
+    build:
+      context: .
+      dockerfile: Feature.WebApp/Dockerfile
+
