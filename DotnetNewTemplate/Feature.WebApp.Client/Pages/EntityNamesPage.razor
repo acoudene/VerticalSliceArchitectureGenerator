@@ -1,5 +1,7 @@
 ﻿@page "/entityNames"
+@using Core.RazorComponents
 @using Feature.RazorComponents
+@using Feature.ViewObjects
 
 <PageTitle>EntityName</PageTitle>
 
@@ -9,12 +11,11 @@
   <MudItem>
     <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick=@(async () => await AddViewObjectAsync())>@Localizer["Add"]</MudButton>
   </MudItem>
-  @if (ViewModel.SelectedItems.Count() == 1)
-  {
+  <Condition Predicate="ViewModel.SelectedItems.Count() == 1">
     <MudItem>
       <MudButton Variant="Variant.Filled" Color="Color.Tertiary" OnClick=@(async () => await UpdateViewObjectAsync())>@Localizer["Update"]</MudButton>
     </MudItem>
-  }
+  </Condition>
   <MudItem>
     <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick=@(async () => await RemoveViewObjectAsync())>@Localizer["Delete"]</MudButton>
   </MudItem>

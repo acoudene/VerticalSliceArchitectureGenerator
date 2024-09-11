@@ -1,0 +1,9 @@
+﻿@typeparam T
+
+@if (Items is not null && ChildContent is not null)
+{
+  @foreach (T item in Items)
+  {
+    @ChildContent(item)
+  }
+}
