@@ -6,9 +6,13 @@ namespace Feature.Dtos;
 // This commented part could be used to have benefits of json entity typing
 //[JsonPolymorphic]
 //[JsonDerivedType(typeof(EntityNameInheritedDto), EntityNameInheritedDto.TypeId)]
-public record EntityNameDto : IIdentifierDto
+public record EntityNameDto : IIdentifierDto, ITimestampedDto
 {
   public required Guid Id { get; set; }
+
+  public DateTimeOffset CreatedAt { get; set; }
+
+  public DateTimeOffset UpdatedAt { get; set; }
 
   // TODO - EntityProperties - Fields to complete
 }

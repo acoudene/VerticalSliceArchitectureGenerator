@@ -20,6 +20,8 @@ public static class EntityNameVoExtensions
           return new EntityNameVo()
           {
             Id = dto.Id,
+            CreatedAt = dto.CreatedAt,
+            UpdatedAt = dto.UpdatedAt
 
             // TODO - EntityMapping - Dto to ViewObject to complete
           };
@@ -42,6 +44,8 @@ public static class EntityNameVoExtensions
           return new EntityNameDto()
           {
             Id = viewObject.Id,
+            CreatedAt = viewObject.CreatedAt,
+            UpdatedAt = viewObject.UpdatedAt
 
             // TODO - EntityMapping - ViewObject to Dto to complete
           };

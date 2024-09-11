@@ -31,7 +31,9 @@ public static class EntityNameMongoMappingExtensions
   {
     return new EntityNameMongo()
     {
-      Id = entity.Id
+      Id = entity.Id,
+      CreatedAt = entity.CreatedAt.UtcDateTime,
+      UpdatedAt = entity.UpdatedAt.UtcDateTime
 
       // TODO - EntityMapping - Business Entity to Mongo Entity to complete
     };
@@ -41,8 +43,10 @@ public static class EntityNameMongoMappingExtensions
   {
     return new EntityName()
     {
-      Id = mongoEntity.Id
-
+      Id = mongoEntity.Id,
+      CreatedAt = mongoEntity.CreatedAt,
+      UpdatedAt = mongoEntity.UpdatedAt
+        
       // TODO - EntityMapping - Mongo Entity to Business Entity to complete
     };
   }

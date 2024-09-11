@@ -3,10 +3,21 @@
 
 <MudForm Model="@ViewObject" Validation="@(_entityNameValidator.ValidateValue)" ValidationDelay="0">
   <MudCardContent>
+
     <MudTextField @bind-Value="ViewObject.Id"
                   For="@(() => ViewObject.Id)"
                   Immediate="true"
                   Label="Id" />
+
+@*     <MudTextField @bind-Value="ViewObject.CreatedAt"
+                  For="@(() => ViewObject.CreatedAt)"
+                  Immediate="true"
+                  Label="CreatedAt" />
+
+    <MudTextField @bind-Value="ViewObject.UpdatedAt"
+                  For="@(() => ViewObject.UpdatedAt)"
+                  Immediate="true"
+                  Label="UpdatedAt" /> *@
 
     @* // TODO - Complete with other fields *@
 

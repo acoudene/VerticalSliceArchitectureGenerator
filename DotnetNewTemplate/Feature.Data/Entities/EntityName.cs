@@ -6,9 +6,13 @@ namespace Feature.Data.Entities;
 // This commented part could be used to have benefits of entity typing
 //public abstract record EntityNameBase : IIdentifierEntity
 
-public record EntityName : IIdentifierEntity
+public record EntityName : IIdentifierEntity, ITimestampedEntity
 {
   public required Guid Id { get; set; }
+
+  public DateTimeOffset CreatedAt { get; set; }
+
+  public DateTimeOffset UpdatedAt { get; set; }
 
   // TODO - EntityProperties - Fields to complete
 }

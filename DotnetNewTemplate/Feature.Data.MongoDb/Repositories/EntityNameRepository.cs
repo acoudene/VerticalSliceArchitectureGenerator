@@ -10,12 +10,12 @@ public class EntityNameRepository : IEntityNameRepository
 {
   public const string CollectionName = "entityName";
 
-  protected MongoRepositoryComponent<EntityName, EntityNameMongo> MongoRepositoryComponent { get => _mongoRepositoryComponent; }
-  private readonly MongoRepositoryComponent<EntityName, EntityNameMongo> _mongoRepositoryComponent;
+  protected TimeStampedMongoRepositoryComponent<EntityName, EntityNameMongo> MongoRepositoryComponent { get => _mongoRepositoryComponent; }
+  private readonly TimeStampedMongoRepositoryComponent<EntityName, EntityNameMongo> _mongoRepositoryComponent;
 
   public EntityNameRepository(IMongoContext mongoContext)
   {
-    _mongoRepositoryComponent = new MongoRepositoryComponent<EntityName, EntityNameMongo>(mongoContext, CollectionName);
+    _mongoRepositoryComponent = new TimeStampedMongoRepositoryComponent<EntityName, EntityNameMongo>(mongoContext, CollectionName);
     _mongoRepositoryComponent.SetUniqueIndex(entity => entity.Id);
   }
 

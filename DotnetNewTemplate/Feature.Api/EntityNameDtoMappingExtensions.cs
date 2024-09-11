@@ -31,7 +31,9 @@ public static class EntityNameDtoMappingExtensions
   {
     return new EntityNameDto()
     {
-      Id = entity.Id
+      Id = entity.Id,
+      CreatedAt = entity.CreatedAt,
+      UpdatedAt = entity.UpdatedAt
 
       // TODO - EntityMapping - Business Entity to Dto to complete
     };
@@ -41,7 +43,9 @@ public static class EntityNameDtoMappingExtensions
   {
     return new EntityName()
     {
-      Id = dto.Id
+      Id = dto.Id,
+      CreatedAt = dto.CreatedAt,
+      UpdatedAt = dto.UpdatedAt
 
       // TODO - EntityMapping - Dto to Business Entity to complete
     };

@@ -35,6 +35,8 @@ public partial class EntityNamesTable
     return vo switch
     {
       EntityNameVo x when x.Id.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) => true,
+      EntityNameVo x when x.CreatedAt.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) => true,
+      EntityNameVo x when x.UpdatedAt.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase) => true,
 
       // TODO - Complete with search filter in grid
 
