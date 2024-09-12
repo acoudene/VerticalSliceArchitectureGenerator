@@ -1,6 +1,7 @@
 using Feature.Api.BackendForFrontend;
 using Feature.WebApp;
 using Feature.WebApp.Components;
+using Feature.WebApp.Extensions;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using MudBlazor.Services;
 

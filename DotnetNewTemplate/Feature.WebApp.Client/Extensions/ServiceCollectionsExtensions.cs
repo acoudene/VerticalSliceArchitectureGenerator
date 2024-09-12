@@ -1,7 +1,7 @@
 ﻿using Feature.ViewModels.BffProxying;
 using Feature.ViewModels;
 
-namespace Feature.WebApp.Client;
+namespace Feature.WebApp.Client.Extensions;
 
 public static class ServiceCollectionsExtensions
 {

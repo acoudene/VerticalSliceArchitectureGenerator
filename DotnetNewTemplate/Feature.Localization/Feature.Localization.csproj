@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="FeatureResource.fr-FR.resx">
-      <LastGenOutput>FeatureResource.fr-fr.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="FeatureResource.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>FeatureResource.Designer.cs</LastGenOutput>

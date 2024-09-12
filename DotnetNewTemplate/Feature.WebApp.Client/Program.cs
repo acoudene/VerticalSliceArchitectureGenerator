@@ -1,4 +1,4 @@
-using Feature.WebApp.Client;
+using Feature.WebApp.Client.Extensions;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
 
@@ -11,4 +11,8 @@ builder.Services.AddBffClients(builder.HostEnvironment.BaseAddress);
 
 builder.Services.AddMudServices();
 
-await builder.Build().RunAsync();
+var host = builder.Build();
+
+await host.SetDefaultCulture();
+
+await host.RunAsync();

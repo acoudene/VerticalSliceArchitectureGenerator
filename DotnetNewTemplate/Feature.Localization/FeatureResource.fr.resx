@@ -124,10 +124,10 @@
     <value>Ajouter</value>
   </data>
   <data name="Saved!" xml:space="preserve">
-    <value>Sauvegardé !</value>
+    <value>Sauvegardé!</value>
   </data>
   <data name="Deleted!" xml:space="preserve">
-    <value>Supprimé(s) !</value>
+    <value>Supprimé(s)!</value>
   </data>
   <data name="Update" xml:space="preserve">
     <value>Mettre à jour</value>
