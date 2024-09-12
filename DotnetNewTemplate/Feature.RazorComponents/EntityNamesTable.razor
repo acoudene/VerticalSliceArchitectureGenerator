@@ -26,12 +26,14 @@
   <HeaderContent>
     <MudTh>
       <MudTableSortLabel SortBy="new Func<EntityNameVo, object>(x=>x.Id)">Id</MudTableSortLabel>
-      <MudTableSortLabel SortBy="new Func<EntityNameVo, object>(x=>x.CreatedAt)">CreatedAt</MudTableSortLabel>
-      <MudTableSortLabel SortBy="new Func<EntityNameVo, object>(x=>x.UpdatedAt)">UpdatedAt</MudTableSortLabel>
-
-      @* // TODO - Complete with other fields *@
-
     </MudTh>
+    <MudTh>
+      <MudTableSortLabel SortBy="new Func<EntityNameVo, object>(x=>x.CreatedAt)">CreatedAt</MudTableSortLabel>
+    </MudTh>
+    <MudTh>
+      <MudTableSortLabel SortBy="new Func<EntityNameVo, object>(x=>x.UpdatedAt)">UpdatedAt</MudTableSortLabel>
+    </MudTh>
+    @* // TODO - Complete with other fields *@
   </HeaderContent>
   <RowTemplate>
     <MudTd DataLabel="Id">@context.Id</MudTd>
@@ -42,28 +44,28 @@
 
   </RowTemplate>
   <RowEditingTemplate>
-@* 
+    @*
     <MudTd DataLabel="Id">
-      <MudTextField @bind-Value="@context.Id"
-                    For="@(() => context.Id)"
-                    Validation=@(_entityNameValidator.ValidateValue(context, "Id")) />
+    <MudTextField @bind-Value="@context.Id"
+    For="@(() => context.Id)"
+    Validation=@(_entityNameValidator.ValidateValue(context, "Id")) />
     </MudTd>
     <MudTd DataLabel="CreatedAt">
-      <MudTextField @bind-Value="@context.CreatedAt"
-                    For="@(() => context.CreatedAt)"
-                    Validation=@(_entityNameValidator.ValidateValue(context, "CreatedAt")) />
+    <MudTextField @bind-Value="@context.CreatedAt"
+    For="@(() => context.CreatedAt)"
+    Validation=@(_entityNameValidator.ValidateValue(context, "CreatedAt")) />
     </MudTd>
     <MudTd DataLabel="UpdatedAt">
-      <MudTextField @bind-Value="@context.UpdatedAt"
-                    For="@(() => context.UpdatedAt)"
-                    Validation=@(_entityNameValidator.ValidateValue(context, "UpdatedAt")) />
+    <MudTextField @bind-Value="@context.UpdatedAt"
+    For="@(() => context.UpdatedAt)"
+    Validation=@(_entityNameValidator.ValidateValue(context, "UpdatedAt")) />
     </MudTd>
- *@
+    *@
     @* // TODO - Complete with other fields *@
 
   </RowEditingTemplate>
   <PagerContent>
-    <MudTablePager PageSizeOptions="new int[] { 5, 10 }" />
+    <MudTablePager PageSizeOptions="new int[] { 5, 10, 15 }" />
   </PagerContent>
 </MudTable>
 @{
