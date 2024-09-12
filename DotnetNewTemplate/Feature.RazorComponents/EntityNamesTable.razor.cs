@@ -1,6 +1,8 @@
-﻿using Feature.ViewObjects;
+﻿using Feature.Localization;
+using Feature.ViewObjects;
 using Feature.ViewObjects.Validators;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 using MudBlazor;
 
 namespace Feature.RazorComponents;
@@ -10,7 +12,10 @@ public partial class EntityNamesTable
   private string _searchString = string.Empty;
   private EntityNameVoFluentValidator _entityNameValidator = new EntityNameVoFluentValidator();
 
-  [Parameter, EditorRequired]
+	[Inject]
+	protected IStringLocalizer<FeatureResource> Localizer { get; set; } = null!;
+
+	[Parameter, EditorRequired]
   public IEnumerable<EntityNameVo> ViewObjects { get; set; } = null!;
 
   [Parameter]
@@ -24,7 +29,10 @@ public partial class EntityNamesTable
 
   protected override Task OnInitializedAsync()
   {
-    if (ViewObjects is null)
+		if (Localizer is null)
+			throw new InvalidOperationException($"Misssing {nameof(Localizer)}");
+
+		if (ViewObjects is null)
       throw new InvalidOperationException($"Missing {nameof(ViewObjects)}");
 
     return Task.CompletedTask;

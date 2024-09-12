@@ -135,4 +135,13 @@
   <data name="Delete" xml:space="preserve">
     <value>Supprimer</value>
   </data>
+  <data name="CreatedAt" xml:space="preserve">
+    <value>Créé(e) le</value>
+  </data>
+  <data name="UpdatedAt" xml:space="preserve">
+    <value>Mis(e) à jour le</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
 </root>

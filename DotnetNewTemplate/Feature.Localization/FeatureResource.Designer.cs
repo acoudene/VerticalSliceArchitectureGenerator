@@ -70,6 +70,15 @@ namespace Feature.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Created at.
+        /// </summary>
+        public static string CreatedAt {
+            get {
+                return ResourceManager.GetString("CreatedAt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Delete {
@@ -84,6 +93,15 @@ namespace Feature.Localization {
         public static string Deleted_ {
             get {
                 return ResourceManager.GetString("Deleted!", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Id.
+        /// </summary>
+        public static string Id {
+            get {
+                return ResourceManager.GetString("Id", resourceCulture);
             }
         }
         
@@ -111,6 +129,15 @@ namespace Feature.Localization {
         public static string Update {
             get {
                 return ResourceManager.GetString("Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updated at.
+        /// </summary>
+        public static string UpdatedAt {
+            get {
+                return ResourceManager.GetString("UpdatedAt", resourceCulture);
             }
         }
     }

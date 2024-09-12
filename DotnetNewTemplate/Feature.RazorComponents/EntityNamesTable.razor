@@ -25,13 +25,13 @@
   </ToolBarContent>
   <HeaderContent>
     <MudTh>
-      <MudTableSortLabel SortBy="new Func<EntityNameVo, object>(x=>x.Id)">Id</MudTableSortLabel>
+      <MudTableSortLabel SortBy="new Func<EntityNameVo, object>(x=>x.Id)">@Localizer["Id"]</MudTableSortLabel>
     </MudTh>
     <MudTh>
-      <MudTableSortLabel SortBy="new Func<EntityNameVo, object>(x=>x.CreatedAt)">CreatedAt</MudTableSortLabel>
+      <MudTableSortLabel SortBy="new Func<EntityNameVo, object>(x=>x.CreatedAt)">@Localizer["CreatedAt"]</MudTableSortLabel>
     </MudTh>
     <MudTh>
-      <MudTableSortLabel SortBy="new Func<EntityNameVo, object>(x=>x.UpdatedAt)">UpdatedAt</MudTableSortLabel>
+      <MudTableSortLabel SortBy="new Func<EntityNameVo, object>(x=>x.UpdatedAt)">@Localizer["UpdatedAt"]</MudTableSortLabel>
     </MudTh>
     @* // TODO - Complete with other fields *@
   </HeaderContent>
