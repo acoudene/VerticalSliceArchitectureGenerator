@@ -30,18 +30,7 @@ public partial class EntityNamePage : ComponentBase
   [Parameter]
   public string? Id { get; set; } = null;
 
-  protected override async Task OnParametersSetAsync()
-  {    
-    if (!string.IsNullOrWhiteSpace(Id) && Guid.TryParse(Id, out Guid guid))
-    {
-      ViewModel.SelectedItem = await ViewModel.GetByIdAsync(guid);
-    }
-
-    if (ViewModel.SelectedItem is null)
-      throw new InvalidOperationException($"Missing {nameof(ViewModel.SelectedItem)}");
-  }
-
-  protected override Task OnInitializedAsync()
+  protected override void OnInitialized()
   {
     if (Localizer is null)
       throw new InvalidOperationException($"Misssing {nameof(Localizer)}");
@@ -50,16 +39,24 @@ public partial class EntityNamePage : ComponentBase
       throw new InvalidOperationException($"Missing {nameof(ViewModel)}");
 
     ViewModel.SelectedItem = new EntityNameVo() { Id = Guid.NewGuid() };         
-
-    return Task.CompletedTask;
   }
 
-  protected override Task OnAfterRenderAsync(bool firstRender)
+  protected override async Task OnAfterRenderAsync(bool firstRender)
   {
+     
     if (_form is null)
       throw new InvalidOperationException($"Missing {nameof(_form)}");
 
-    return Task.CompletedTask;
+    if (firstRender)
+    {
+      if (!string.IsNullOrWhiteSpace(Id) && Guid.TryParse(Id, out Guid guid))
+      {
+        ViewModel.SelectedItem = await ViewModel.GetByIdAsync(guid);
+      }
+    }
+
+    if (ViewModel.SelectedItem is null)
+      throw new InvalidOperationException($"Missing {nameof(ViewModel.SelectedItem)}");
   }
 
   private async Task ValidateSubmitAsync()

@@ -1,11 +1,14 @@
 ﻿@page "/entityName/{Id?}"
+@using Core.RazorComponents.Mud
 @using Feature.RazorComponents
 
-<PageTitle>EntityName</PageTitle>
+<ReliableContent>
+  <PageTitle>EntityName</PageTitle>
 
-<MudCard>
-  <EntityNameForm @ref="@_form" ViewObject="@ViewModel.SelectedItem" />
-  <MudCardActions>
-    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await ValidateSubmitAsync())">@Localizer["Submit"]</MudButton>
-  </MudCardActions>
-</MudCard>
+  <MudCard>
+    <EntityNameForm @ref="@_form" ViewObject="@ViewModel.SelectedItem" />
+    <MudCardActions>
+      <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await ValidateSubmitAsync())">@Localizer["Submit"]</MudButton>
+    </MudCardActions>
+  </MudCard>
+</ReliableContent>

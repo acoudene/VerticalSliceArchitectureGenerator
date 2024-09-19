@@ -94,3 +94,11 @@ main {
     right: 0.75rem;
     top: 0.5rem;
   }
+
+.error-message {
+  background-color: darkred;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  display: inline-block;
+}

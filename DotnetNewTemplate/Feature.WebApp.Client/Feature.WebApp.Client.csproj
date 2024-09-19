@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Core.RazorComponents.Mud\Core.RazorComponents.Mud.csproj" />
     <ProjectReference Include="..\Feature.Localization\Feature.Localization.csproj" />
     <ProjectReference Include="..\Feature.RazorComponents\Feature.RazorComponents.csproj" />
   </ItemGroup>

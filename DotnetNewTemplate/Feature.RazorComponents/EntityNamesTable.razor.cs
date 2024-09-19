@@ -1,22 +1,24 @@
 ﻿using Feature.Localization;
 using Feature.ViewObjects;
-using Feature.ViewObjects.Validators;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
-using MudBlazor;
 
 namespace Feature.RazorComponents;
 
 public partial class EntityNamesTable
 {
   private string _searchString = string.Empty;
-  private EntityNameVoFluentValidator _entityNameValidator = new EntityNameVoFluentValidator();
+  
+  /// Use it if needed for row edition template: private EntityNameVoFluentValidator _entityNameValidator = new EntityNameVoFluentValidator();
 
-	[Inject]
-	protected IStringLocalizer<FeatureResource> Localizer { get; set; } = null!;
+  [Inject]
+  protected IStringLocalizer<FeatureResource> Localizer { get; set; } = null!;
 
-	[Parameter, EditorRequired]
+  [Parameter, EditorRequired]
   public IEnumerable<EntityNameVo> ViewObjects { get; set; } = null!;
+
+  [Parameter]
+  public EventCallback<IEnumerable<EntityNameVo>?> ViewObjectsChanged { get; set; }
 
   [Parameter]
   public HashSet<EntityNameVo>? SelectedViewObjects { get; set; }
@@ -27,15 +29,13 @@ public partial class EntityNamesTable
   [Parameter]
   public EventCallback<HashSet<EntityNameVo>> OnSelectedItemsChanged { get; set; }
 
-  protected override Task OnInitializedAsync()
+  protected override void OnInitialized()
   {
-		if (Localizer is null)
-			throw new InvalidOperationException($"Misssing {nameof(Localizer)}");
+    if (Localizer is null)
+      throw new InvalidOperationException($"Misssing {nameof(Localizer)}");
 
-		if (ViewObjects is null)
+    if (ViewObjects is null)
       throw new InvalidOperationException($"Missing {nameof(ViewObjects)}");
-
-    return Task.CompletedTask;
   }
 
   private bool FilterFunc(EntityNameVo vo)

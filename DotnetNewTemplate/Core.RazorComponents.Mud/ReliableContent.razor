@@ -1,0 +1,33 @@
+﻿<ErrorBoundary @ref="RefErrorBoundary" MaximumErrorCount="MaximumErrorCount">
+  <ChildContent>
+    <Condition Predicate="@IsBusy">
+      <Then>
+        <Condition Predicate="LoadingContentBody is not null">
+          <Then>
+            @LoadingContentBody
+          </Then>
+          <Else>
+            <MudSkeleton />
+            <MudSkeleton Animation="Animation.False" />
+            <MudSkeleton Animation="Animation.Wave" />
+          </Else>
+        </Condition>
+      </Then>
+      <Else>
+        @Body
+      </Else>
+    </Condition>
+  </ChildContent>
+  <ErrorContent>
+    <Condition Predicate="ErrorBody is not null">
+      <Then>
+        @ErrorBody
+      </Then>
+      <Else>
+        <MudText>@context.Message</MudText>
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="RecoverError">@Localizer["Recover Error"]</MudButton>
+      </Else>
+    </Condition>    
+  </ErrorContent>
+</ErrorBoundary>
+

@@ -23,15 +23,13 @@ public partial class EntityNamesPage : ComponentBase
   [Inject]
   protected IStringLocalizer<FeatureResource> Localizer { get; set; } = null!;
 
-  protected override async Task OnInitializedAsync()
+  protected override void OnInitialized()
   {
     if (Localizer is null)
-      throw new InvalidOperationException($"Misssing {nameof(Localizer)}");
+      throw new InvalidOperationException($"Missing {nameof(Localizer)}");
 
     if (ViewModel is null)
-      throw new InvalidOperationException(nameof(ViewModel));
-
-    ViewModel.Items = await ViewModel.GetAllAsync();
+      throw new InvalidOperationException($"Missing {nameof(ViewModel)}");
   }
 
   protected Task AddViewObjectAsync()
@@ -42,7 +40,7 @@ public partial class EntityNamesPage : ComponentBase
 
   protected Task UpdateViewObjectAsync()
   {
-    if (ViewModel.SelectedItems.Count() != 1)
+    if (ViewModel.SelectedItems.Count != 1)
       return Task.CompletedTask;
 
     Guid id = ViewModel.SelectedItems.Single().Id;

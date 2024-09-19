@@ -13,7 +13,7 @@ public class EntityNameViewModel : IEntityNameViewModel
     SelectedItems = Enumerable.Empty<EntityNameVo>().ToHashSet();
   }
 
-  public List<EntityNameVo> Items { get; set; }
+  public IEnumerable<EntityNameVo> Items { get; set; }
   public HashSet<EntityNameVo> SelectedItems { get; set; }
   public EntityNameVo? SelectedItem { get; set; }
 

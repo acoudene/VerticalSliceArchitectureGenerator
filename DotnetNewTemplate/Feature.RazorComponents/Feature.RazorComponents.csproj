@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core.RazorComponents\Core.RazorComponents.csproj" />
     <ProjectReference Include="..\Feature.Localization\Feature.Localization.csproj" />
     <ProjectReference Include="..\Feature.ViewModels\Feature.ViewModels.csproj" />
     <ProjectReference Include="..\Feature.ViewObjects.Validators\Feature.ViewObjects.Validators.csproj" />

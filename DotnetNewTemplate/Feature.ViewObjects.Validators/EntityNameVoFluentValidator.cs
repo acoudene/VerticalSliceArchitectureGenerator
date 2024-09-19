@@ -14,6 +14,12 @@ public class EntityNameVoFluentValidator : AbstractValidator<EntityNameVo>
         .NotEmpty()
         .MustAsync(async (value, cancellationToken) => await IsUniqueAsync(value));
 
+    RuleFor(x => x.CreatedAt)
+        .NotEmpty();
+
+    RuleFor(x => x.UpdatedAt)
+        .NotEmpty();        
+
     // TODO - Complete with other validation rules
   }
 
