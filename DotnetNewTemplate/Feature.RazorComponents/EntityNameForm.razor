@@ -1,45 +1,47 @@
 ﻿@inherits MudForm
 
-<div class="EntityNameForm-container">
-  <MudForm Model="@ViewObject" Validation="@(_entityNameValidator.ValidateValue)" ValidationDelay="0">
-    <MudCardContent>
+<ReliableContent>
+  <div class="EntityNameForm-container">
+    <MudForm Model="@ViewObject" Validation="@(_entityNameValidator.ValidateValue)" ValidationDelay="0">
+      <MudCardContent>
 
-      <MudTextField @bind-Value="ViewObject.Id"
-                    For="@(() => ViewObject.Id)"
-                    Immediate="true"
-                    Label="@Localizer["Id"]" />
+        <MudTextField @bind-Value="ViewObject.Id"
+                      For="@(() => ViewObject.Id)"
+                      Immediate="true"
+                      Label="@Localizer["Id"]" />
 
-      <MudTextField @bind-Value="ViewObject.CreatedAt"
-                    For="@(() => ViewObject.CreatedAt)"
-                    Immediate="true"
-                    Label="@Localizer["CreatedAt"]" />
+        <MudTextField @bind-Value="ViewObject.CreatedAt"
+                      For="@(() => ViewObject.CreatedAt)"
+                      Immediate="true"
+                      Label="@Localizer["CreatedAt"]" />
 
-      <MudTextField @bind-Value="ViewObject.UpdatedAt"
-                    For="@(() => ViewObject.UpdatedAt)"
-                    Immediate="true"
-                    Label="@Localizer["UpdatedAt"]" />
+        <MudTextField @bind-Value="ViewObject.UpdatedAt"
+                      For="@(() => ViewObject.UpdatedAt)"
+                      Immediate="true"
+                      Label="@Localizer["UpdatedAt"]" />
 
-      @* // TODO - Complete with other fields *@
+        @* // TODO - Complete with other fields *@
 
-    </MudCardContent>
+      </MudCardContent>
 
-    @* // TODO - Complete with other sub items fields *@
-    @* <MudCardContent Class="pa-0">
+      @* // TODO - Complete with other sub items fields *@
+      @* <MudCardContent Class="pa-0">
 
-    <MudTable Items="@Vo.SubItems" Hover="true" Breakpoint="Breakpoint.None" Dense="@true" Elevation="0">
-    <HeaderContent>
-
-
-    </HeaderContent>
-    <RowTemplate>
+      <MudTable Items="@Vo.SubItems" Hover="true" Breakpoint="Breakpoint.None" Dense="@true" Elevation="0">
+      <HeaderContent>
 
 
-    </RowTemplate>
-    </MudTable>
+      </HeaderContent>
+      <RowTemplate>
 
-    </MudCardContent> *@
-  </MudForm>
-</div>
+
+      </RowTemplate>
+      </MudTable>
+
+      </MudCardContent> *@
+    </MudForm>
+  </div>
+</ReliableContent>
 @{
   base.BuildRenderTree(__builder);
 }
