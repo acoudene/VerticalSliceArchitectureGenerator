@@ -103,6 +103,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.RazorComponents", "Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.RazorComponents.Mud", "Core.RazorComponents.Mud\Core.RazorComponents.Mud.csproj", "{28E5A723-F3CF-4C05-821A-5BBEAADFEC0B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feature.WebApp.Tests", "Feature.WebApp.Tests\Feature.WebApp.Tests.csproj", "{F386AB3C-C368-46CF-8CEC-3358C6F409D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -229,6 +231,10 @@ Global
 		{28E5A723-F3CF-4C05-821A-5BBEAADFEC0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28E5A723-F3CF-4C05-821A-5BBEAADFEC0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28E5A723-F3CF-4C05-821A-5BBEAADFEC0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F386AB3C-C368-46CF-8CEC-3358C6F409D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F386AB3C-C368-46CF-8CEC-3358C6F409D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F386AB3C-C368-46CF-8CEC-3358C6F409D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F386AB3C-C368-46CF-8CEC-3358C6F409D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -265,6 +271,7 @@ Global
 		{47C4E2D8-48BC-488A-886B-3FCB84CD6DF9} = {84D35090-F675-40B8-9163-345732AA466B}
 		{4247FCBA-BDF6-4005-AC49-8F5099D61FBE} = {78652819-E746-46C1-B3B4-5FFC52C078BC}
 		{28E5A723-F3CF-4C05-821A-5BBEAADFEC0B} = {78652819-E746-46C1-B3B4-5FFC52C078BC}
+		{F386AB3C-C368-46CF-8CEC-3358C6F409D5} = {84D35090-F675-40B8-9163-345732AA466B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CDDA49FA-B05A-4DB3-9900-4C35F2BAB2C6}

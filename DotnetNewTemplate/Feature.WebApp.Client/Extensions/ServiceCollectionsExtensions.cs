@@ -5,19 +5,29 @@ namespace Feature.WebApp.Client.Extensions;
 
 public static class ServiceCollectionsExtensions
 {
-  private static void AddClientsWithAddress(string baseAddress, Action<Uri> action)
+  public const string EntityNameBffApiRelativePath = "api/EntityNameBff/";
+
+  public static void AddClientsWithUri<TService, TImplementation>(
+    this IServiceCollection serviceCollection,
+    string name,
+    Uri apiUri)
+    where TService : class
+    where TImplementation : class, TService
   {
-    if (string.IsNullOrWhiteSpace(baseAddress))
-      throw new ArgumentNullException(nameof(baseAddress));
 
-    if (action is null)
-      throw new ArgumentNullException(nameof(action));
-
-    var baseUri = new Uri(baseAddress);
-    action(baseUri);
+    // Think to adapt to manage ending slash on basse uri
+    Func<IServiceCollection, string, Uri, IHttpClientBuilder> defaultHttpClientbuilder = (service, name, uri) 
+      => service.AddHttpClient(name, client => client.BaseAddress = uri);
+    
+    serviceCollection
+      .AddClientsWithUri<TService, TImplementation>(name, apiUri, defaultHttpClientbuilder);   
   }
 
-  private static void AddClientsWithUri<TService, TImplementation>(this IServiceCollection serviceCollection, string name, Uri apiUri)
+public static void AddClientsWithUri<TService, TImplementation>(
+    this IServiceCollection serviceCollection, 
+    string name, 
+    Uri apiUri, 
+    Func<IServiceCollection, string, Uri, IHttpClientBuilder> httpClientbuilder)
     where TService : class
     where TImplementation : class, TService
   {
@@ -27,9 +37,10 @@ public static class ServiceCollectionsExtensions
     if (apiUri is null)
       throw new ArgumentNullException(nameof(apiUri));
 
-    serviceCollection
-      .AddHttpClient(name, client => client.BaseAddress = apiUri); // TODO - Adapt to manage ending slash on basse uri
+    if (httpClientbuilder is null)
+      throw new ArgumentNullException(nameof(httpClientbuilder));
 
+    httpClientbuilder(serviceCollection, name, apiUri);
     serviceCollection.AddScoped<TService, TImplementation>();
   }
 
@@ -38,12 +49,9 @@ public static class ServiceCollectionsExtensions
     serviceCollection.AddScoped<IEntityNameViewModel, EntityNameViewModel>();
   }  
 
-  public static void AddBffClients(this IServiceCollection serviceCollection, string baseAddress)
-    => AddClientsWithAddress(baseAddress, (baseUri) => AddBffClients(serviceCollection, baseUri));
-
   public static void AddBffClients(this IServiceCollection serviceCollection, Uri baseUri)
     => serviceCollection
     .AddClientsWithUri<IEntityNameRestBffClient, HttpEntityNameRestBffClient>(
       HttpEntityNameRestBffClient.ConfigurationName,
-      new Uri(baseUri, "api/EntityNameBff/"));
+      new Uri(baseUri, EntityNameBffApiRelativePath));
 }

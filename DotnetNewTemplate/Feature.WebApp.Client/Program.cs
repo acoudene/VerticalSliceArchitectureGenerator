@@ -7,7 +7,7 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Services.AddLocalization();
 
 builder.Services.AddViewModels();
-builder.Services.AddBffClients(builder.HostEnvironment.BaseAddress);
+builder.Services.AddBffClients(new Uri(builder.HostEnvironment.BaseAddress));
 
 builder.Services.AddMudServices();
 

@@ -2,7 +2,7 @@
 @using Core.RazorComponents.Mud
 @using Feature.RazorComponents
 
-<ReliableContent>
+<ReliableContent LongRunningTask="async() => await InitByIdAsync()">
   <PageTitle>EntityName</PageTitle>
 
   <MudCard>

@@ -1,7 +1,7 @@
 using Feature.Api.BackendForFrontend;
-using Feature.WebApp;
 using Feature.WebApp.Components;
 using Feature.WebApp.Extensions;
+using Feature.WebApp.Client.Extensions;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using MudBlazor.Services;
 
@@ -28,14 +28,14 @@ if (string.IsNullOrWhiteSpace(bffApiBaseAddress))
   throw new InvalidOperationException($"Missing value for configuration key: {bffApiBaseAddress}");
 
 builder.Services.AddViewModels();
-builder.Services.AddBffClients(bffApiBaseAddress);
+builder.Services.AddBffClients(new Uri(bffApiBaseAddress));
 
 const string entityNameApiBaseAddressKey = "EntityName_API_BASEADDRESS";
 string entityNameApiBaseAddress = builder.Configuration[entityNameApiBaseAddressKey] ?? string.Empty;
 if (string.IsNullOrWhiteSpace(entityNameApiBaseAddress))
   throw new InvalidOperationException($"Missing value for configuration key: {entityNameApiBaseAddressKey}");
 
-builder.Services.AddEntityNameApiClient(entityNameApiBaseAddress);
+builder.Services.AddEntityNameApiClient(new Uri(entityNameApiBaseAddress));
 
 builder.Services.AddMudServices();
 

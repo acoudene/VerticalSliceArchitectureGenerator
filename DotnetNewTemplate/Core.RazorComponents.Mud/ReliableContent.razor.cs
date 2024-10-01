@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using MudBlazor;
 
 namespace Core.RazorComponents.Mud;
@@ -16,6 +17,9 @@ public partial class ReliableContent
 
   [Inject]
   protected IStringLocalizer<ReliableContent> Localizer { get; set; } = null!;
+
+  [Inject]
+  protected ILogger<ReliableContent> Logger { get; set; } = null!;
 
   [Parameter]
   public int MaximumErrorCount { get; set; } = 2;
@@ -47,8 +51,13 @@ public partial class ReliableContent
 
   protected override async Task OnInitializedAsync()
   {
+    // Must be fatal even if we want to be reliable.
+    if (Logger is null) throw new InvalidOperationException($"Missing {nameof(Logger)}!");
+    if (Localizer is null) throw new InvalidOperationException($"Missing {nameof(Localizer)}!");
+    if (Snackbar is null) throw new InvalidOperationException($"Missing {nameof(Snackbar)}!");
+
     try
-    {
+    {      
       IsBusy = true;
 
       if (LongRunningTask is not null)
@@ -58,6 +67,7 @@ public partial class ReliableContent
     }
     catch (Exception ex)
     {
+      Logger.LogError(ex, "[{Component}] Problem while initializing component, please see details for more information.", nameof(ReliableContent));
       Snackbar.Add(ex.Message, Severity.Error);
     }
     finally
