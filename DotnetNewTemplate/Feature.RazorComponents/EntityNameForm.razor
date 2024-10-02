@@ -10,17 +10,15 @@
                       Immediate="true"
                       Label="@Localizer["Id"]" />
 
-        <MudTextField @bind-Value:get="ViewObject.CreatedAt.ToLocalTime()"
-                      @bind-Value:set="(value) => {ViewObject.CreatedAt = value;}"
-                      For="@(() => ViewObject.CreatedAt)"
-                      Immediate="true"
-                      Label="@Localizer["CreatedAt"]" />
+        <MudDatePicker Date="ViewObject.CreatedAt"
+                       DateChanged="(newDate)=>ViewObject.CreatedAt=newDate!.Value"
+                       ReadOnly="true"
+                       Label="@Localizer["CreatedAt"]" />
 
-        <MudTextField @bind-Value:get="ViewObject.UpdatedAt.ToLocalTime()"
-                      @bind-Value:set="(value) => {ViewObject.UpdatedAt = value;}"
-                      For="@(() => ViewObject.UpdatedAt)"
-                      Immediate="true"
-                      Label="@Localizer["UpdatedAt"]" />
+        <MudDatePicker Date="ViewObject.UpdatedAt"
+                       DateChanged="(newDate)=>ViewObject.UpdatedAt=newDate!.Value"
+                       ReadOnly="true"
+                       Label="@Localizer["UpdatedAt"]" />
 
         @* // TODO - Complete with other fields *@
 

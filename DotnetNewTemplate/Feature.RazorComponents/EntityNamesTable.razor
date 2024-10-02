@@ -35,9 +35,9 @@
         @* // TODO - Complete with other fields *@
       </HeaderContent>
       <RowTemplate>
-        <MudTd DataLabel="Id">@context.Id</MudTd>
-        <MudTd DataLabel="CreatedAt">@context.CreatedAt.LocalDateTime</MudTd>
-        <MudTd DataLabel="UpdatedAt">@context.UpdatedAt.LocalDateTime</MudTd>
+        <MudTd DataLabel="@Localizer["Id"]">@context.Id</MudTd>
+        <MudTd DataLabel="@Localizer["CreatedAt"]"><MudDatePicker Date="@context.CreatedAt" ReadOnly="true" /></MudTd>
+        <MudTd DataLabel="@Localizer["UpdatedAt"]"><MudDatePicker Date="@context.UpdatedAt" ReadOnly="true" /></MudTd>
 
         @* // TODO - Complete with other fields *@
 

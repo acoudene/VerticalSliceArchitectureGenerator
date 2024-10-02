@@ -49,7 +49,7 @@ public partial class EntityNamesTable
       // TODO - Complete with search filter in grid
 
       null => false,
-      var other => false
+      _ => false
     };
   }
 }

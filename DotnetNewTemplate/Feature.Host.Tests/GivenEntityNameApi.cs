@@ -69,7 +69,7 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
     var gotItems = (await client.GetByIdsAsync(ids));
 
     // Assert
-    Assert.True(items is not null && expectedCount == items.Count);
+    Assert.True(expectedCount == items.Count);
     Assert.Equivalent(items.Select(item => item.Id), gotItems.Select(item => item.Id));
   }
 
@@ -92,7 +92,7 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
     var gotItems = (await client.GetByIdsAsync(ids));
 
     // Assert
-    Assert.True(items is not null && expectedCount == items.Count);
+    Assert.True(expectedCount == items.Count);
     Assert.Equivalent(items.Select(item => item.Id), gotItems.Select(item => item.Id));
   }
 
@@ -107,8 +107,7 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
     foreach (var item in items)
       await WhenCreatingItem_ThenSingleItemIsCreated_Async(item);
     var ids = items.Select(item => item.Id).ToList();
-    int expectedCount = items.Count;
-
+    
     // Act
     foreach (Guid id in ids)
       await client.DeleteAsync(id);

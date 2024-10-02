@@ -11,8 +11,8 @@ namespace Feature.ViewObjects;
 public record EntityNameVo : IIdentifierViewObject, ITimestampedViewObject
 {
   public required Guid Id { get; set; }
-  public DateTimeOffset CreatedAt { get; set; }
-  public DateTimeOffset UpdatedAt { get; set; }
+  public DisplayableDateTime CreatedAt { get; set; }
+  public DisplayableDateTime UpdatedAt { get; set; }
 
   // TODO - EntityProperties - Fields to complete
 
