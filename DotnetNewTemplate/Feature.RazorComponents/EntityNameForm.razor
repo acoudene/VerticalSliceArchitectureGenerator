@@ -7,8 +7,12 @@
 
         <MudTextField @bind-Value="ViewObject.Id"
                       For="@(() => ViewObject.Id)"
+                      ReadOnly="true"
                       Immediate="true"
                       Label="@Localizer["Id"]" />
+
+        @* These 2 lines below use DateChanged whereas it is readonly mode to illustrate by example.
+          The readonly mode is used due to aggressive update of these dates during repository writting. *@
 
         <MudDatePicker Date="ViewObject.CreatedAt"
                        DateChanged="(newDate)=>ViewObject.CreatedAt=newDate!.Value"
