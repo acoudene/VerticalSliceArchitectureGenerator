@@ -25,7 +25,7 @@
     <ProjectReference Include="..\Core.RazorComponents.Mud\Core.RazorComponents.Mud.csproj" />
     <ProjectReference Include="..\Feature.Localization\Feature.Localization.csproj" />
     <ProjectReference Include="..\Feature.ViewModels\Feature.ViewModels.csproj" />
-    <ProjectReference Include="..\Feature.ViewObjects.Validators\Feature.ViewObjects.Validators.csproj" />
+    <ProjectReference Include="..\Feature.ViewObjects.Validation\Feature.ViewObjects.Validation.csproj" />
     <ProjectReference Include="..\Feature.ViewObjects\Feature.ViewObjects.csproj" />
   </ItemGroup>
 

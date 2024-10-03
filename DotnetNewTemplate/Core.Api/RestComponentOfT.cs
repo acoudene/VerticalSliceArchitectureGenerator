@@ -83,6 +83,10 @@ public class RestComponent<TDto, TEntity, TRepository>
       return null;
 
     var toUpdateEntity = toEntityFunc(updatedDto);
+
+    if (existingEntity.Equals(toUpdateEntity))
+      return updatedDto;
+
     await _repository.UpdateAsync(toUpdateEntity);
 
     return updatedDto; // Don't read the updated value because the Dto should be read and checked in the API.

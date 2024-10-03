@@ -1,6 +1,6 @@
 ﻿using Feature.Localization;
 using Feature.ViewObjects;
-using Feature.ViewObjects.Validators;
+using Feature.ViewObjects.Validation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 

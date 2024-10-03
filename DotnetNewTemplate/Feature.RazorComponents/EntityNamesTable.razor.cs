@@ -8,7 +8,7 @@ namespace Feature.RazorComponents;
 public partial class EntityNamesTable
 {
   private string _searchString = string.Empty;
-  
+
   /// Use it if needed for row edition template: private EntityNameVoFluentValidator _entityNameValidator = new EntityNameVoFluentValidator();
 
   [Inject]
@@ -51,5 +51,13 @@ public partial class EntityNamesTable
       null => false,
       _ => false
     };
+  }
+
+  private ElementComparer EntityNameVoComparer = new();
+
+  class ElementComparer : IEqualityComparer<EntityNameVo>
+  {
+    public bool Equals(EntityNameVo? a, EntityNameVo? b) => a?.Id == b?.Id;
+    public int GetHashCode(EntityNameVo x) => HashCode.Combine(x?.Id);
   }
 }

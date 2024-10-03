@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Feature.ViewObjects.Validators;
+namespace Feature.ViewObjects.Validation;
 
 /// <summary>
 /// A standard AbstractValidator which contains multiple rules and can be shared with the back end API
