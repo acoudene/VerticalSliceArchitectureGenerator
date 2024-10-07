@@ -64,7 +64,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04_ViewObjects", "04_ViewOb
 	ProjectSection(SolutionItems) = preProject
 		Feature.ViewObjects\EntityNameVo.cs = Feature.ViewObjects\EntityNameVo.cs
 		Feature.Api.BackendForFrontend\EntityNameVoExtensions.cs = Feature.Api.BackendForFrontend\EntityNameVoExtensions.cs
-		Feature.ViewObjects.Validators\EntityNameVoFluentValidator.cs = Feature.ViewObjects.Validators\EntityNameVoFluentValidator.cs
+		Feature.ViewObjects.Validation\EntityNameVoFluentValidator.cs = Feature.ViewObjects.Validation\EntityNameVoFluentValidator.cs
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{FA2EB524-8289-4F9E-8333-0163B1A3A623}"
@@ -103,7 +103,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.RazorComponents.Mud", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Feature.WebApp.Tests", "Feature.WebApp.Tests\Feature.WebApp.Tests.csproj", "{F386AB3C-C368-46CF-8CEC-3358C6F409D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feature.Data.Validation", "Feature.Data.Validation\Feature.Data.Validation.csproj", "{0F13ABC5-598F-4FE5-ABE2-114A70F98DCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Feature.Data.Validation", "Feature.Data.Validation\Feature.Data.Validation.csproj", "{0F13ABC5-598F-4FE5-ABE2-114A70F98DCE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Feature.ViewObjects.Validation", "Feature.ViewObjects.Validation\Feature.ViewObjects.Validation.csproj", "{1A29596B-B2AC-4C1B-9F10-EA8D2A880CC4}"
 EndProject
