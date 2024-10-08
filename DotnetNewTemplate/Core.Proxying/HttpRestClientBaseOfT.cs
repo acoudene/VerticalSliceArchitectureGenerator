@@ -18,7 +18,7 @@ public abstract class HttpRestClientBase<TDto> : IRestClient<TDto>
   /// </summary>
   /// <param name="httpClientFactory"></param>
   /// <exception cref="ArgumentNullException"></exception>
-  public HttpRestClientBase(ILogger<HttpRestClientBase<TDto>> logger, IHttpClientFactory httpClientFactory)
+  protected HttpRestClientBase(ILogger<HttpRestClientBase<TDto>> logger, IHttpClientFactory httpClientFactory)
     : this(logger, new HttpRestClientComponent<TDto>(httpClientFactory))
   {
   }
@@ -28,7 +28,7 @@ public abstract class HttpRestClientBase<TDto> : IRestClient<TDto>
   /// </summary>
   /// <param name="httpClientFactory"></param>
   /// <exception cref="ArgumentNullException"></exception>
-  public HttpRestClientBase(ILogger<HttpRestClientBase<TDto>> logger, HttpRestClientComponent<TDto> httpRestClientComponent)
+  protected HttpRestClientBase(ILogger<HttpRestClientBase<TDto>> logger, HttpRestClientComponent<TDto> httpRestClientComponent)
   {
     _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     _httpRestClientComponent = httpRestClientComponent ?? throw new ArgumentNullException(nameof(httpRestClientComponent));

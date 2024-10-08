@@ -12,7 +12,7 @@ public class TimeStampedMongoRepositoryComponent<TEntity, TMongoEntity> : MongoR
   {
   }
 
-  public override async Task CreateAsync(TEntity newItem, Func<TEntity, TMongoEntity> toMongoEntityFunc)
+  public override async Task CreateAsync(TEntity newItem, Func<TEntity, TMongoEntity> toMongoEntityFunc, CancellationToken cancellationToken = default)
   {
     if (newItem is null)
       throw new ArgumentNullException(nameof(newItem));
@@ -27,11 +27,11 @@ public class TimeStampedMongoRepositoryComponent<TEntity, TMongoEntity> : MongoR
     newItem.CreatedAt = DateTime.UtcNow;
     newItem.UpdatedAt = DateTime.UtcNow;
 
-    await base.CreateAsync(newItem, toMongoEntityFunc);
+    await base.CreateAsync(newItem, toMongoEntityFunc, cancellationToken);
   }
 
 
-  public override async Task UpdateAsync(TEntity updatedItem, Func<TEntity, TMongoEntity> toMongoEntityFunc)
+  public override async Task UpdateAsync(TEntity updatedItem, Func<TEntity, TMongoEntity> toMongoEntityFunc, CancellationToken cancellationToken = default)
   {
     if (updatedItem is null)
       throw new ArgumentNullException(nameof(updatedItem));
@@ -45,6 +45,6 @@ public class TimeStampedMongoRepositoryComponent<TEntity, TMongoEntity> : MongoR
 
     updatedItem.UpdatedAt = DateTime.UtcNow;
 
-    await base.UpdateAsync(updatedItem, toMongoEntityFunc);
+    await base.UpdateAsync(updatedItem, toMongoEntityFunc, cancellationToken);
   }
 }

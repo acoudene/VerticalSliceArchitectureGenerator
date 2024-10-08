@@ -12,7 +12,7 @@ public abstract class RestViewModelBase<TViewObject, TRestBffClient> : IViewMode
 {
   private readonly RestViewModelComponent<TViewObject, TRestBffClient> _restViewModelComponent;
 
-  public RestViewModelBase(RestViewModelComponent<TViewObject, TRestBffClient> restViewModelComponent)
+  protected RestViewModelBase(RestViewModelComponent<TViewObject, TRestBffClient> restViewModelComponent)
       => _restViewModelComponent = restViewModelComponent ?? throw new ArgumentNullException(nameof(restViewModelComponent));
 
   public virtual async Task CreateAsync(TViewObject newItem, CancellationToken cancellationToken = default)

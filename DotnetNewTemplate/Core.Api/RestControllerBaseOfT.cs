@@ -25,7 +25,7 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   protected ILogger<RestControllerBase<TDto, TEntity, TRepository>> Logger => _logger;
   protected RestComponent<TDto, TEntity, TRepository> RestComponent => _restComponent;
 
-  public RestControllerBase(
+  protected RestControllerBase(
     IHostEnvironment hostEnvironment,
     ILogger<RestControllerBase<TDto, TEntity, TRepository>> logger,
     RestComponent<TDto, TEntity, TRepository> restComponent)
@@ -35,7 +35,7 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
     _restComponent = restComponent ?? throw new ArgumentNullException(nameof(restComponent));
   }
 
-  public RestControllerBase(IHostEnvironment hostEnvironment, ILogger<RestControllerBase<TDto, TEntity, TRepository>> logger, TRepository repository)
+  protected RestControllerBase(IHostEnvironment hostEnvironment, ILogger<RestControllerBase<TDto, TEntity, TRepository>> logger, TRepository repository)
     : this(hostEnvironment, logger, new RestComponent<TDto, TEntity, TRepository>(repository))
   { }
 
@@ -43,11 +43,11 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   protected abstract TDto ToDto(TEntity entity);
 
   [HttpGet]
-  public virtual async Task<Results<Ok<List<TDto>>, BadRequest, ProblemHttpResult>> GetAllAsync()
+  public virtual async Task<Results<Ok<List<TDto>>, BadRequest, ProblemHttpResult>> GetAllAsync(CancellationToken cancellationToken = default)
   {
     try
     {
-      return TypedResults.Ok(await _restComponent.GetAllAsync(ToDto));
+      return TypedResults.Ok(await _restComponent.GetAllAsync(ToDto, cancellationToken));
     }
     catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
     {
@@ -72,11 +72,13 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   }
 
   [HttpGet("{id:guid}")]
-  public virtual async Task<Results<Ok<TDto>, NotFound, BadRequest, ProblemHttpResult>> GetByIdAsync(Guid id)
+  public virtual async Task<Results<Ok<TDto>, NotFound, BadRequest, ProblemHttpResult>> GetByIdAsync(
+    Guid id, 
+    CancellationToken cancellationToken = default)
   {
     try
     {
-      var foundEntity = await _restComponent.GetByIdAsync(id, ToDto);
+      var foundEntity = await _restComponent.GetByIdAsync(id, ToDto, cancellationToken);
       if (foundEntity is null)
         return TypedResults.NotFound();
 
@@ -105,11 +107,13 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   }
 
   [HttpGet("byIds")]
-  public virtual async Task<Results<Ok<List<TDto>>, BadRequest, ProblemHttpResult>> GetByIdsAsync([FromQuery] List<Guid> ids)
+  public virtual async Task<Results<Ok<List<TDto>>, BadRequest, ProblemHttpResult>> GetByIdsAsync(
+    [FromQuery] List<Guid> ids, 
+    CancellationToken cancellationToken = default)
   {
     try
     {
-      return TypedResults.Ok(await _restComponent.GetByIdsAsync(ids, ToDto));
+      return TypedResults.Ok(await _restComponent.GetByIdsAsync(ids, ToDto, cancellationToken));
     }
     catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
     {
@@ -134,11 +138,13 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   }
 
   [HttpPost]
-  public virtual async Task<Results<Created<TDto>, BadRequest, ProblemHttpResult>> CreateAsync([FromBody] TDto newDto)
+  public virtual async Task<Results<Created<TDto>, BadRequest, ProblemHttpResult>> CreateAsync(
+    [FromBody] TDto newDto, 
+    CancellationToken cancellationToken = default)
   {
     try
     {
-      return TypedResults.Created("{newDto.Id}", await _restComponent.CreateAsync(newDto, ToEntity));
+      return TypedResults.Created("{newDto.Id}", await _restComponent.CreateAsync(newDto, ToEntity, cancellationToken));
     }
     catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
     {
@@ -164,7 +170,8 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
 
   [HttpPost("CreateOrUpdate")]
   public virtual async Task<Results<NoContent, Created<TDto>, BadRequest, ProblemHttpResult>> CreateOrUpdateAsync(
-      [FromBody] TDto newOrToUpdateDto)
+      [FromBody] TDto newOrToUpdateDto, 
+      CancellationToken cancellationToken = default)
   {
     try
     {
@@ -176,11 +183,11 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
       if (id == Guid.Empty)
         throw new ArgumentNullException(nameof(newOrToUpdateDto.Id));
 
-      var updatedDto = await _restComponent.UpdateAsync(id, newOrToUpdateDto, ToEntity);
+      var updatedDto = await _restComponent.UpdateAsync(id, newOrToUpdateDto, ToEntity, cancellationToken);
       if (updatedDto is not null)
         return TypedResults.NoContent();
 
-      return TypedResults.Created("{newOrToUpdateDto.Id}", await _restComponent.CreateAsync(newOrToUpdateDto, ToEntity));
+      return TypedResults.Created("{newOrToUpdateDto.Id}", await _restComponent.CreateAsync(newOrToUpdateDto, ToEntity, cancellationToken));
     }
     catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
     {
@@ -205,11 +212,14 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   }
 
   [HttpPut("{id:guid}")]
-  public virtual async Task<Results<NoContent, NotFound, BadRequest, ProblemHttpResult>> UpdateAsync(Guid id, [FromBody] TDto updatedDto)
+  public virtual async Task<Results<NoContent, NotFound, BadRequest, ProblemHttpResult>> UpdateAsync(
+    Guid id, 
+    [FromBody] TDto updatedDto, 
+    CancellationToken cancellationToken = default)
   {
     try
     {
-      var updatedEntity = await _restComponent.UpdateAsync(id, updatedDto, ToEntity);
+      var updatedEntity = await _restComponent.UpdateAsync(id, updatedDto, ToEntity, cancellationToken);
       if (updatedEntity is null)
         return TypedResults.NotFound();
 
@@ -238,11 +248,13 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   }
 
   [HttpDelete("{id:guid}")]
-  public virtual async Task<Results<Ok<TDto>, NotFound, BadRequest, ProblemHttpResult>> DeleteAsync(Guid id)
+  public virtual async Task<Results<Ok<TDto>, NotFound, BadRequest, ProblemHttpResult>> DeleteAsync(
+    Guid id, 
+    CancellationToken cancellationToken = default)
   {
     try
     {
-      var deletedEntity = await _restComponent.DeleteAsync(id, ToDto);
+      var deletedEntity = await _restComponent.DeleteAsync(id, ToDto, cancellationToken);
       if (deletedEntity is null)
         return TypedResults.NotFound();
 
@@ -271,11 +283,14 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   }
 
   [HttpPatch]
-  public virtual async Task<Results<Ok<TDto>, NotFound, BadRequest, ProblemHttpResult>> PatchAsync(Guid id, [FromBody] JsonPatchDocument<TDto> patchDto)
+  public virtual async Task<Results<Ok<TDto>, NotFound, BadRequest, ProblemHttpResult>> PatchAsync(
+    Guid id, 
+    [FromBody] JsonPatchDocument<TDto> patchDto,
+    CancellationToken cancellationToken = default)
   {
     try
     {
-      var patchedEntity = await _restComponent.PatchAsync(id, patchDto, ModelState, ToEntity, ToDto);
+      var patchedEntity = await _restComponent.PatchAsync(id, patchDto, ModelState, ToEntity, ToDto, cancellationToken);
       if (patchedEntity is null)
         return TypedResults.NotFound();
 

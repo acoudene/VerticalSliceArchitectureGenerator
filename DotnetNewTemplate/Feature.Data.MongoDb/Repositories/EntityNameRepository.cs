@@ -41,17 +41,23 @@ public class EntityNameRepository : IEntityNameRepository
     return entity.ToMongo();
   }
 
-  public virtual async Task<List<EntityName>> GetAllAsync() => await _mongoRepositoryComponent.GetAllAsync(ToEntity);
+  public virtual async Task<List<EntityName>> GetAllAsync(CancellationToken cancellationToken = default) 
+    => await _mongoRepositoryComponent.GetAllAsync(ToEntity, cancellationToken);
 
-  public virtual async Task<EntityName?> GetByIdAsync(Guid id) => await _mongoRepositoryComponent.GetByIdAsync(id, ToEntity);
+  public virtual async Task<EntityName?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) 
+    => await _mongoRepositoryComponent.GetByIdAsync(id, ToEntity, cancellationToken);
 
-  public virtual async Task<List<EntityName>> GetByIdsAsync(List<Guid> ids) => await _mongoRepositoryComponent.GetByIdsAsync(ids, ToEntity);
+  public virtual async Task<List<EntityName>> GetByIdsAsync(List<Guid> ids, CancellationToken cancellationToken = default) 
+    => await _mongoRepositoryComponent.GetByIdsAsync(ids, ToEntity, cancellationToken);
 
-  public virtual async Task CreateAsync(EntityName newItem) => await _mongoRepositoryComponent.CreateAsync(newItem, ToMongoEntity);
+  public virtual async Task CreateAsync(EntityName newItem, CancellationToken cancellationToken = default) 
+    => await _mongoRepositoryComponent.CreateAsync(newItem, ToMongoEntity, cancellationToken);
 
-  public virtual async Task UpdateAsync(EntityName updatedItem) => await _mongoRepositoryComponent.UpdateAsync(updatedItem, ToMongoEntity);
+  public virtual async Task UpdateAsync(EntityName updatedItem, CancellationToken cancellationToken = default) 
+    => await _mongoRepositoryComponent.UpdateAsync(updatedItem, ToMongoEntity, cancellationToken);
 
-  public virtual async Task RemoveAsync(Guid id) => await _mongoRepositoryComponent.RemoveAsync(id);
+  public virtual async Task RemoveAsync(Guid id, CancellationToken cancellationToken = default) 
+    => await _mongoRepositoryComponent.RemoveAsync(id, cancellationToken);
 
   public virtual void SetUniqueIndex(params Expression<Func<EntityNameMongo, object>>[] fields)
     => _mongoRepositoryComponent.SetUniqueIndex(fields);

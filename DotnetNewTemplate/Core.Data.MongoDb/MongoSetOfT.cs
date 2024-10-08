@@ -36,41 +36,41 @@ public class MongoSet<TMongoEntity> : IMongoSet<TMongoEntity> where TMongoEntity
       .OfType<TMongoEntity>();
   }
 
-  public async Task<List<TMongoEntity>> GetAllAsync() =>
-    await GetCollection()
+  public async Task<List<TMongoEntity>> GetAllAsync(CancellationToken cancellationToken = default) 
+    => await GetCollection()
     .Find(_ => true)
-    .ToListAsync();
+    .ToListAsync(cancellationToken);
 
-  public async Task<TMongoEntity?> GetByFilterAsync(Expression<Func<TMongoEntity, bool>> filter) =>
-    await GetCollection()
+  public async Task<TMongoEntity?> GetByFilterAsync(Expression<Func<TMongoEntity, bool>> filter, CancellationToken cancellationToken = default) 
+    => await GetCollection()
     .Find(filter)
-    .FirstOrDefaultAsync();
+    .FirstOrDefaultAsync(cancellationToken);
 
-  public async Task<List<TMongoEntity>> GetItemsByFilterAsync(Expression<Func<TMongoEntity, bool>> filter) =>
-    await GetCollection()
+  public async Task<List<TMongoEntity>> GetItemsByFilterAsync(Expression<Func<TMongoEntity, bool>> filter, CancellationToken cancellationToken = default) 
+    => await GetCollection()
     .Find(filter)
-    .ToListAsync();
+    .ToListAsync(cancellationToken);
 
-  public async Task<List<TMongoEntity>> GetItemsInAsync<TField>(Expression<Func<TMongoEntity, TField>> field, IEnumerable<TField> values)
+  public async Task<List<TMongoEntity>> GetItemsInAsync<TField>(Expression<Func<TMongoEntity, TField>> field, IEnumerable<TField> values, CancellationToken cancellationToken = default)
   {
     var filter = Builders<TMongoEntity>.Filter.In(field, values);
 
     return (await GetCollection()
       .Find(filter)
-      .ToListAsync());
+      .ToListAsync(cancellationToken));
   }
 
-  public async Task CreateAsync(TMongoEntity newItem) =>
-    await GetCollection()
-    .InsertOneAsync(newItem);
+  public async Task CreateAsync(TMongoEntity newItem, CancellationToken cancellationToken = default) 
+    => await GetCollection()
+    .InsertOneAsync(newItem, null, cancellationToken);
 
-  public async Task UpdateAsync(Expression<Func<TMongoEntity, bool>> filter, TMongoEntity updatedItem)
+  public async Task UpdateAsync(Expression<Func<TMongoEntity, bool>> filter, TMongoEntity updatedItem, CancellationToken cancellationToken = default)
   {
     await GetCollection()
-      .ReplaceOneAsync(filter, updatedItem);
+      .ReplaceOneAsync(filter, updatedItem, (ReplaceOptions?) null, cancellationToken);
   }
 
-  public async Task RemoveAsync(Expression<Func<TMongoEntity, bool>> filter) =>
-    await GetCollection()
+  public async Task RemoveAsync(Expression<Func<TMongoEntity, bool>> filter, CancellationToken cancellationToken = default) 
+    => await GetCollection()
     .DeleteOneAsync(filter);
 }

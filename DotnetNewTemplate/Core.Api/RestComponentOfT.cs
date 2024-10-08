@@ -23,43 +23,43 @@ public class RestComponent<TDto, TEntity, TRepository>
     _repository = repository ?? throw new ArgumentNullException(nameof(repository));
   }
 
-  public virtual async Task<List<TDto>> GetAllAsync(Func<TEntity, TDto> toDtoFunc)
+  public virtual async Task<List<TDto>> GetAllAsync(Func<TEntity, TDto> toDtoFunc, CancellationToken cancellationToken = default)
   {
     if (toDtoFunc is null) throw new ArgumentNullException(nameof(toDtoFunc));
 
-    var entities = await _repository.GetAllAsync();
+    var entities = await _repository.GetAllAsync(cancellationToken);
 
     return entities
       .Select(entity => toDtoFunc(entity))
       .ToList();
   }
 
-  public virtual async Task<TDto?> GetByIdAsync(Guid id, Func<TEntity, TDto> toDtoFunc)
+  public virtual async Task<TDto?> GetByIdAsync(Guid id, Func<TEntity, TDto> toDtoFunc, CancellationToken cancellationToken = default)
   {
     if (id == Guid.Empty) throw new ArgumentNullException(nameof(id));
     if (toDtoFunc is null) throw new ArgumentNullException(nameof(toDtoFunc));
 
-    var entity = await _repository.GetByIdAsync(id);
+    var entity = await _repository.GetByIdAsync(id, cancellationToken);
     if (entity is null)
       return null;
 
     return toDtoFunc(entity);
   }
 
-  public virtual async Task<List<TDto>> GetByIdsAsync(List<Guid> ids, Func<TEntity, TDto> toDtoFunc)
+  public virtual async Task<List<TDto>> GetByIdsAsync(List<Guid> ids, Func<TEntity, TDto> toDtoFunc, CancellationToken cancellationToken = default)
   {
     if (ids is null) throw new ArgumentNullException(nameof(ids));
     if (!ids.Any()) throw new ArgumentOutOfRangeException(nameof(ids));
     if (toDtoFunc is null) throw new ArgumentNullException(nameof(toDtoFunc));
 
-    var entities = await _repository.GetByIdsAsync(ids);
+    var entities = await _repository.GetByIdsAsync(ids, cancellationToken);
 
     return entities
       .Select(entity => toDtoFunc(entity))
       .ToList();
   }
 
-  public virtual async Task<TDto> CreateAsync(TDto newDto, Func<TDto, TEntity> toEntityFunc)
+  public virtual async Task<TDto> CreateAsync(TDto newDto, Func<TDto, TEntity> toEntityFunc, CancellationToken cancellationToken = default)
   {
     if (newDto is null) throw new ArgumentNullException(nameof(newDto));
     if (newDto.Id == Guid.Empty) throw new ArgumentNullException(nameof(newDto.Id));
@@ -67,18 +67,18 @@ public class RestComponent<TDto, TEntity, TRepository>
 
     var toCreateEntity = toEntityFunc(newDto);
 
-    await _repository.CreateAsync(toCreateEntity);
+    await _repository.CreateAsync(toCreateEntity, cancellationToken);
 
     return newDto; // Don't read the inserted value because the Dto should be read and checked in the API.
   }
 
-  public virtual async Task<TDto?> UpdateAsync(Guid id, TDto updatedDto, Func<TDto, TEntity> toEntityFunc)
+  public virtual async Task<TDto?> UpdateAsync(Guid id, TDto updatedDto, Func<TDto, TEntity> toEntityFunc, CancellationToken cancellationToken = default)
   {
     if (id == Guid.Empty) throw new ArgumentNullException(nameof(id));
     if (id != updatedDto.Id) throw new ArgumentOutOfRangeException(nameof(updatedDto.Id));
     if (toEntityFunc is null) throw new ArgumentNullException(nameof(toEntityFunc));
 
-    var existingEntity = await _repository.GetByIdAsync(id);
+    var existingEntity = await _repository.GetByIdAsync(id, cancellationToken);
     if (existingEntity is null)
       return null;
 
@@ -87,21 +87,21 @@ public class RestComponent<TDto, TEntity, TRepository>
     if (existingEntity.Equals(toUpdateEntity))
       return updatedDto;
 
-    await _repository.UpdateAsync(toUpdateEntity);
+    await _repository.UpdateAsync(toUpdateEntity, cancellationToken);
 
     return updatedDto; // Don't read the updated value because the Dto should be read and checked in the API.
   }
 
-  public virtual async Task<TDto?> DeleteAsync(Guid id, Func<TEntity, TDto> toDtoFunc)
+  public virtual async Task<TDto?> DeleteAsync(Guid id, Func<TEntity, TDto> toDtoFunc, CancellationToken cancellationToken = default)
   {
     if (id == Guid.Empty) throw new ArgumentNullException(nameof(id));
     if (toDtoFunc is null) throw new ArgumentNullException(nameof(toDtoFunc));
 
-    var beforeRemoveEntity = await _repository.GetByIdAsync(id);
+    var beforeRemoveEntity = await _repository.GetByIdAsync(id, cancellationToken);
     if (beforeRemoveEntity is null)
       return null;
 
-    await _repository.RemoveAsync(id);
+    await _repository.RemoveAsync(id, cancellationToken);
 
     return toDtoFunc(beforeRemoveEntity); // Don't read the inserted value because the Dto should be read and checked in the API.
   }
@@ -111,14 +111,15 @@ public class RestComponent<TDto, TEntity, TRepository>
     JsonPatchDocument<TDto> patchDto,
     ModelStateDictionary modelState,
     Func<TDto, TEntity> toEntityFunc,
-    Func<TEntity, TDto> toDtoFunc)
+    Func<TEntity, TDto> toDtoFunc,
+    CancellationToken cancellationToken = default)
   {
     if (patchDto is null) throw new ArgumentNullException(nameof(patchDto));
     if (modelState is null) throw new ArgumentNullException(nameof(modelState));
     if (toEntityFunc is null) throw new ArgumentNullException(nameof(toEntityFunc));
     if (toDtoFunc is null) throw new ArgumentNullException(nameof(toDtoFunc));
 
-    var existingEntity = await _repository.GetByIdAsync(id);
+    var existingEntity = await _repository.GetByIdAsync(id, cancellationToken);
     if (existingEntity is null)
       return null;
 
@@ -129,7 +130,7 @@ public class RestComponent<TDto, TEntity, TRepository>
       throw new ArgumentOutOfRangeException(nameof(modelState));
 
     var toUpdateEntity = toEntityFunc(toUpdateDto);
-    await _repository.UpdateAsync(toUpdateEntity);
+    await _repository.UpdateAsync(toUpdateEntity, cancellationToken);
 
     return toUpdateDto; // Don't read the inserted value because the Dto should be read and checked in the API.
   }

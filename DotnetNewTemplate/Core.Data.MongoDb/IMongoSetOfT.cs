@@ -10,17 +10,17 @@ public interface IMongoSet<TMongoEntity> where TMongoEntity : IIdentifierMongoEn
 {
   IMongoCollection<TMongoEntity> GetCollection();
 
-  Task<List<TMongoEntity>> GetAllAsync();
+  Task<List<TMongoEntity>> GetAllAsync(CancellationToken cancellationToken = default);
 
-  Task CreateAsync(TMongoEntity newItem);
+  Task CreateAsync(TMongoEntity newItem, CancellationToken cancellationToken = default);
 
-  Task UpdateAsync(Expression<Func<TMongoEntity, bool>> filter, TMongoEntity updatedItem);
+  Task UpdateAsync(Expression<Func<TMongoEntity, bool>> filter, TMongoEntity updatedItem, CancellationToken cancellationToken = default);
 
-  Task RemoveAsync(Expression<Func<TMongoEntity, bool>> filter);
+  Task RemoveAsync(Expression<Func<TMongoEntity, bool>> filter, CancellationToken cancellationToken = default);
 
-  Task<TMongoEntity?> GetByFilterAsync(Expression<Func<TMongoEntity, bool>> filter);
+  Task<TMongoEntity?> GetByFilterAsync(Expression<Func<TMongoEntity, bool>> filter, CancellationToken cancellationToken = default);
 
-  Task<List<TMongoEntity>> GetItemsByFilterAsync(Expression<Func<TMongoEntity, bool>> filter);
+  Task<List<TMongoEntity>> GetItemsByFilterAsync(Expression<Func<TMongoEntity, bool>> filter, CancellationToken cancellationToken = default);
 
-  Task<List<TMongoEntity>> GetItemsInAsync<TField>(Expression<Func<TMongoEntity, TField>> field, IEnumerable<TField> values);
+  Task<List<TMongoEntity>> GetItemsInAsync<TField>(Expression<Func<TMongoEntity, TField>> field, IEnumerable<TField> values, CancellationToken cancellationToken = default);
 }

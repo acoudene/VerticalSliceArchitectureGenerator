@@ -38,7 +38,7 @@ public abstract class HostApiMongoTestBase<TEntryPoint>
   private readonly ILoggerFactory _loggerFactory;
   protected ILoggerFactory LoggerFactory { get => _loggerFactory; }
 
-  public HostApiMongoTestBase(
+  protected HostApiMongoTestBase(
     string databaseName,
     WebApplicationFactory<TEntryPoint> webApplicationFactory,
     ITestOutputHelper outputHelper)

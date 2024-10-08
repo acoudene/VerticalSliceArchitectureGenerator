@@ -27,17 +27,22 @@ public class MongoRepositoryComponent<TEntity, TMongoEntity>
     _mongoSet = new MongoSet<TMongoEntity>(mongoContext, collectionName);
   }
 
-  public virtual async Task<List<TEntity>> GetAllAsync(Func<TMongoEntity, TEntity> toEntityFunc)
+  public virtual async Task<List<TEntity>> GetAllAsync(
+    Func<TMongoEntity, TEntity> toEntityFunc, 
+    CancellationToken cancellationToken = default)
   {
     if (toEntityFunc is null)
       throw new ArgumentNullException(nameof(toEntityFunc));
 
-    return (await _mongoSet.GetAllAsync())    
+    return (await _mongoSet.GetAllAsync(cancellationToken))    
     .Select(mongoEntity => toEntityFunc(mongoEntity))
     .ToList();
   }
 
-  public virtual async Task<TEntity?> GetByIdAsync(Guid id, Func<TMongoEntity, TEntity> toEntityFunc)
+  public virtual async Task<TEntity?> GetByIdAsync(
+    Guid id, 
+    Func<TMongoEntity, TEntity> toEntityFunc, 
+    CancellationToken cancellationToken = default)
   {
     if (id == Guid.Empty)
       throw new ArgumentOutOfRangeException(nameof(id));
@@ -45,26 +50,32 @@ public class MongoRepositoryComponent<TEntity, TMongoEntity>
     if (toEntityFunc is null)
       throw new ArgumentNullException(nameof(toEntityFunc));
 
-    var mongoEntity = await _mongoSet.GetByFilterAsync(x => x.Id == id);
+    var mongoEntity = await _mongoSet.GetByFilterAsync(x => x.Id == id, cancellationToken);
     if (mongoEntity is null)
       return default;
 
     return toEntityFunc(mongoEntity);
   }
 
-  public virtual async Task<List<TEntity>> GetByIdsAsync(List<Guid> ids, Func<TMongoEntity, TEntity> toEntityFunc)
+  public virtual async Task<List<TEntity>> GetByIdsAsync(
+    List<Guid> ids, 
+    Func<TMongoEntity, TEntity> toEntityFunc, 
+    CancellationToken cancellationToken = default)
   {
     // db.getCollection("<CollectionName>").find({id: {$in: [UUID("3FA85F64-5717-4562-B3FC-2C963F66AFA1"),UUID("3FA85F64-5717-4562-B3FC-2C963F66AFA2")]}})
 
     if (toEntityFunc is null)
       throw new ArgumentNullException(nameof(toEntityFunc));
 
-    return (await MongoSet.GetItemsInAsync(x => x.Id, ids))
+    return (await MongoSet.GetItemsInAsync(x => x.Id, ids, cancellationToken))
             .Select(mongoEntity => toEntityFunc(mongoEntity))
             .ToList();
   }
 
-  public virtual async Task CreateAsync(TEntity newItem, Func<TEntity, TMongoEntity> toMongoEntityFunc)
+  public virtual async Task CreateAsync(
+    TEntity newItem, 
+    Func<TEntity, TMongoEntity> toMongoEntityFunc, 
+    CancellationToken cancellationToken = default)
   {
     if (newItem is null)
       throw new ArgumentNullException(nameof(newItem));
@@ -76,11 +87,13 @@ public class MongoRepositoryComponent<TEntity, TMongoEntity>
     if (id == Guid.Empty)
       throw new ArgumentOutOfRangeException(nameof(id));
 
-    await _mongoSet.CreateAsync(toMongoEntityFunc(newItem));
+    await _mongoSet.CreateAsync(toMongoEntityFunc(newItem), cancellationToken);
   }
 
-
-  public virtual async Task UpdateAsync(TEntity updatedItem, Func<TEntity, TMongoEntity> toMongoEntityFunc)
+  public virtual async Task UpdateAsync(
+    TEntity updatedItem, 
+    Func<TEntity, TMongoEntity> toMongoEntityFunc, 
+    CancellationToken cancellationToken = default)
   {
     if (updatedItem is null)
       throw new ArgumentNullException(nameof(updatedItem));
@@ -92,15 +105,17 @@ public class MongoRepositoryComponent<TEntity, TMongoEntity>
     if (id == Guid.Empty)
       throw new ArgumentOutOfRangeException(nameof(id));
 
-    await _mongoSet.UpdateAsync(x => x.Id == id, toMongoEntityFunc(updatedItem));
+    await _mongoSet.UpdateAsync(x => x.Id == id, toMongoEntityFunc(updatedItem), cancellationToken);
   }
 
-  public virtual async Task RemoveAsync(Guid id)
+  public virtual async Task RemoveAsync(
+    Guid id, 
+    CancellationToken cancellationToken = default)
   {
     if (id == Guid.Empty)
       throw new ArgumentOutOfRangeException(nameof(id));
 
-    await _mongoSet.RemoveAsync(x => x.Id == id);
+    await _mongoSet.RemoveAsync(x => x.Id == id, cancellationToken);
   }
 
   public virtual void SetUniqueIndex(params Expression<Func<TMongoEntity, object>>[] fields)
