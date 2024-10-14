@@ -1,6 +1,8 @@
 ﻿// Changelogs Date  | Author                | Description
 // 2023-12-23       | Anthony Coudène       | Creation
 
+using Microsoft.AspNetCore.JsonPatch;
+
 namespace Feature.Host.Tests;
 
 /// WARNING - for the moment, I don't have found a solution to reset settings like connexion string on a static test server
@@ -59,7 +61,7 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
     // Arrange
     var logger = CreateLogger<HttpEntityNameClient>();
     var httpClientFactory = CreateHttpClientFactory(ApiRelativePath);
-    var client = new HttpEntityNameClient(logger,httpClientFactory);
+    var client = new HttpEntityNameClient(logger, httpClientFactory);
     foreach (var item in items)
       await WhenCreatingItem_ThenSingleItemIsCreated_Async(item);
     var ids = items.Select(item => item.Id).ToList();
@@ -98,7 +100,7 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
 
   [Theory]
   [ClassData(typeof(EntityNamesData))]
-  public async Task WhenDeletingItems_ThenItemAreDeleted_Async(List<EntityNameDto> items)
+  public async Task WhenDeletingItems_ThenItemsAreDeleted_Async(List<EntityNameDto> items)
   {
     // Arrange
     var logger = CreateLogger<HttpEntityNameClient>();
@@ -107,7 +109,7 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
     foreach (var item in items)
       await WhenCreatingItem_ThenSingleItemIsCreated_Async(item);
     var ids = items.Select(item => item.Id).ToList();
-    
+
     // Act
     foreach (Guid id in ids)
       await client.DeleteAsync(id);
@@ -115,7 +117,27 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
     var gotItems = (await client.GetByIdsAsync(ids));
 
     // Assert    
-    Assert.Empty(gotItems);    
+    Assert.Empty(gotItems);
   }
+
+  //[Theory]
+  //[ClassData(typeof(EntityNameData))]
+  //public async Task WhenPatchingItem_ThenItemIsPatched_Async(EntityNameDto item)
+  //{
+  //  // Arrange
+  //  var logger = CreateLogger<HttpEntityNameClient>();
+  //  var httpClientFactory = CreateHttpClientFactory(ApiRelativePath);
+  //  var client = new HttpEntityNameClient(logger, httpClientFactory);
+  //  Guid id = item.Id;
+
+  //  // Act
+  //  var patch = new JsonPatchDocument<EntityNameDto>();
+  //  patch.Add(dto => dto, item);
+  //  await client.PatchAsync(id, patch);
+
+  //  // Assert
+  //  var foundItem = await client.GetByIdAsync(id);
+  //  Assert.NotNull(foundItem);
+  //}
 
 }
