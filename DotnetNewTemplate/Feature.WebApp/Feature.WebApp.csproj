@@ -16,7 +16,7 @@
     <ProjectReference Include="..\Feature.WebApp.Client\Feature.WebApp.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.10" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
-    <PackageReference Include="MudBlazor" Version="7.11.0" />
+    <PackageReference Include="MudBlazor" Version="7.12.1" />
   </ItemGroup>
 
 </Project>
