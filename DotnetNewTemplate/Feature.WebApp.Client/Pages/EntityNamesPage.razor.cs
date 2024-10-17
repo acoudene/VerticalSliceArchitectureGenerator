@@ -9,19 +9,19 @@ namespace Feature.WebApp.Client.Pages;
 public partial class EntityNamesPage : ComponentBase
 {
   [Inject]
-  protected ISnackbar Snackbar { get; set; } = null!;
+  public required ISnackbar Snackbar { get; set; }
 
   [Inject]
-  protected ILogger<EntityNamesPage> Logger { get; set; } = null!;
+  public required ILogger<EntityNamesPage> Logger { get; set; } 
 
   [Inject]
-  protected IEntityNameViewModel ViewModel { get; set; } = null!;
+  public required IEntityNameViewModel ViewModel { get; set; } 
 
   [Inject]
-  protected NavigationManager Navigation { get; set; } = null!;
+  public required NavigationManager Navigation { get; set; } 
 
   [Inject]
-  protected IStringLocalizer<FeatureResource> Localizer { get; set; } = null!;
+  public required IStringLocalizer<FeatureResource> Localizer { get; set; } 
 
   protected override void OnInitialized()
   {

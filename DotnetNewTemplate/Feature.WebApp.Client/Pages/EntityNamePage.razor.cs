@@ -10,22 +10,22 @@ namespace Feature.WebApp.Client.Pages;
 
 public partial class EntityNamePage : ComponentBase
 {
-  private EntityNameForm _form = null!;
+  private EntityNameForm? _form;
 
   [Inject]
-  protected ISnackbar Snackbar { get; set; } = null!;
+  public required ISnackbar Snackbar { get; set; }
 
   [Inject]
-  protected ILogger<EntityNamePage> Logger { get; set; } = null!;
+  public required ILogger<EntityNamePage> Logger { get; set; }
 
   [Inject]
-  protected IEntityNameViewModel ViewModel { get; set; } = null!;
+  public required IEntityNameViewModel ViewModel { get; set; }
 
   [Inject]
-  protected NavigationManager Navigation { get; set; } = null!;
+  public required NavigationManager Navigation { get; set; }
 
   [Inject]
-  protected IStringLocalizer<FeatureResource> Localizer { get; set; } = null!;
+  public required IStringLocalizer<FeatureResource> Localizer { get; set; }
 
   [Parameter]
   public string? Id { get; set; } = null;
@@ -38,15 +38,6 @@ public partial class EntityNamePage : ComponentBase
     if (ViewModel is null)
       throw new InvalidOperationException($"Missing {nameof(ViewModel)}");
 
-  }
-
-  protected override Task OnAfterRenderAsync(bool firstRender)
-  {
-    // Understand why???
-    //if (_form is null)
-    //  throw new InvalidOperationException($"Missing {nameof(_form)}");
-
-    return Task.CompletedTask;
   }
 
   protected async Task InitByIdAsync()
@@ -66,6 +57,9 @@ public partial class EntityNamePage : ComponentBase
 
   private async Task ValidateSubmitAsync()
   {
+    if (_form is null)
+      return;
+
     if (ViewModel.SelectedItem is null)
       return;
 

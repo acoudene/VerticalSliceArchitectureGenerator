@@ -12,10 +12,10 @@ public partial class EntityNamesTable
   /// Use it if needed for row edition template: private EntityNameVoFluentValidator _entityNameValidator = new EntityNameVoFluentValidator();
 
   [Inject]
-  protected IStringLocalizer<FeatureResource> Localizer { get; set; } = null!;
+  public required IStringLocalizer<FeatureResource> Localizer { get; set; }
 
   [Parameter, EditorRequired]
-  public IEnumerable<EntityNameVo> ViewObjects { get; set; } = null!;
+  public required IEnumerable<EntityNameVo> ViewObjects { get; set; }
 
   [Parameter]
   public EventCallback<IEnumerable<EntityNameVo>?> ViewObjectsChanged { get; set; }

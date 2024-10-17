@@ -9,10 +9,10 @@ namespace Feature.RazorComponents;
 public partial class EntityNameForm
 {
   [Inject]
-  protected IStringLocalizer<FeatureResource> Localizer { get; set; } = null!;
+  public required IStringLocalizer<FeatureResource> Localizer { get; set; }
 
   [Parameter, EditorRequired]
-  public EntityNameVo ViewObject { get; set; } = null!;
+  public required EntityNameVo ViewObject { get; set; }
 
   private EntityNameVoFluentValidator _entityNameValidator = new EntityNameVoFluentValidator();
 
