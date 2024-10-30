@@ -11,10 +11,12 @@ namespace Feature.ViewObjects;
 public record EntityNameVo : IIdentifierViewObject, ITimestampedViewObject
 {
   public required Guid Id { get; set; }
-  public DisplayableDateTime CreatedAt { get; set; }
-  public DisplayableDateTime UpdatedAt { get; set; }
+  public DisplayableDateTime CreatedAt { get; init; }
+  public DisplayableDateTime UpdatedAt { get; init; }
 
   // TODO - EntityProperties - Fields to complete
+
+  public string? Metadata { get; set; } // Example, to remove if needed
 
 }
 

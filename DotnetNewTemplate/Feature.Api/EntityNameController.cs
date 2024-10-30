@@ -51,13 +51,13 @@ public class EntityNameController : ControllerBase
     => dto.ToEntity();
 
   [HttpGet]
-  public virtual async Task<Results<Ok<List<EntityNameDto>>, BadRequest, ProblemHttpResult>> GetAllAsync()
+  public virtual async Task<Results<Ok<List<EntityNameDto>>, BadRequest, ProblemHttpResult>> GetAllAsync(CancellationToken cancellationToken = default)
   {
     try
     {
       _logger.LogDebug("Receiving request for {Method}...", nameof(GetAllAsync));
 
-      return TypedResults.Ok(await _restComponent.GetAllAsync(ToDto));
+      return TypedResults.Ok(await _restComponent.GetAllAsync(ToDto, cancellationToken));
     }
     catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
     {
@@ -82,13 +82,13 @@ public class EntityNameController : ControllerBase
   }
 
   [HttpGet("{id:guid}")]
-  public virtual async Task<Results<Ok<EntityNameDto>, NotFound, BadRequest, ProblemHttpResult>> GetByIdAsync(Guid id)
+  public virtual async Task<Results<Ok<EntityNameDto>, NotFound, BadRequest, ProblemHttpResult>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
   {
     try
     {
       _logger.LogDebug("Receiving request for {Method}({Id})...", nameof(GetByIdAsync), id);
 
-      var foundEntity = await _restComponent.GetByIdAsync(id, ToDto);
+      var foundEntity = await _restComponent.GetByIdAsync(id, ToDto, cancellationToken);
       if (foundEntity is null)
         return TypedResults.NotFound();
 
@@ -118,13 +118,13 @@ public class EntityNameController : ControllerBase
 
   [HttpGet("byIds")]
   public virtual async Task<Results<Ok<List<EntityNameDto>>, BadRequest, ProblemHttpResult>> GetByIdsAsync(
-    [FromQuery] List<Guid> ids)
+    [FromQuery] List<Guid> ids, CancellationToken cancellationToken = default)
   {
     try
     {
       _logger.LogDebug("Receiving request for {Method}({Ids})...", nameof(GetByIdsAsync), string.Join(',', ids));
 
-      return TypedResults.Ok(await _restComponent.GetByIdsAsync(ids, ToDto));
+      return TypedResults.Ok(await _restComponent.GetByIdsAsync(ids, ToDto, cancellationToken));
     }
     catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
     {
@@ -150,13 +150,13 @@ public class EntityNameController : ControllerBase
 
   [HttpPost]
   public virtual async Task<Results<Created<EntityNameDto>, BadRequest, ProblemHttpResult>> CreateAsync(
-    [FromBody] EntityNameDto newDto)
+    [FromBody] EntityNameDto newDto, CancellationToken cancellationToken = default)
   {
     try
     {
       _logger.LogDebug("Receiving request for {Method}({Dto})...", nameof(CreateAsync), newDto);
 
-      return TypedResults.Created("{newDto.Id}", await _restComponent.CreateAsync(newDto, ToEntity));
+      return TypedResults.Created("{newDto.Id}", await _restComponent.CreateAsync(newDto, ToEntity, cancellationToken));
     }
     catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
     {
@@ -182,7 +182,7 @@ public class EntityNameController : ControllerBase
 
   [HttpPost("CreateOrUpdate")]
   public virtual async Task<Results<NoContent, Created<EntityNameDto>, BadRequest, ProblemHttpResult>> CreateOrUpdateAsync(
-      [FromBody] EntityNameDto newOrToUpdateDto)
+      [FromBody] EntityNameDto newOrToUpdateDto, CancellationToken cancellationToken = default)
   {
     try
     {
@@ -194,11 +194,11 @@ public class EntityNameController : ControllerBase
       if (id == Guid.Empty)
         throw new ArgumentNullException(nameof(newOrToUpdateDto.Id));
 
-      var updatedDto = await _restComponent.UpdateAsync(id, newOrToUpdateDto, ToEntity);
+      var updatedDto = await _restComponent.UpdateAsync(id, newOrToUpdateDto, ToEntity, cancellationToken);
       if (updatedDto is not null)
         return TypedResults.NoContent();
 
-      return TypedResults.Created("{newOrToUpdateDto.Id}", await _restComponent.CreateAsync(newOrToUpdateDto, ToEntity));
+      return TypedResults.Created("{newOrToUpdateDto.Id}", await _restComponent.CreateAsync(newOrToUpdateDto, ToEntity, cancellationToken));
     }
     catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
     {
@@ -225,13 +225,14 @@ public class EntityNameController : ControllerBase
   [HttpPut("{id:guid}")]
   public virtual async Task<Results<NoContent, NotFound, BadRequest, ProblemHttpResult>> UpdateAsync(
     Guid id,
-    [FromBody] EntityNameDto updatedDto)
+    [FromBody] EntityNameDto updatedDto,
+    CancellationToken cancellationToken = default)
   {
     try
     {
       _logger.LogDebug("Receiving request for {Method}({Id},{Dto})...", nameof(UpdateAsync), id, updatedDto);
 
-      var updatedEntity = await _restComponent.UpdateAsync(id, updatedDto, ToEntity);
+      var updatedEntity = await _restComponent.UpdateAsync(id, updatedDto, ToEntity, cancellationToken);
       if (updatedEntity is null)
         return TypedResults.NotFound();
 
@@ -260,13 +261,15 @@ public class EntityNameController : ControllerBase
   }
 
   [HttpDelete("{id:guid}")]
-  public virtual async Task<Results<Ok<EntityNameDto>, NotFound, BadRequest, ProblemHttpResult>> DeleteAsync(Guid id)
+  public virtual async Task<Results<Ok<EntityNameDto>, NotFound, BadRequest, ProblemHttpResult>> DeleteAsync(
+    Guid id, 
+    CancellationToken cancellationToken = default)
   {
     try
     {
       _logger.LogDebug("Receiving request for {Method}({Id})...", nameof(DeleteAsync), id);
 
-      var deletedEntity = await _restComponent.DeleteAsync(id, ToDto);
+      var deletedEntity = await _restComponent.DeleteAsync(id, ToDto, cancellationToken);
       if (deletedEntity is null)
         return TypedResults.NotFound();
 
@@ -297,13 +300,14 @@ public class EntityNameController : ControllerBase
   [HttpPatch]
   public virtual async Task<Results<Ok<EntityNameDto>, NotFound, BadRequest, ProblemHttpResult>> PatchAsync(
     Guid id,
-    [FromBody] JsonPatchDocument<EntityNameDto> patchDto)
+    [FromBody] JsonPatchDocument<EntityNameDto> patchDto, 
+    CancellationToken cancellationToken = default)
   {
     try
     {
       _logger.LogDebug("Receiving request for {Method}({Id},{Patch})...", nameof(PatchAsync), id, patchDto);
 
-      var patchedEntity = await _restComponent.PatchAsync(id, patchDto, ModelState, ToEntity, ToDto);
+      var patchedEntity = await _restComponent.PatchAsync(id, patchDto, ModelState, ToEntity, ToDto, cancellationToken);
       if (patchedEntity is null)
         return TypedResults.NotFound();
 

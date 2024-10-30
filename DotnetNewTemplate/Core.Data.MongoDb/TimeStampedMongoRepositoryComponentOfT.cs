@@ -24,10 +24,12 @@ public class TimeStampedMongoRepositoryComponent<TEntity, TMongoEntity> : MongoR
     if (id == Guid.Empty)
       throw new ArgumentOutOfRangeException(nameof(id));
 
-    newItem.CreatedAt = DateTime.UtcNow;
-    newItem.UpdatedAt = DateTime.UtcNow;
+    var newMongoEntity = toMongoEntityFunc(newItem);
 
-    await base.CreateAsync(newItem, toMongoEntityFunc, cancellationToken);
+    newMongoEntity.CreatedAt = DateTime.UtcNow;
+    newMongoEntity.UpdatedAt = DateTime.UtcNow;
+
+    await MongoSet.CreateAsync(newMongoEntity, cancellationToken);    
   }
 
 
@@ -43,8 +45,10 @@ public class TimeStampedMongoRepositoryComponent<TEntity, TMongoEntity> : MongoR
     if (id == Guid.Empty)
       throw new ArgumentOutOfRangeException(nameof(id));
 
-    updatedItem.UpdatedAt = DateTime.UtcNow;
+    var updatedMongoEntity = toMongoEntityFunc(updatedItem);
 
-    await base.UpdateAsync(updatedItem, toMongoEntityFunc, cancellationToken);
+    updatedMongoEntity.UpdatedAt = DateTime.UtcNow;
+
+    await MongoSet.UpdateAsync(x => x.Id == id, updatedMongoEntity, cancellationToken);    
   }
 }

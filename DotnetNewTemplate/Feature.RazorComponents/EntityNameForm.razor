@@ -12,19 +12,25 @@
                       Label="@Localizer["Id"]" />
 
         @* These 2 lines below use DateChanged whereas it is readonly mode to illustrate by example.
-          The readonly mode is used due to aggressive update of these dates during repository writting. *@
+        The readonly mode is used due to aggressive update of these dates during repository writting. *@
 
         <MudDatePicker Date="ViewObject.CreatedAt"
-                       DateChanged="(newDate)=>ViewObject.CreatedAt=newDate!.Value"
                        ReadOnly="true"
                        Label="@Localizer["CreatedAt"]" />
+        @* Add this if updated is expected: DateChanged="(newDate)=>ViewObject.CreatedAt=newDate!.Value" *@
 
         <MudDatePicker Date="ViewObject.UpdatedAt"
-                       DateChanged="(newDate)=>ViewObject.UpdatedAt=newDate!.Value"
                        ReadOnly="true"
                        Label="@Localizer["UpdatedAt"]" />
+        @* Add this if updated is expected: DateChanged="(newDate)=>ViewObject.UpdatedAt=newDate!.Value" *@
 
         @* // TODO - Complete with other fields *@
+
+        <MudTextField @bind-Value="ViewObject.Metadata"
+                      For="@(() => ViewObject.Metadata)"
+                      ReadOnly="false"
+                      Immediate="true"
+                      Label="@Localizer["Metadata"]" />
 
       </MudCardContent>
 

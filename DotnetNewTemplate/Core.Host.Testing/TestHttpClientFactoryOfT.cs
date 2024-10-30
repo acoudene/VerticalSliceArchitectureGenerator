@@ -2,15 +2,17 @@
 // 2023-12-23       | Anthony Coudène       | Creation
 
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.Logging;
 
 namespace Core.Host.Testing;
 
 public class TestHttpClientFactory<TEntryPoint> : IHttpClientFactory where TEntryPoint : class
 {
   private readonly WebApplicationFactory<TEntryPoint> _appFactory;
-  private readonly WebApplicationFactoryClientOptions _options;
-
-  public TestHttpClientFactory(WebApplicationFactory<TEntryPoint> appFactory, WebApplicationFactoryClientOptions options)
+  private readonly TestWebApplicationFactoryClientOptions _options;
+  public TestHttpClientFactory(
+    WebApplicationFactory<TEntryPoint> appFactory,
+    TestWebApplicationFactoryClientOptions options)
   {
     if (appFactory is null)
       throw new ArgumentNullException(nameof(appFactory));
@@ -21,7 +23,8 @@ public class TestHttpClientFactory<TEntryPoint> : IHttpClientFactory where TEntr
     _options = options;
   }
 
-  public virtual HttpClient CreateClient(string name) => _appFactory.CreateClient(_options);
+  public virtual HttpClient CreateClient(string name)
+    => _appFactory.CreateDefaultClient(_options.BaseAddress, _options.CreateHandlers());   
 
 
   // Warning be careful on Uri code when merging: 
@@ -33,11 +36,11 @@ public class TestHttpClientFactory<TEntryPoint> : IHttpClientFactory where TEntr
   private static Uri GenerateUrl(Uri baseAddress, string relativePath)
   {
     Uri baseUri = new Uri($"{baseAddress.AbsoluteUri.TrimEnd('/')}/", UriKind.Absolute); // Always add a slash at the end
-    Uri relativeUri = new Uri($"{relativePath.Trim('/')}/", UriKind.Relative); // Always add a slash at the end for a future concatenation
+    //Uri relativeUri = new Uri($"{relativePath.Trim('/')}/", UriKind.Relative); // Always add a slash at the end for a future concatenation
     return new Uri(baseUri, relativePath);
   }
   
-  private static WebApplicationFactoryClientOptions SetBaseAddress(WebApplicationFactoryClientOptions options, string relativePath)
+  private static TestWebApplicationFactoryClientOptions SetBaseAddress(TestWebApplicationFactoryClientOptions options, string relativePath)
   {
     options.BaseAddress = GenerateUrl(options.BaseAddress, relativePath);
     return options;
@@ -46,10 +49,10 @@ public class TestHttpClientFactory<TEntryPoint> : IHttpClientFactory where TEntr
   public static IHttpClientFactory CreateHttpClientFactory(
     WebApplicationFactory<TEntryPoint> webApplicationFactory,
     string relativePath,
-    WebApplicationFactoryClientOptions? givenOptions = null)
+    TestWebApplicationFactoryClientOptions? givenOptions = null)
   {
     if (givenOptions is null)
-      givenOptions = new WebApplicationFactoryClientOptions();
+      givenOptions = new TestWebApplicationFactoryClientOptions();
 
     var options = SetBaseAddress(givenOptions, relativePath);
     return new TestHttpClientFactory<TEntryPoint>(webApplicationFactory, options);

@@ -83,7 +83,7 @@ public abstract class HostApiMongoTestBase<TEntryPoint>
     await _mongoDbContainer.DisposeAsync();
   }
 
-  public virtual IHttpClientFactory CreateHttpClientFactory(string relativePath, WebApplicationFactoryClientOptions? givenOptions = null)
+  public virtual IHttpClientFactory CreateHttpClientFactory(string relativePath, TestWebApplicationFactoryClientOptions? givenOptions = null)
   {
     return TestHttpClientFactory<TEntryPoint>
       .CreateHttpClientFactory(_webApplicationFactory, relativePath, givenOptions);

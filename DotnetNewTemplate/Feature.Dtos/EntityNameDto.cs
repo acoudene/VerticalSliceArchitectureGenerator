@@ -10,11 +10,13 @@ public record EntityNameDto : IIdentifierDto, ITimestampedDto
 {
   public required Guid Id { get; set; }
 
-  public DateTimeOffset CreatedAt { get; set; }
+  public DateTimeOffset CreatedAt { get; init; }
 
-  public DateTimeOffset UpdatedAt { get; set; }
+  public DateTimeOffset UpdatedAt { get; init; }
 
   // TODO - EntityProperties - Fields to complete
+
+  public string? Metadata { get; set; } // Example, to remove if needed
 }
 
 // This commented part could be used to have benefits of json entity typing

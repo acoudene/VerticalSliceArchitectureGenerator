@@ -21,9 +21,11 @@ public static class EntityNameVoExtensions
           {
             Id = dto.Id,
             CreatedAt = dto.CreatedAt,
-            UpdatedAt = dto.UpdatedAt
+            UpdatedAt = dto.UpdatedAt,
 
             // TODO - EntityMapping - Dto to ViewObject to complete
+
+            Metadata = dto.Metadata,
           };
         }
 
@@ -45,9 +47,11 @@ public static class EntityNameVoExtensions
           {
             Id = viewObject.Id,
             CreatedAt = viewObject.CreatedAt,
-            UpdatedAt = viewObject.UpdatedAt
+            UpdatedAt = viewObject.UpdatedAt,
 
             // TODO - EntityMapping - ViewObject to Dto to complete
+
+            Metadata = viewObject.Metadata,
           };
         }
 

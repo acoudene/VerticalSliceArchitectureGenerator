@@ -2,6 +2,6 @@
 
 public interface ITimestampedViewObject
 {
-  public DisplayableDateTime CreatedAt { get; set; }
-  public DisplayableDateTime UpdatedAt { get; set; }
+  public DisplayableDateTime CreatedAt { get; }
+  public DisplayableDateTime UpdatedAt { get; }
 }

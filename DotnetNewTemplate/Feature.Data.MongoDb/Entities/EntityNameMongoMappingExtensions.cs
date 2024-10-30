@@ -33,9 +33,12 @@ public static class EntityNameMongoMappingExtensions
     {
       Id = entity.Id,
       CreatedAt = entity.CreatedAt.UtcDateTime,
-      UpdatedAt = entity.UpdatedAt.UtcDateTime
+      UpdatedAt = entity.UpdatedAt.UtcDateTime,
 
       // TODO - EntityMapping - Business Entity to Mongo Entity to complete
+
+      Metadata = entity.Metadata,
+      
     };
   }
 
@@ -45,9 +48,11 @@ public static class EntityNameMongoMappingExtensions
     {
       Id = mongoEntity.Id,
       CreatedAt = mongoEntity.CreatedAt,
-      UpdatedAt = mongoEntity.UpdatedAt
+      UpdatedAt = mongoEntity.UpdatedAt,
         
       // TODO - EntityMapping - Mongo Entity to Business Entity to complete
+
+      Metadata = mongoEntity.Metadata,
     };
   }
 }

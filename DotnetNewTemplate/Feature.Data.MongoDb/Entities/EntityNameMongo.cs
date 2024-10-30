@@ -36,6 +36,9 @@ public record EntityNameMongo : IIdentifierMongoEntity, ITimestampedMongoEntity
   public DateTime UpdatedAt { get; set; }
 
   // TODO - EntityProperties - Fields to complete
+
+  [BsonElement("metadata")]
+  public string? Metadata { get; set; } // Example, to remove if needed
 }
 
 // This commented part could be used to have benefits of mongo entity typing

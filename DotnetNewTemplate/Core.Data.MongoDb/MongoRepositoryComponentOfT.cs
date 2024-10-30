@@ -87,7 +87,8 @@ public class MongoRepositoryComponent<TEntity, TMongoEntity>
     if (id == Guid.Empty)
       throw new ArgumentOutOfRangeException(nameof(id));
 
-    await _mongoSet.CreateAsync(toMongoEntityFunc(newItem), cancellationToken);
+    var newMongoEntity = toMongoEntityFunc(newItem);
+    await _mongoSet.CreateAsync(newMongoEntity, cancellationToken);
   }
 
   public virtual async Task UpdateAsync(
@@ -105,7 +106,8 @@ public class MongoRepositoryComponent<TEntity, TMongoEntity>
     if (id == Guid.Empty)
       throw new ArgumentOutOfRangeException(nameof(id));
 
-    await _mongoSet.UpdateAsync(x => x.Id == id, toMongoEntityFunc(updatedItem), cancellationToken);
+    var updatedMongoEntity = toMongoEntityFunc(updatedItem);
+    await _mongoSet.UpdateAsync(x => x.Id == id, updatedMongoEntity, cancellationToken);
   }
 
   public virtual async Task RemoveAsync(

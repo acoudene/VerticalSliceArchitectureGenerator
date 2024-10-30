@@ -33,7 +33,13 @@
         <MudTh>
           <MudTableSortLabel SortBy="new Func<EntityNameVo, object>(x=>x.UpdatedAt)">@Localizer["UpdatedAt"]</MudTableSortLabel>
         </MudTh>
+
         @* // TODO - Complete with other fields *@
+
+        <MudTh>
+          <MudTableSortLabel SortBy="new Func<EntityNameVo, object?>(x=>x?.Metadata)">@Localizer["Metadata"]</MudTableSortLabel>
+        </MudTh>
+
       </HeaderContent>
       <RowTemplate>
         <MudTd DataLabel="@Localizer["Id"]">@context.Id</MudTd>
@@ -41,6 +47,8 @@
         <MudTd DataLabel="@Localizer["UpdatedAt"]"><MudDatePicker Date="@context.UpdatedAt" ReadOnly="true" /></MudTd>
 
         @* // TODO - Complete with other fields *@
+
+        <MudTd DataLabel="@Localizer["Metadata"]">@context.Metadata</MudTd>
 
       </RowTemplate>
       <RowEditingTemplate>

@@ -1,6 +1,7 @@
 ﻿// Changelogs Date  | Author                | Description
 // 2023-12-23       | Anthony Coudène       | Creation
 
+using Core.Host.Testing;
 using Microsoft.AspNetCore.JsonPatch;
 
 namespace Feature.Host.Tests;
@@ -120,24 +121,27 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
     Assert.Empty(gotItems);
   }
 
-  //[Theory]
-  //[ClassData(typeof(EntityNameData))]
-  //public async Task WhenPatchingItem_ThenItemIsPatched_Async(EntityNameDto item)
-  //{
-  //  // Arrange
-  //  var logger = CreateLogger<HttpEntityNameClient>();
-  //  var httpClientFactory = CreateHttpClientFactory(ApiRelativePath);
-  //  var client = new HttpEntityNameClient(logger, httpClientFactory);
-  //  Guid id = item.Id;
+  [Theory]
+  [ClassData(typeof(EntityNameData))]
+  public async Task WhenPatchingItem_ThenItemIsPatched_Async(EntityNameDto item)
+  {
+    // Arrange
+    var logger = CreateLogger<HttpEntityNameClient>();
+    var httpClientFactory = CreateHttpClientFactory(ApiRelativePath, new TestWebApplicationFactoryClientOptions(logger));
+    var client = new HttpEntityNameClient(logger, httpClientFactory);
+    await client.CreateOrUpdateAsync(item); // Just to setup with an existing item
+    Guid id = item.Id;
+    string metadata = Guid.NewGuid().ToString();
+    
+    // Act
+    var patch = new JsonPatchDocument<EntityNameDto>();
+    patch.Replace(dto => dto.Metadata, metadata);
+    await client.PatchAsync(id, patch);
 
-  //  // Act
-  //  var patch = new JsonPatchDocument<EntityNameDto>();
-  //  patch.Add(dto => dto, item);
-  //  await client.PatchAsync(id, patch);
-
-  //  // Assert
-  //  var foundItem = await client.GetByIdAsync(id);
-  //  Assert.NotNull(foundItem);
-  //}
+    // Assert
+    var foundItem = await client.GetByIdAsync(id);
+    Assert.NotNull(foundItem);
+    Assert.Equal(metadata, foundItem.Metadata);
+  }
 
 }
