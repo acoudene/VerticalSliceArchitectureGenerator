@@ -3,6 +3,11 @@
 
 using Core.Host.Testing;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.JsonPatch.Operations;
+using Microsoft.Extensions.DependencyInjection;
+using System.Xml.Linq;
+using System;
+using Microsoft.Extensions.Logging;
 
 namespace Feature.Host.Tests;
 
@@ -132,7 +137,7 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
     await client.CreateOrUpdateAsync(item); // Just to setup with an existing item
     Guid id = item.Id;
     string metadata = Guid.NewGuid().ToString();
-    
+
     // Act
     var patch = new JsonPatchDocument<EntityNameDto>();
     patch.Replace(dto => dto.Metadata, metadata);
@@ -143,5 +148,4 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
     Assert.NotNull(foundItem);
     Assert.Equal(metadata, foundItem.Metadata);
   }
-
 }

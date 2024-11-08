@@ -297,7 +297,7 @@ public class EntityNameController : ControllerBase
     }
   }
 
-  [HttpPatch]
+  [HttpPatch("{id:guid}")]
   public virtual async Task<Results<Ok<EntityNameDto>, NotFound, BadRequest, ProblemHttpResult>> PatchAsync(
     Guid id,
     [FromBody] JsonPatchDocument<EntityNameDto> patchDto, 

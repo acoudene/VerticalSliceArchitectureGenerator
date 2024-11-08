@@ -64,6 +64,7 @@ try
                         policy =>
                         {
                           policy.WithOrigins(frontEndBaseAddress);
+                          policy.AllowAnyMethod();
                         });
     });
   }

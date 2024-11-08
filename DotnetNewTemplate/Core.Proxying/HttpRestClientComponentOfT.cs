@@ -3,7 +3,9 @@
 
 using Core.Dtos;
 using Microsoft.AspNetCore.JsonPatch;
+using Newtonsoft.Json;
 using System.Net.Http.Json;
+using System.Net.Mime;
 using System.Text;
 
 namespace Core.Proxying;
@@ -145,8 +147,23 @@ public class HttpRestClientComponent<TDto>
     if (string.IsNullOrWhiteSpace(configurationName))
       throw new InvalidOperationException("Missing configuration name");
 
+    string json = JsonConvert.SerializeObject(patch);
+
+    if (string.IsNullOrWhiteSpace(json))
+      throw new InvalidOperationException("Json serialization problem");
+
     using HttpClient httpClient = _httpClientFactory.CreateClient(configurationName);
-    var response = await httpClient.PatchAsJsonAsync($"{id}", patch, cancellationToken);
+    
+    var request = new HttpRequestMessage(HttpMethod.Patch, $"{id}")
+    {
+      Content = new StringContent(json, Encoding.UTF8, MediaTypeNames.Application.JsonPatch)
+    };
+
+    var response = await httpClient.SendAsync(request, cancellationToken);
+
+    // In the future, we should use exclusively System.Text.Json but today works exclusively with Newtonsoft.Json:
+    //var response = await httpClient.PatchAsJsonAsync($"{id}", patch, cancellationToken);
+
     if (response is null)
       throw new InvalidOperationException($"Problem while patching resource from: [{httpClient.BaseAddress}]");
 

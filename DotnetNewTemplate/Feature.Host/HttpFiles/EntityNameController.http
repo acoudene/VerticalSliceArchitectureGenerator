@@ -5,8 +5,7 @@
 @schema=https
 @hostname=localhost
 @port=7059
-@host={{hostname}}:{{port}}
-@baseAddress={{schema}}://{{host}}/api/entityName
+@baseAddress={{schema}}://{{hostname}}:{{port}}/api/entityName
 
 GET {{baseAddress}}
 
@@ -19,31 +18,31 @@ GET {{baseAddress}}/3fa85f64-5717-4562-b3fc-2c963f66afa9
 POST {{baseAddress}}
 Content-Type: application/json
 
-# TODO - EntityProperties - Fields to complete
 {
   "id": "3fa85f64-5717-4562-b3fc-2c963f66afa9"
 }
+
+
 
 ###
 
 PUT {{baseAddress}}/3fa85f64-5717-4562-b3fc-2c963f66afa9
 Content-Type: application/json
 
-# TODO - EntityProperties - Fields to complete
 {
   "id": "3fa85f64-5717-4562-b3fc-2c963f66afa9"
 }
 
 ###
 
-PATCH {{baseAddress}}/bdd05fe096f24d91a0aacf4c
+PATCH {{baseAddress}}/3fa85f64-5717-4562-b3fc-2c963f66afa9
 Content-Type: application/json-patch+json
 
 [
   {
-    "op": "add",
-    "path": "/id",
-    "value": "3fa85f64-5717-4562-b3fc-2c963f66afa8"
+    "op": "replace",
+    "path": "/metadata",
+    "value": "Metadata Replaced"
   }
 ]
 
