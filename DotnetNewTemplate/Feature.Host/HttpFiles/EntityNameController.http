@@ -19,10 +19,9 @@ POST {{baseAddress}}
 Content-Type: application/json
 
 {
-  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa9"
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa9",
+  "metadata": "Metadata created"
 }
-
-
 
 ###
 
@@ -30,7 +29,8 @@ PUT {{baseAddress}}/3fa85f64-5717-4562-b3fc-2c963f66afa9
 Content-Type: application/json
 
 {
-  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa9"
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa9",
+  "metadata": "Metadata updated"
 }
 
 ###
@@ -42,7 +42,7 @@ Content-Type: application/json-patch+json
   {
     "op": "replace",
     "path": "/metadata",
-    "value": "Metadata Replaced"
+    "value": "Metadata patched"
   }
 ]
 
