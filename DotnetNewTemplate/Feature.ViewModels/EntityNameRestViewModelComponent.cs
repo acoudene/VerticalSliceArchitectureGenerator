@@ -1,4 +1,7 @@
-﻿using Core.ViewModels;
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
+using Core.ViewModels;
 using Feature.ViewModels.BffProxying;
 using Feature.ViewObjects;
 

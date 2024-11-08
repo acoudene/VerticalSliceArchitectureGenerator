@@ -3,11 +3,6 @@
 
 using Core.Host.Testing;
 using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.JsonPatch.Operations;
-using Microsoft.Extensions.DependencyInjection;
-using System.Xml.Linq;
-using System;
-using Microsoft.Extensions.Logging;
 
 namespace Feature.Host.Tests;
 

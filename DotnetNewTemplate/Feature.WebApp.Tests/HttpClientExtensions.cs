@@ -1,4 +1,7 @@
-﻿using RichardSzalay.MockHttp;
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
+using RichardSzalay.MockHttp;
 using System;
 using System.Net;
 using System.Net.Http;

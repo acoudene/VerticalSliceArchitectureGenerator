@@ -1,4 +1,7 @@
-﻿using Core.Data.MongoDb;
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
+using Core.Data.MongoDb;
 using Feature.Data.MongoDb.Repositories;
 using Feature.Data.Repositories;
 using MongoDB.Bson.Serialization.Serializers;

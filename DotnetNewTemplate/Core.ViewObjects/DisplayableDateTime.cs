@@ -1,4 +1,6 @@
-﻿// Tentative to use visual DateTimeOffset management (localDate when displaying, UTC when storing)... But does not work
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
 namespace Core.ViewObjects;
 
 public readonly record struct DisplayableDateTime(DateTimeOffset DateTimeOffset)

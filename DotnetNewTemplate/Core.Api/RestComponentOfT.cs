@@ -9,6 +9,12 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Core.Api;
 
+/// <summary>
+/// Component used to interact with data layer as a CRUD
+/// </summary>
+/// <typeparam name="TDto"></typeparam>
+/// <typeparam name="TEntity"></typeparam>
+/// <typeparam name="TRepository"></typeparam>
 public class RestComponent<TDto, TEntity, TRepository>
   where TDto : class, IIdentifierDto
   where TEntity : class, IIdentifierEntity

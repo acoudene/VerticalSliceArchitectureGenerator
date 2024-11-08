@@ -2,7 +2,6 @@
 // 2023-12-23       | Anthony Coudène       | Creation
 
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Logging;
 
 namespace Core.Host.Testing;
 
@@ -24,7 +23,7 @@ public class TestHttpClientFactory<TEntryPoint> : IHttpClientFactory where TEntr
   }
 
   public virtual HttpClient CreateClient(string name)
-    => _appFactory.CreateDefaultClient(_options.BaseAddress, _options.CreateHandlers());   
+    => _appFactory.CreateDefaultClient(_options.BaseAddress, _options.CreateHandlers());
 
 
   // Warning be careful on Uri code when merging: 
@@ -39,7 +38,7 @@ public class TestHttpClientFactory<TEntryPoint> : IHttpClientFactory where TEntr
     //Uri relativeUri = new Uri($"{relativePath.Trim('/')}/", UriKind.Relative); // Always add a slash at the end for a future concatenation
     return new Uri(baseUri, relativePath);
   }
-  
+
   private static TestWebApplicationFactoryClientOptions SetBaseAddress(TestWebApplicationFactoryClientOptions options, string relativePath)
   {
     options.BaseAddress = GenerateUrl(options.BaseAddress, relativePath);

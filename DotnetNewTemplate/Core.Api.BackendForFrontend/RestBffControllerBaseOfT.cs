@@ -13,6 +13,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Core.Api.BackendForFrontend;
 
+/// <summary>
+/// Rest base API to manage backend for frontend aspect
+/// </summary>
+/// <typeparam name="TViewObject"></typeparam>
+/// <typeparam name="TDto"></typeparam>
+/// <typeparam name="TClient"></typeparam>
 public abstract class RestBffControllerBase<TViewObject, TDto, TClient> : ControllerBase
   where TViewObject : class, IIdentifierViewObject
   where TDto : class, IIdentifierDto

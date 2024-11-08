@@ -10,6 +10,12 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Core.Api.BackendForFrontend;
 
+/// <summary>
+/// Component used to manage proxy interaction with a backend API
+/// </summary>
+/// <typeparam name="TViewObject"></typeparam>
+/// <typeparam name="TDto"></typeparam>
+/// <typeparam name="TClient"></typeparam>
 public class RestBffComponent<TViewObject, TDto, TClient>
   where TViewObject : class, IIdentifierViewObject
   where TDto : class, IIdentifierDto

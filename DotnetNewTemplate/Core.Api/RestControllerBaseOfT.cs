@@ -12,6 +12,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Core.Api;
 
+/// <summary>
+/// Base controller to expose REST Api
+/// </summary>
+/// <typeparam name="TDto"></typeparam>
+/// <typeparam name="TEntity"></typeparam>
+/// <typeparam name="TRepository"></typeparam>
 public abstract class RestControllerBase<TDto, TEntity, TRepository> : ControllerBase
   where TDto : class, IIdentifierDto
   where TEntity : class, IIdentifierEntity

@@ -1,4 +1,7 @@
-﻿using Feature.Data.Entities;
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
+using Feature.Data.Entities;
 using FluentValidation;
 
 namespace Feature.Data.Validation;

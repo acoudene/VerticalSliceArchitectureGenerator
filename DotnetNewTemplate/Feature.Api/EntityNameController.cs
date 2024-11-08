@@ -9,6 +9,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Feature.Api;
 
+/// <summary>
+/// Backend API interacting with proxy through DTOs
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class EntityNameController : ControllerBase
@@ -29,6 +32,13 @@ public class EntityNameController : ControllerBase
   protected RestComponent<EntityNameDto, EntityName, IEntityNameRepository> RestComponent { get => _restComponent; }
   private readonly RestComponent<EntityNameDto, EntityName, IEntityNameRepository> _restComponent;
 
+  /// <summary>
+  /// Constructor
+  /// </summary>
+  /// <param name="hostEnvironment"></param>
+  /// <param name="logger"></param>
+  /// <param name="repository"></param>
+  /// <exception cref="ArgumentNullException"></exception>
   public EntityNameController(IHostEnvironment hostEnvironment, ILogger<EntityNameController> logger, IEntityNameRepository repository)
   {
     _hostEnvironment = hostEnvironment ?? throw new ArgumentNullException(nameof(hostEnvironment));
@@ -50,6 +60,11 @@ public class EntityNameController : ControllerBase
   protected virtual EntityName ToEntity(EntityNameDto dto)
     => dto.ToEntity();
 
+  /// <summary>
+  /// Get all dtos from backend
+  /// </summary>
+  /// <param name="cancellationToken"></param>
+  /// <returns></returns>
   [HttpGet]
   public virtual async Task<Results<Ok<List<EntityNameDto>>, BadRequest, ProblemHttpResult>> GetAllAsync(CancellationToken cancellationToken = default)
   {
@@ -81,6 +96,12 @@ public class EntityNameController : ControllerBase
     }
   }
 
+  /// <summary>
+  /// Get a dto from its id
+  /// </summary>
+  /// <param name="id"></param>
+  /// <param name="cancellationToken"></param>
+  /// <returns></returns>
   [HttpGet("{id:guid}")]
   public virtual async Task<Results<Ok<EntityNameDto>, NotFound, BadRequest, ProblemHttpResult>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
   {
@@ -116,6 +137,12 @@ public class EntityNameController : ControllerBase
     }
   }
 
+  /// <summary>
+  /// Get a list of dtos from a list of ids
+  /// </summary>
+  /// <param name="ids"></param>
+  /// <param name="cancellationToken"></param>
+  /// <returns></returns>
   [HttpGet("byIds")]
   public virtual async Task<Results<Ok<List<EntityNameDto>>, BadRequest, ProblemHttpResult>> GetByIdsAsync(
     [FromQuery] List<Guid> ids, CancellationToken cancellationToken = default)
@@ -148,6 +175,12 @@ public class EntityNameController : ControllerBase
     }
   }
 
+  /// <summary>
+  /// Create an item from a dto
+  /// </summary>
+  /// <param name="newDto"></param>
+  /// <param name="cancellationToken"></param>
+  /// <returns></returns>
   [HttpPost]
   public virtual async Task<Results<Created<EntityNameDto>, BadRequest, ProblemHttpResult>> CreateAsync(
     [FromBody] EntityNameDto newDto, CancellationToken cancellationToken = default)
@@ -180,6 +213,13 @@ public class EntityNameController : ControllerBase
     }
   }
 
+  /// <summary>
+  /// Create an item if needed or update it from a dto
+  /// </summary>
+  /// <param name="newOrToUpdateDto"></param>
+  /// <param name="cancellationToken"></param>
+  /// <returns></returns>
+  /// <exception cref="ArgumentNullException"></exception>
   [HttpPost("CreateOrUpdate")]
   public virtual async Task<Results<NoContent, Created<EntityNameDto>, BadRequest, ProblemHttpResult>> CreateOrUpdateAsync(
       [FromBody] EntityNameDto newOrToUpdateDto, CancellationToken cancellationToken = default)
@@ -222,6 +262,13 @@ public class EntityNameController : ControllerBase
     }
   }
 
+  /// <summary>
+  /// Update an item from an id and a dto
+  /// </summary>
+  /// <param name="id"></param>
+  /// <param name="updatedDto"></param>
+  /// <param name="cancellationToken"></param>
+  /// <returns></returns>
   [HttpPut("{id:guid}")]
   public virtual async Task<Results<NoContent, NotFound, BadRequest, ProblemHttpResult>> UpdateAsync(
     Guid id,
@@ -260,6 +307,12 @@ public class EntityNameController : ControllerBase
     }
   }
 
+  /// <summary>
+  /// Delete an item from an id
+  /// </summary>
+  /// <param name="id"></param>
+  /// <param name="cancellationToken"></param>
+  /// <returns></returns>
   [HttpDelete("{id:guid}")]
   public virtual async Task<Results<Ok<EntityNameDto>, NotFound, BadRequest, ProblemHttpResult>> DeleteAsync(
     Guid id, 
@@ -297,6 +350,13 @@ public class EntityNameController : ControllerBase
     }
   }
 
+  /// <summary>
+  /// Do a partial update of an item through an id and patched dto 
+  /// </summary>
+  /// <param name="id"></param>
+  /// <param name="patchDto"></param>
+  /// <param name="cancellationToken"></param>
+  /// <returns></returns>
   [HttpPatch("{id:guid}")]
   public virtual async Task<Results<Ok<EntityNameDto>, NotFound, BadRequest, ProblemHttpResult>> PatchAsync(
     Guid id,

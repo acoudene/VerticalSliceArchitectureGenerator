@@ -1,19 +1,18 @@
 ﻿// Changelogs Date  | Author                | Description
 // 2023-12-23       | Anthony Coudène       | Creation
 
-using Core.Dtos;
-using Feature.Dtos;
 using Feature.Proxies;
 using Feature.ViewObjects;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Net.Mime;
 
 namespace Feature.Api.BackendForFrontend;
 
+/// <summary>
+/// API to interact with views through ViewObjects
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class EntityNameBffController : ControllerBase
@@ -21,13 +20,23 @@ public class EntityNameBffController : ControllerBase
   private readonly ILogger<EntityNameBffController> _logger;
   private readonly IEntityNameClient _client;
 
-
+  /// <summary>
+  /// Constructor
+  /// </summary>
+  /// <param name="logger"></param>
+  /// <param name="client"></param>
+  /// <exception cref="ArgumentNullException"></exception>
   public EntityNameBffController(ILogger<EntityNameBffController> logger, IEntityNameClient client)
   {
     _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     _client = client ?? throw new ArgumentNullException(nameof(client));
   }
 
+  /// <summary>
+  /// Get all ViewObjects
+  /// </summary>
+  /// <param name="cancellationToken"></param>
+  /// <returns></returns>
   [HttpGet]
   [Consumes(MediaTypeNames.Application.Json)]
   [ProducesResponseType(StatusCodes.Status200OK)]
@@ -53,6 +62,12 @@ public class EntityNameBffController : ControllerBase
     }
   }
 
+  /// <summary>
+  /// Get a ViewObject from its id
+  /// </summary>
+  /// <param name="id"></param>
+  /// <param name="cancellationToken"></param>
+  /// <returns></returns>
   [HttpGet("{id:guid}")]
   [Consumes(MediaTypeNames.Application.Json)]
   [ProducesResponseType(StatusCodes.Status200OK)]
@@ -63,8 +78,8 @@ public class EntityNameBffController : ControllerBase
   {
     try
     {
-      return (await _client.GetByIdAsync(id, cancellationToken))?      
-        .ToViewObject();        
+      return (await _client.GetByIdAsync(id, cancellationToken))?
+        .ToViewObject();
     }
     catch (ArgumentException ex)
     {
@@ -78,7 +93,14 @@ public class EntityNameBffController : ControllerBase
     }
   }
 
-
+  /// <summary>
+  /// Create if needed and update an item through ViewObject
+  /// </summary>
+  /// <param name="newOrToUpdateVo"></param>
+  /// <param name="cancellationToken"></param>
+  /// <returns></returns>
+  /// <exception cref="ArgumentNullException"></exception>
+  /// <exception cref="InvalidOperationException"></exception>
   [HttpPost("CreateOrUpdate")]
   [Consumes(MediaTypeNames.Application.Json)]
   [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -113,6 +135,13 @@ public class EntityNameBffController : ControllerBase
     }
   }
 
+  /// <summary>
+  /// Delete an item from its id
+  /// </summary>
+  /// <param name="id"></param>
+  /// <param name="cancellationToken"></param>
+  /// <returns></returns>
+  /// <exception cref="InvalidOperationException"></exception>
   [HttpDelete("{id:guid}")]
   [Consumes(MediaTypeNames.Application.Json)]
   [ProducesResponseType(StatusCodes.Status200OK)]
@@ -124,12 +153,12 @@ public class EntityNameBffController : ControllerBase
     try
     {
       if (id == Guid.Empty)
-        throw new ArgumentException(nameof(id));      
+        throw new ArgumentException(nameof(id));
 
       var dto = await _client.DeleteAsync(id, cancellationToken);
       if (dto is null)
         throw new InvalidOperationException("Problem while deleting view object");
-      
+
       return dto.ToViewObject();
     }
     catch (ArgumentException ex)

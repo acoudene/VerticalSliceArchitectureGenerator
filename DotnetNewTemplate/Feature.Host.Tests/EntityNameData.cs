@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
+using System.Collections;
 
 namespace Feature.Host.Tests;
 

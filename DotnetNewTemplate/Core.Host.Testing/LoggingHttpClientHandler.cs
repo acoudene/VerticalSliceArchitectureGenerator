@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
+using Microsoft.Extensions.Logging;
 
 namespace Core.Host.Testing;
 

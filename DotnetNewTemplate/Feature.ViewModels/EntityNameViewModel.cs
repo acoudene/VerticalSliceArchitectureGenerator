@@ -1,8 +1,14 @@
-﻿using Feature.ViewModels.BffProxying;
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
+using Feature.ViewModels.BffProxying;
 using Feature.ViewObjects;
 
 namespace Feature.ViewModels;
 
+/// <summary>
+/// ViewModel associated to a dedicated entity
+/// </summary>
 public class EntityNameViewModel : IEntityNameViewModel
 {
   private readonly EntityNameRestViewModelComponent _restViewModelComponent;
