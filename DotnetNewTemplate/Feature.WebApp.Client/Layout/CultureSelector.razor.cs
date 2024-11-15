@@ -7,10 +7,10 @@ namespace Feature.WebApp.Client.Layout;
 public partial class CultureSelector : ComponentBase
 {
 	[Inject]
-  public required NavigationManager Navigation { get; set; }
+  public required NavigationManager Navigation { private get; init; }
 
 	[Inject]
-  public required IJSRuntime JSRuntime { get; set; }
+  public required IJSRuntime JSRuntime { private get; init; }
 
 	protected override void OnInitialized()
 	{

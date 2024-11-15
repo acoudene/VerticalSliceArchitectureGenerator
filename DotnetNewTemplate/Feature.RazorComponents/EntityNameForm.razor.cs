@@ -12,7 +12,7 @@ namespace Feature.RazorComponents;
 public partial class EntityNameForm
 {
   [Inject]
-  public required IStringLocalizer<FeatureResource> Localizer { get; set; }
+  public required IStringLocalizer<FeatureResource> Localizer { private get; init; }
 
   [Parameter, EditorRequired]
   public required EntityNameVo ViewObject { get; set; }

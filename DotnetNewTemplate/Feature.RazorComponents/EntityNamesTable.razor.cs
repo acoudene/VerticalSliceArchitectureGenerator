@@ -15,7 +15,7 @@ public partial class EntityNamesTable
   /// Use it if needed for row edition template: private EntityNameVoFluentValidator _entityNameValidator = new EntityNameVoFluentValidator();
 
   [Inject]
-  public required IStringLocalizer<FeatureResource> Localizer { get; set; }
+  public required IStringLocalizer<FeatureResource> Localizer { private get; init; }
 
   [Parameter, EditorRequired]
   public required IEnumerable<EntityNameVo> ViewObjects { get; set; }

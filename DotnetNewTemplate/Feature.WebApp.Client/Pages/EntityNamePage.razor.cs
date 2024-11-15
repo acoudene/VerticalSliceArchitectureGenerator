@@ -13,19 +13,19 @@ public partial class EntityNamePage : ComponentBase
   private EntityNameForm? _form;
 
   [Inject]
-  public required ISnackbar Snackbar { get; set; }
+  public required ISnackbar Snackbar { private get; init; }
 
   [Inject]
-  public required ILogger<EntityNamePage> Logger { get; set; }
+  public required ILogger<EntityNamePage> Logger { private get; init; }
 
   [Inject]
-  public required IEntityNameViewModel ViewModel { get; set; }
+  public required IEntityNameViewModel ViewModel { private get; init; }
 
   [Inject]
-  public required NavigationManager Navigation { get; set; }
+  public required NavigationManager Navigation { private get; init; }
 
   [Inject]
-  public required IStringLocalizer<FeatureResource> Localizer { get; set; }
+  public required IStringLocalizer<FeatureResource> Localizer { private get; init; }
 
   [Parameter]
   public string? Id { get; set; } = null;

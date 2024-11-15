@@ -16,13 +16,13 @@ public partial class ReliableContent
   public ErrorBoundary? RefErrorBoundary { get; set; }
 
   [Inject]
-  public required ISnackbar Snackbar { get; set; }
+  public required ISnackbar Snackbar { private get; init; }
 
   [Inject]
-  public required IStringLocalizer<ReliableContent> Localizer { get; set; }
+  public required IStringLocalizer<ReliableContent> Localizer { private get; init; }
 
   [Inject]
-  public required ILogger<ReliableContent> Logger { get; set; }
+  public required ILogger<ReliableContent> Logger { private get; init; }
 
   [Parameter]
   public int MaximumErrorCount { get; set; } = 2;

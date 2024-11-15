@@ -14,6 +14,8 @@ public class EntityNameViewModel : IEntityNameViewModel
   private readonly EntityNameRestViewModelComponent _restViewModelComponent;
   public EntityNameViewModel(IEntityNameRestBffClient client)
   {
+    ArgumentNullException.ThrowIfNull(client);
+
     _restViewModelComponent = new EntityNameRestViewModelComponent(client);
     Items = Enumerable.Empty<EntityNameVo>().ToList();
     SelectedItems = Enumerable.Empty<EntityNameVo>().ToHashSet();
