@@ -7,9 +7,9 @@ using Feature.ViewObjects;
 
 namespace Feature.ViewModels;
 
-public class EntityNameRestViewModelComponent : RestViewModelComponent<EntityNameVo, IEntityNameRestBffClient>
+public class EntityNameRestViewModelBehavior : RestViewModelBehavior<EntityNameVo, IEntityNameRestBffClient>
 {
-  public EntityNameRestViewModelComponent(IEntityNameRestBffClient client) : base(client)
+  public EntityNameRestViewModelBehavior(IEntityNameRestBffClient client) : base(client)
   {
   }
 }

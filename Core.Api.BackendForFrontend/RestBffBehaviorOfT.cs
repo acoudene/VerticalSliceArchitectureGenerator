@@ -16,7 +16,7 @@ namespace Core.Api.BackendForFrontend;
 /// <typeparam name="TViewObject"></typeparam>
 /// <typeparam name="TDto"></typeparam>
 /// <typeparam name="TClient"></typeparam>
-public class RestBffComponent<TViewObject, TDto, TClient>
+public class RestBffBehavior<TViewObject, TDto, TClient>
   where TViewObject : class, IIdentifierViewObject
   where TDto : class, IIdentifierDto
   where TClient : IRestClient<TDto>
@@ -25,12 +25,14 @@ public class RestBffComponent<TViewObject, TDto, TClient>
 
   public TClient Client { get => _client; }
 
-  public RestBffComponent(TClient client)
+  public RestBffBehavior(TClient client)
   {
     _client = client ?? throw new ArgumentNullException(nameof(client));
   }
 
-  public virtual async Task<List<TViewObject>> GetAllAsync(Func<TDto, TViewObject> toVoFunc, CancellationToken cancellationToken = default)
+  public virtual async Task<List<TViewObject>> GetAllAsync(
+    Func<TDto, TViewObject> toVoFunc, 
+    CancellationToken cancellationToken = default)
   {
     if (toVoFunc is null) throw new ArgumentNullException(nameof(toVoFunc));
 

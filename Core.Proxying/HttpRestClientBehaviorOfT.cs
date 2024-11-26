@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Core.Proxying;
 
-public class HttpRestClientComponent<TDto>
+public class HttpRestClientBehavior<TDto>
   where TDto : class, IIdentifierDto
 {
   private readonly IHttpClientFactory _httpClientFactory;
@@ -21,7 +21,7 @@ public class HttpRestClientComponent<TDto>
   /// </summary>
   /// <param name="httpClientFactory"></param>
   /// <exception cref="ArgumentNullException"></exception>
-  public HttpRestClientComponent(IHttpClientFactory httpClientFactory)
+  public HttpRestClientBehavior(IHttpClientFactory httpClientFactory)
   {
     _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
   }

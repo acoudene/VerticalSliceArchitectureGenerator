@@ -11,7 +11,7 @@ public abstract class HttpRestBffClientBase<TViewObject> : IRestBffClient<TViewO
   where TViewObject : class, IIdentifierViewObject
 {
     private readonly ILogger<HttpRestBffClientBase<TViewObject>> _logger;
-    private readonly HttpRestBffClientComponent<TViewObject> _httpRestClientComponent;
+    private readonly HttpRestBffClientBehavior<TViewObject> _httpRestClientComponent;
 
     /// <summary>
     /// Constructor
@@ -19,7 +19,7 @@ public abstract class HttpRestBffClientBase<TViewObject> : IRestBffClient<TViewO
     /// <param name="httpClientFactory"></param>
     /// <exception cref="ArgumentNullException"></exception>
     public HttpRestBffClientBase(ILogger<HttpRestBffClientBase<TViewObject>> logger, IHttpClientFactory httpClientFactory)
-      : this(logger, new HttpRestBffClientComponent<TViewObject>(httpClientFactory))
+      : this(logger, new HttpRestBffClientBehavior<TViewObject>(httpClientFactory))
     {
     }
 
@@ -28,7 +28,7 @@ public abstract class HttpRestBffClientBase<TViewObject> : IRestBffClient<TViewO
     /// </summary>
     /// <param name="httpClientFactory"></param>
     /// <exception cref="ArgumentNullException"></exception>
-    public HttpRestBffClientBase(ILogger<HttpRestBffClientBase<TViewObject>> logger, HttpRestBffClientComponent<TViewObject> httpRestClientComponent)
+    public HttpRestBffClientBase(ILogger<HttpRestBffClientBase<TViewObject>> logger, HttpRestBffClientBehavior<TViewObject> httpRestClientComponent)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _httpRestClientComponent = httpRestClientComponent ?? throw new ArgumentNullException(nameof(httpRestClientComponent));

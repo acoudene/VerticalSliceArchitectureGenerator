@@ -3,11 +3,11 @@
 
 namespace Core.Data.MongoDb;
 
-public class TimeStampedMongoRepositoryComponent<TEntity, TMongoEntity> : MongoRepositoryComponent<TEntity, TMongoEntity>
+public class TimeStampedMongoRepositoryBehavior<TEntity, TMongoEntity> : MongoRepositoryBehavior<TEntity, TMongoEntity>
   where TEntity : IIdentifierEntity, ITimestampedEntity
   where TMongoEntity : IIdentifierMongoEntity, ITimestampedMongoEntity
 {
-  public TimeStampedMongoRepositoryComponent(IMongoContext mongoContext, string collectionName)
+  public TimeStampedMongoRepositoryBehavior(IMongoContext mongoContext, string collectionName)
     : base(mongoContext, collectionName)
   {
   }

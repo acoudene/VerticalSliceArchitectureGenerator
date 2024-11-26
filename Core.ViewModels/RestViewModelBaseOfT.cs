@@ -10,30 +10,30 @@ public abstract class RestViewModelBase<TViewObject, TRestBffClient> : IViewMode
     where TViewObject : class, IIdentifierViewObject
     where TRestBffClient : IRestBffClient<TViewObject>
 {
-  private readonly RestViewModelComponent<TViewObject, TRestBffClient> _restViewModelComponent;
+  private readonly RestViewModelBehavior<TViewObject, TRestBffClient> _behavior;
 
-  protected RestViewModelBase(RestViewModelComponent<TViewObject, TRestBffClient> restViewModelComponent)
-      => _restViewModelComponent = restViewModelComponent ?? throw new ArgumentNullException(nameof(restViewModelComponent));
+  protected RestViewModelBase(RestViewModelBehavior<TViewObject, TRestBffClient> behavior)
+    => _behavior = behavior ?? throw new ArgumentNullException(nameof(behavior));
 
   public virtual async Task CreateAsync(TViewObject newItem, CancellationToken cancellationToken = default)
-    => await _restViewModelComponent.CreateAsync(newItem, cancellationToken);
+    => await _behavior.CreateAsync(newItem, cancellationToken);
 
   public virtual async Task CreateOrUpdateAsync(TViewObject newOrToUpdateVo, CancellationToken cancellationToken = default)
-  => await _restViewModelComponent.CreateOrUpdateAsync(newOrToUpdateVo, cancellationToken);
+    => await _behavior.CreateOrUpdateAsync(newOrToUpdateVo, cancellationToken);
 
   public virtual async Task<List<TViewObject>> GetAllAsync(CancellationToken cancellationToken = default)
-      => await _restViewModelComponent.GetAllAsync(cancellationToken);
+    => await _behavior.GetAllAsync(cancellationToken);
 
   public virtual async Task<TViewObject?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-    => await _restViewModelComponent.GetByIdAsync(id, cancellationToken);
+    => await _behavior.GetByIdAsync(id, cancellationToken);
 
   public virtual async Task<List<TViewObject>?> GetByIdsAsync(List<Guid> ids, CancellationToken cancellationToken = default)
-    => await _restViewModelComponent.GetByIdsAsync(ids, cancellationToken);
+    => await _behavior.GetByIdsAsync(ids, cancellationToken);
 
   public virtual async Task RemoveAsync(Guid id, CancellationToken cancellationToken = default)
-    => await _restViewModelComponent.RemoveAsync(id, cancellationToken);
+    => await _behavior.RemoveAsync(id, cancellationToken);
 
   public virtual async Task UpdateAsync(Guid id, TViewObject updatedItem, CancellationToken cancellationToken = default)
-   => await _restViewModelComponent.UpdateAsync(id, updatedItem, cancellationToken);
+    => await _behavior.UpdateAsync(id, updatedItem, cancellationToken);
 
 }

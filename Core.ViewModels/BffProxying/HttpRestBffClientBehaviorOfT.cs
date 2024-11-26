@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Core.ViewModels.BffProxying;
 
-public class HttpRestBffClientComponent<TViewObject>
+public class HttpRestBffClientBehavior<TViewObject>
   where TViewObject : class, IIdentifierViewObject
 {
     private readonly IHttpClientFactory _httpClientFactory;
@@ -19,7 +19,7 @@ public class HttpRestBffClientComponent<TViewObject>
     /// </summary>
     /// <param name="httpClientFactory"></param>
     /// <exception cref="ArgumentNullException"></exception>
-    public HttpRestBffClientComponent(IHttpClientFactory httpClientFactory)
+    public HttpRestBffClientBehavior(IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
     }

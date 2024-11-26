@@ -10,8 +10,8 @@ public class HttpEntityNameClient : IEntityNameClient
 {
   private readonly ILogger<HttpEntityNameClient> _logger;
 
-  protected HttpRestClientComponent<EntityNameDto> HttpRestClientComponent { get => _httpRestClientComponent; }
-  private readonly HttpRestClientComponent<EntityNameDto> _httpRestClientComponent;
+  protected HttpRestClientBehavior<EntityNameDto> HttpRestClientComponent { get => _httpRestClientComponent; }
+  private readonly HttpRestClientBehavior<EntityNameDto> _httpRestClientComponent;
 
   /// <summary>
   /// Constructor
@@ -22,7 +22,7 @@ public class HttpEntityNameClient : IEntityNameClient
   public HttpEntityNameClient(ILogger<HttpEntityNameClient> logger, IHttpClientFactory httpClientFactory)
   {
     _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    _httpRestClientComponent = new HttpRestClientComponent<EntityNameDto>(httpClientFactory);
+    _httpRestClientComponent = new HttpRestClientBehavior<EntityNameDto>(httpClientFactory);
   }
 
   public const string ConfigurationName = nameof(HttpEntityNameClient);

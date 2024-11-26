@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace Core.Data.MongoDb;
 
-public class MongoRepositoryComponent<TEntity, TMongoEntity>
+public class MongoRepositoryBehavior<TEntity, TMongoEntity>
   where TEntity : IIdentifierEntity
   where TMongoEntity : IIdentifierMongoEntity
 {
@@ -16,7 +16,7 @@ public class MongoRepositoryComponent<TEntity, TMongoEntity>
   private readonly IMongoContext _mongoContext;
   private readonly IMongoSet<TMongoEntity> _mongoSet;
 
-  public MongoRepositoryComponent(IMongoContext mongoContext, string collectionName)
+  public MongoRepositoryBehavior(IMongoContext mongoContext, string collectionName)
   {
     if (mongoContext is null)
       throw new ArgumentNullException(nameof(mongoContext));

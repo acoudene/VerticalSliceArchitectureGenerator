@@ -26,35 +26,36 @@ public abstract class RestBffControllerBase<TViewObject, TDto, TClient> : Contro
 {
   private readonly IHostEnvironment _hostEnvironment;
   private readonly ILogger<RestBffControllerBase<TViewObject, TDto, TClient>> _logger;
-  private readonly RestBffComponent<TViewObject, TDto, TClient> _restBffComponent;
+  private readonly RestBffBehavior<TViewObject, TDto, TClient> _behavior;
 
   protected IHostEnvironment HostEnvironment => _hostEnvironment;
   protected ILogger<RestBffControllerBase<TViewObject, TDto, TClient>> Logger => _logger;
-  protected RestBffComponent<TViewObject, TDto, TClient> RestComponent => _restBffComponent;
+  protected RestBffBehavior<TViewObject, TDto, TClient> Behavior => _behavior;
 
   protected RestBffControllerBase(
     IHostEnvironment hostEnvironment,
     ILogger<RestBffControllerBase<TViewObject, TDto, TClient>> logger,
-    RestBffComponent<TViewObject, TDto, TClient> restBffComponent)
+    RestBffBehavior<TViewObject, TDto, TClient> behavior)
   {
     _hostEnvironment = hostEnvironment ?? throw new ArgumentNullException(nameof(hostEnvironment));
     _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    _restBffComponent = restBffComponent ?? throw new ArgumentNullException(nameof(restBffComponent));
+    _behavior = behavior ?? throw new ArgumentNullException(nameof(behavior));
   }
 
   protected RestBffControllerBase(IHostEnvironment hostEnvironment, ILogger<RestBffControllerBase<TViewObject, TDto, TClient>> logger, TClient client)
-      : this(hostEnvironment, logger, new RestBffComponent<TViewObject, TDto, TClient>(client))
+      : this(hostEnvironment, logger, new RestBffBehavior<TViewObject, TDto, TClient>(client))
   { }
 
   protected abstract TViewObject ToViewObject(TDto dto);
   protected abstract TDto ToDto(TViewObject viewObject);
 
   [HttpGet]
-  public virtual async Task<Results<Ok<List<TViewObject>>, BadRequest, ProblemHttpResult>> GetAllAsync(CancellationToken cancellationToken = default)
+  public virtual async Task<Results<Ok<List<TViewObject>>, BadRequest, ProblemHttpResult>> GetAllAsync(
+    CancellationToken cancellationToken = default)
   {
     try
     {
-      return TypedResults.Ok(await _restBffComponent.GetAllAsync(ToViewObject, cancellationToken));
+      return TypedResults.Ok(await _behavior.GetAllAsync(ToViewObject, cancellationToken));
     }
     catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
     {
@@ -85,7 +86,10 @@ public abstract class RestBffControllerBase<TViewObject, TDto, TClient> : Contro
   {
     try
     {
-      var foundVo = await _restBffComponent.GetByIdAsync(id, ToViewObject, cancellationToken);
+      if (!ModelState.IsValid)
+        throw new ArgumentException("ModelState is not validated or invalid");
+
+      var foundVo = await _behavior.GetByIdAsync(id, ToViewObject, cancellationToken);
       if (foundVo is null)
         return TypedResults.NotFound();
 
@@ -120,7 +124,10 @@ public abstract class RestBffControllerBase<TViewObject, TDto, TClient> : Contro
   {
     try
     {
-      return TypedResults.Ok(await _restBffComponent.GetByIdsAsync(ids, ToViewObject, cancellationToken));
+      if (!ModelState.IsValid)
+        throw new ArgumentException("ModelState is not validated or invalid");
+
+      return TypedResults.Ok(await _behavior.GetByIdsAsync(ids, ToViewObject, cancellationToken));
     }
     catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
     {
@@ -151,7 +158,10 @@ public abstract class RestBffControllerBase<TViewObject, TDto, TClient> : Contro
   {
     try
     {
-      return TypedResults.Created("{newVo.Id}", await _restBffComponent.CreateAsync(newVo, ToDto, cancellationToken));
+      if (!ModelState.IsValid)
+        throw new ArgumentException("ModelState is not validated or invalid");
+
+      return TypedResults.Created("{newVo.Id}", await _behavior.CreateAsync(newVo, ToDto, cancellationToken));
     }
     catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
     {
@@ -182,7 +192,9 @@ public abstract class RestBffControllerBase<TViewObject, TDto, TClient> : Contro
   {
     try
     {
-      _logger.LogDebug("Receiving request for {Method}({ViewObject})...", nameof(CreateOrUpdateAsync), newOrToUpdateVo);
+      if (!ModelState.IsValid)
+        throw new ArgumentException("ModelState is not validated or invalid");
+
       if (newOrToUpdateVo is null)
         throw new ArgumentNullException(nameof(newOrToUpdateVo));
 
@@ -190,11 +202,11 @@ public abstract class RestBffControllerBase<TViewObject, TDto, TClient> : Contro
       if (id == Guid.Empty)
         throw new ArgumentNullException(nameof(newOrToUpdateVo.Id));
 
-      var updatedVo = await _restBffComponent.UpdateAsync(id, newOrToUpdateVo, ToDto);
+      var updatedVo = await _behavior.UpdateAsync(id, newOrToUpdateVo, ToDto);
       if (updatedVo is not null)
         return TypedResults.NoContent();
 
-      return TypedResults.Created("{newOrToUpdateVo.Id}", await _restBffComponent.CreateAsync(newOrToUpdateVo, ToDto, cancellationToken));
+      return TypedResults.Created("{newOrToUpdateVo.Id}", await _behavior.CreateAsync(newOrToUpdateVo, ToDto, cancellationToken));
     }
     catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
     {
@@ -226,7 +238,10 @@ public abstract class RestBffControllerBase<TViewObject, TDto, TClient> : Contro
   {
     try
     {
-      var updatedVo = await _restBffComponent.UpdateAsync(id, toUpdateVo, ToDto, cancellationToken);
+      if (!ModelState.IsValid)
+        throw new ArgumentException("ModelState is not validated or invalid");
+
+      var updatedVo = await _behavior.UpdateAsync(id, toUpdateVo, ToDto, cancellationToken);
       if (updatedVo is null)
         return TypedResults.NotFound();
 
@@ -261,7 +276,10 @@ public abstract class RestBffControllerBase<TViewObject, TDto, TClient> : Contro
   {
     try
     {
-      var deletedVo = await _restBffComponent.DeleteAsync(id, ToViewObject, cancellationToken);
+      if (!ModelState.IsValid)
+        throw new ArgumentException("ModelState is not validated or invalid");
+
+      var deletedVo = await _behavior.DeleteAsync(id, ToViewObject, cancellationToken);
       if (deletedVo is null)
         return TypedResults.NotFound();
 
@@ -297,7 +315,10 @@ public abstract class RestBffControllerBase<TViewObject, TDto, TClient> : Contro
   {
     try
     {
-      var patchedVo = await _restBffComponent.PatchAsync(id, toPatchVo, ModelState, ToDto, ToViewObject, cancellationToken);
+      if (!ModelState.IsValid)
+        throw new ArgumentException("ModelState is not validated or invalid");
+
+      var patchedVo = await _behavior.PatchAsync(id, toPatchVo, ModelState, ToDto, ToViewObject, cancellationToken);
       if (patchedVo is null)
         return TypedResults.NotFound();
 

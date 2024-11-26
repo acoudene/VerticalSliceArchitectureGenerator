@@ -29,8 +29,8 @@ public class EntityNameController : ControllerBase
   private readonly IHostEnvironment _hostEnvironment;
   private readonly ILogger<EntityNameController> _logger;
 
-  protected RestComponent<EntityNameDto, EntityName, IEntityNameRepository> RestComponent { get => _restComponent; }
-  private readonly RestComponent<EntityNameDto, EntityName, IEntityNameRepository> _restComponent;
+  protected RestApiBehavior<EntityNameDto, EntityName, IEntityNameRepository> RestComponent { get => _restComponent; }
+  private readonly RestApiBehavior<EntityNameDto, EntityName, IEntityNameRepository> _restComponent;
 
   /// <summary>
   /// Constructor
@@ -43,7 +43,7 @@ public class EntityNameController : ControllerBase
   {
     _hostEnvironment = hostEnvironment ?? throw new ArgumentNullException(nameof(hostEnvironment));
     _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    _restComponent = new RestComponent<EntityNameDto, EntityName, IEntityNameRepository>(repository);
+    _restComponent = new RestApiBehavior<EntityNameDto, EntityName, IEntityNameRepository>(repository);
   }
 
   // This commented part could be used to have benefits of json entity typing

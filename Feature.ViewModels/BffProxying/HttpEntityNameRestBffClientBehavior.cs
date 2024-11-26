@@ -6,14 +6,14 @@ using Feature.ViewObjects;
 
 namespace Feature.ViewModels.BffProxying;
 
-public class HttpEntityNameRestBffClientComponent : HttpRestBffClientComponent<EntityNameVo>
+public class HttpEntityNameRestBffClientBehavior : HttpRestBffClientBehavior<EntityNameVo>
 {
   /// <summary>
   /// Constructor
   /// </summary>
   /// <param name="httpClientFactory"></param>
   /// <exception cref="ArgumentNullException"></exception>
-  public HttpEntityNameRestBffClientComponent(IHttpClientFactory httpClientFactory) : base(httpClientFactory)
+  public HttpEntityNameRestBffClientBehavior(IHttpClientFactory httpClientFactory) : base(httpClientFactory)
   {
   }
 }

@@ -10,13 +10,13 @@ public class EntityNameRepository : IEntityNameRepository
 {
   public const string CollectionName = "entityName";
 
-  protected TimeStampedMongoRepositoryComponent<EntityName, EntityNameMongo> MongoRepositoryComponent { get => _mongoRepositoryComponent; }
-  private readonly TimeStampedMongoRepositoryComponent<EntityName, EntityNameMongo> _mongoRepositoryComponent;
+  protected TimeStampedMongoRepositoryBehavior<EntityName, EntityNameMongo> Behavior { get => _behavior; }
+  private readonly TimeStampedMongoRepositoryBehavior<EntityName, EntityNameMongo> _behavior;
 
   public EntityNameRepository(IMongoContext mongoContext)
   {
-    _mongoRepositoryComponent = new TimeStampedMongoRepositoryComponent<EntityName, EntityNameMongo>(mongoContext, CollectionName);
-    _mongoRepositoryComponent.SetUniqueIndex(entity => entity.Id);
+    _behavior = new TimeStampedMongoRepositoryBehavior<EntityName, EntityNameMongo>(mongoContext, CollectionName);
+    _behavior.SetUniqueIndex(entity => entity.Id);
   }
 
   // This commented part could be used to have benefits of mongo entity typing
@@ -42,29 +42,29 @@ public class EntityNameRepository : IEntityNameRepository
   }
 
   public virtual async Task<List<EntityName>> GetAllAsync(CancellationToken cancellationToken = default) 
-    => await _mongoRepositoryComponent.GetAllAsync(ToEntity, cancellationToken);
+    => await _behavior.GetAllAsync(ToEntity, cancellationToken);
 
   public virtual async Task<EntityName?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) 
-    => await _mongoRepositoryComponent.GetByIdAsync(id, ToEntity, cancellationToken);
+    => await _behavior.GetByIdAsync(id, ToEntity, cancellationToken);
 
   public virtual async Task<List<EntityName>> GetByIdsAsync(List<Guid> ids, CancellationToken cancellationToken = default) 
-    => await _mongoRepositoryComponent.GetByIdsAsync(ids, ToEntity, cancellationToken);
+    => await _behavior.GetByIdsAsync(ids, ToEntity, cancellationToken);
 
   public virtual async Task CreateAsync(EntityName newItem, CancellationToken cancellationToken = default) 
-    => await _mongoRepositoryComponent.CreateAsync(newItem, ToMongoEntity, cancellationToken);
+    => await _behavior.CreateAsync(newItem, ToMongoEntity, cancellationToken);
 
   public virtual async Task UpdateAsync(EntityName updatedItem, CancellationToken cancellationToken = default) 
-    => await _mongoRepositoryComponent.UpdateAsync(updatedItem, ToMongoEntity, cancellationToken);
+    => await _behavior.UpdateAsync(updatedItem, ToMongoEntity, cancellationToken);
 
   public virtual async Task RemoveAsync(Guid id, CancellationToken cancellationToken = default) 
-    => await _mongoRepositoryComponent.RemoveAsync(id, cancellationToken);
+    => await _behavior.RemoveAsync(id, cancellationToken);
 
   public virtual void SetUniqueIndex(params Expression<Func<EntityNameMongo, object>>[] fields)
-    => _mongoRepositoryComponent.SetUniqueIndex(fields);
+    => _behavior.SetUniqueIndex(fields);
 
   public virtual void SetUniqueIndex(params string[] fields)
-    => _mongoRepositoryComponent.SetUniqueIndex(fields);
+    => _behavior.SetUniqueIndex(fields);
 
   public virtual void SetUniqueIndex(params IndexKeysDefinition<EntityNameMongo>[] fields)
-    => _mongoRepositoryComponent.SetUniqueIndex(fields);
+    => _behavior.SetUniqueIndex(fields);
 }

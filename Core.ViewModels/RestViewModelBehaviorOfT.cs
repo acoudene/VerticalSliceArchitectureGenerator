@@ -6,14 +6,14 @@ using Core.ViewObjects;
 
 namespace Core.ViewModels;
 
-public class RestViewModelComponent<TViewObject, TRestBffClient>
+public class RestViewModelBehavior<TViewObject, TRestBffClient>
     where TViewObject : class, IIdentifierViewObject
     where TRestBffClient : IRestBffClient<TViewObject>
 {
   private readonly TRestBffClient _restClient;
   protected TRestBffClient RestClient { get => _restClient; }
 
-  public RestViewModelComponent(TRestBffClient restClient) 
+  public RestViewModelBehavior(TRestBffClient restClient) 
     => _restClient = restClient ?? throw new ArgumentNullException(nameof(restClient));
 
   public virtual async Task CreateAsync(TViewObject newItem, CancellationToken cancellationToken = default) 

@@ -4,16 +4,20 @@
 using Feature.ViewModels.BffProxying;
 using Feature.ViewObjects;
 
-namespace Feature.ViewModels;
+namespace Feature.ViewModels.Offline;
 
 /// <summary>
 /// ViewModel associated to a dedicated entity
 /// </summary>
-public class EntityNameViewModel : IEntityNameViewModel
+public class OfflineEntityNameViewModel : IEntityNameViewModel
 {
+  private readonly ICachingStorage _cachingStorage;
   private readonly EntityNameRestViewModelBehavior _behavior;
-  public EntityNameViewModel(IEntityNameRestBffClient client)
+
+  public OfflineEntityNameViewModel(ICachingStorage cachingStorage, IEntityNameRestBffClient client)
   {
+    _cachingStorage = cachingStorage ?? throw new ArgumentNullException(nameof(cachingStorage));
+
     ArgumentNullException.ThrowIfNull(client);
 
     _behavior = new EntityNameRestViewModelBehavior(client);

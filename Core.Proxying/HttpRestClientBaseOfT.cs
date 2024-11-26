@@ -11,27 +11,34 @@ public abstract class HttpRestClientBase<TDto> : IRestClient<TDto>
   where TDto : class, IIdentifierDto
 {
   private readonly ILogger<HttpRestClientBase<TDto>> _logger;
-  private readonly HttpRestClientComponent<TDto> _httpRestClientComponent;
+  private readonly HttpRestClientBehavior<TDto> _behavior;
 
   /// <summary>
   /// Constructor
   /// </summary>
+  /// <param name="logger"></param>
   /// <param name="httpClientFactory"></param>
   /// <exception cref="ArgumentNullException"></exception>
-  protected HttpRestClientBase(ILogger<HttpRestClientBase<TDto>> logger, IHttpClientFactory httpClientFactory)
-    : this(logger, new HttpRestClientComponent<TDto>(httpClientFactory))
+  protected HttpRestClientBase(
+    ILogger<HttpRestClientBase<TDto>> logger, 
+    IHttpClientFactory httpClientFactory)
+    : this(logger, new HttpRestClientBehavior<TDto>(httpClientFactory))
   {
   }
 
   /// <summary>
   /// Constructor
   /// </summary>
+  /// <param name="logger"></param>
+  /// <param name="behavior"></param>
   /// <param name="httpClientFactory"></param>
   /// <exception cref="ArgumentNullException"></exception>
-  protected HttpRestClientBase(ILogger<HttpRestClientBase<TDto>> logger, HttpRestClientComponent<TDto> httpRestClientComponent)
+  protected HttpRestClientBase(
+    ILogger<HttpRestClientBase<TDto>> logger, 
+    HttpRestClientBehavior<TDto> behavior)
   {
     _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    _httpRestClientComponent = httpRestClientComponent ?? throw new ArgumentNullException(nameof(httpRestClientComponent));
+    _behavior = behavior ?? throw new ArgumentNullException(nameof(behavior));
   }
 
   public abstract string GetConfigurationName();
@@ -39,50 +46,50 @@ public abstract class HttpRestClientBase<TDto> : IRestClient<TDto>
   public virtual async Task<List<TDto>> GetAllAsync(CancellationToken cancellationToken = default)
   {
     _logger.LogDebug("Processing call to {Method}...", nameof(GetAllAsync));
-    return await _httpRestClientComponent.GetAllAsync(GetConfigurationName(), cancellationToken);
+    return await _behavior.GetAllAsync(GetConfigurationName(), cancellationToken);
   }
 
   public virtual async Task<TDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
   {
     _logger.LogDebug("Processing call to {Method}({Id})...", nameof(GetByIdAsync), id);
-    return await _httpRestClientComponent.GetByIdAsync(id, GetConfigurationName(), cancellationToken);
+    return await _behavior.GetByIdAsync(id, GetConfigurationName(), cancellationToken);
   }
 
   public virtual async Task<List<TDto>> GetByIdsAsync(List<Guid> ids, CancellationToken cancellationToken = default)
   {
     _logger.LogDebug("Processing call to {Method}({Ids})...", nameof(GetByIdsAsync), string.Join(',', ids));
-    return await _httpRestClientComponent.GetByIdsAsync(ids, GetConfigurationName(), cancellationToken);
+    return await _behavior.GetByIdsAsync(ids, GetConfigurationName(), cancellationToken);
   }
 
   public virtual async Task CreateAsync(
       TDto dto,
       CancellationToken cancellationToken = default)
   {
-    _logger.LogDebug("Processing call to {Method}({dto})...", nameof(CreateAsync), dto);
+    _logger.LogDebug("Processing call to {Method}({Dto})...", nameof(CreateAsync), dto);
 
 #if DEBUG // For security reasons      
-    var response = await _httpRestClientComponent.CreateAsync(dto, GetConfigurationName(), false, cancellationToken);
+    var response = await _behavior.CreateAsync(dto, GetConfigurationName(), false, cancellationToken);
     if (!response.IsSuccessStatusCode)
       _logger.LogDebug(response.Content.ReadAsStringAsync().Result);
     response.EnsureSuccessStatusCode();
 #else
-        await _httpRestClientComponent.CreateAsync(dto, GetConfigurationName(), true, cancellationToken);
+        await _behavior.CreateAsync(dto, GetConfigurationName(), true, cancellationToken);
 #endif
   }
 
   public virtual async Task CreateOrUpdateAsync(
-      TDto dto,
+      TDto newOrToUpdateDto,
       CancellationToken cancellationToken = default)
   {
-    _logger.LogDebug("Processing call to {Method}({dto})...", nameof(CreateOrUpdateAsync), dto);
+    _logger.LogDebug("Processing call to {Method}({Dto})...", nameof(CreateOrUpdateAsync), newOrToUpdateDto);
 
 #if DEBUG // For security reasons      
-    var response = await _httpRestClientComponent.CreateOrUpdateAsync(dto, GetConfigurationName(), false, cancellationToken);
+    var response = await _behavior.CreateOrUpdateAsync(newOrToUpdateDto, GetConfigurationName(), false, cancellationToken);
     if (!response.IsSuccessStatusCode)
       _logger.LogDebug(response.Content.ReadAsStringAsync().Result);
     response.EnsureSuccessStatusCode();
 #else
-        await _httpRestClientComponent.CreateOrUpdateAsync(dto, GetConfigurationName(), true, cancellationToken);
+        await _behavior.CreateOrUpdateAsync(dto, GetConfigurationName(), true, cancellationToken);
 #endif
   }
 
@@ -91,15 +98,15 @@ public abstract class HttpRestClientBase<TDto> : IRestClient<TDto>
     TDto dto,
     CancellationToken cancellationToken = default)
   {
-    _logger.LogDebug("Processing call to {Method}({id},{dto})...", nameof(UpdateAsync), id, dto);
+    _logger.LogDebug("Processing call to {Method}({Id},{Dto})...", nameof(UpdateAsync), id, dto);
 
 #if DEBUG // For security reasons      
-    var response = await _httpRestClientComponent.UpdateAsync(id, dto, GetConfigurationName(), false, cancellationToken);
+    var response = await _behavior.UpdateAsync(id, dto, GetConfigurationName(), false, cancellationToken);
     if (!response.IsSuccessStatusCode)
       _logger.LogDebug(response.Content.ReadAsStringAsync().Result);
     response.EnsureSuccessStatusCode();
 #else
-        await _httpRestClientComponent.UpdateAsync(id, dto, GetConfigurationName(), true, cancellationToken);
+        await _behavior.UpdateAsync(id, dto, GetConfigurationName(), true, cancellationToken);
 #endif
   }
 
@@ -107,8 +114,8 @@ public abstract class HttpRestClientBase<TDto> : IRestClient<TDto>
     Guid id,
     CancellationToken cancellationToken = default)
   {
-    _logger.LogDebug("Processing call to {Method}({id})...", nameof(DeleteAsync), id);
-    return await _httpRestClientComponent.DeleteAsync(id, GetConfigurationName(), cancellationToken);
+    _logger.LogDebug("Processing call to {Method}({Id})...", nameof(DeleteAsync), id);
+    return await _behavior.DeleteAsync(id, GetConfigurationName(), cancellationToken);
   }
 
   public virtual async Task PatchAsync(
@@ -116,15 +123,15 @@ public abstract class HttpRestClientBase<TDto> : IRestClient<TDto>
     JsonPatchDocument<TDto> patch,
     CancellationToken cancellationToken = default)
   {
-    _logger.LogDebug("Processing call to {Method}({id},{patch})...", nameof(PatchAsync), id, patch);
+    _logger.LogDebug("Processing call to {Method}({Id},{Patch})...", nameof(PatchAsync), id, patch);
 
 #if DEBUG // For security reasons      
-    var response = await _httpRestClientComponent.PatchAsync(id, patch, GetConfigurationName(), false, cancellationToken);
+    var response = await _behavior.PatchAsync(id, patch, GetConfigurationName(), false, cancellationToken);
     if (!response.IsSuccessStatusCode)
       _logger.LogDebug(response.Content.ReadAsStringAsync().Result);
     response.EnsureSuccessStatusCode();
 #else
-        await _httpRestClientComponent.PatchAsync(id, patch, GetConfigurationName(), true, cancellationToken);
+        await _behavior.PatchAsync(id, patch, GetConfigurationName(), true, cancellationToken);
 #endif
   }
 }

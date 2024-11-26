@@ -15,7 +15,7 @@ namespace Core.Api;
 /// <typeparam name="TDto"></typeparam>
 /// <typeparam name="TEntity"></typeparam>
 /// <typeparam name="TRepository"></typeparam>
-public class RestComponent<TDto, TEntity, TRepository>
+public class RestApiBehavior<TDto, TEntity, TRepository>
   where TDto : class, IIdentifierDto
   where TEntity : class, IIdentifierEntity
   where TRepository : IRepository<TEntity>
@@ -24,7 +24,7 @@ public class RestComponent<TDto, TEntity, TRepository>
 
   public TRepository Repository { get => _repository; }
 
-  public RestComponent(TRepository repository)
+  public RestApiBehavior(TRepository repository)
   {
     _repository = repository ?? throw new ArgumentNullException(nameof(repository));
   }

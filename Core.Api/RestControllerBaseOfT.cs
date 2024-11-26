@@ -25,35 +25,39 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
 {
   private readonly IHostEnvironment _hostEnvironment;
   private readonly ILogger<RestControllerBase<TDto, TEntity, TRepository>> _logger;
-  private readonly RestComponent<TDto, TEntity, TRepository> _restComponent;
+  private readonly RestApiBehavior<TDto, TEntity, TRepository> _behavior;
 
   protected IHostEnvironment HostEnvironment => _hostEnvironment;
   protected ILogger<RestControllerBase<TDto, TEntity, TRepository>> Logger => _logger;
-  protected RestComponent<TDto, TEntity, TRepository> RestComponent => _restComponent;
+  protected RestApiBehavior<TDto, TEntity, TRepository> Behavior => _behavior;
 
   protected RestControllerBase(
     IHostEnvironment hostEnvironment,
     ILogger<RestControllerBase<TDto, TEntity, TRepository>> logger,
-    RestComponent<TDto, TEntity, TRepository> restComponent)
+    RestApiBehavior<TDto, TEntity, TRepository> behavior)
   {
     _hostEnvironment = hostEnvironment ?? throw new ArgumentNullException(nameof(hostEnvironment));
     _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    _restComponent = restComponent ?? throw new ArgumentNullException(nameof(restComponent));
+    _behavior = behavior ?? throw new ArgumentNullException(nameof(behavior));
   }
 
-  protected RestControllerBase(IHostEnvironment hostEnvironment, ILogger<RestControllerBase<TDto, TEntity, TRepository>> logger, TRepository repository)
-    : this(hostEnvironment, logger, new RestComponent<TDto, TEntity, TRepository>(repository))
+  protected RestControllerBase(
+    IHostEnvironment hostEnvironment, 
+    ILogger<RestControllerBase<TDto, TEntity, TRepository>> logger, 
+    TRepository repository)
+    : this(hostEnvironment, logger, new RestApiBehavior<TDto, TEntity, TRepository>(repository))
   { }
 
   protected abstract TEntity ToEntity(TDto dto);
   protected abstract TDto ToDto(TEntity entity);
 
   [HttpGet]
-  public virtual async Task<Results<Ok<List<TDto>>, BadRequest, ProblemHttpResult>> GetAllAsync(CancellationToken cancellationToken = default)
+  public virtual async Task<Results<Ok<List<TDto>>, BadRequest, ProblemHttpResult>> GetAllAsync(
+    CancellationToken cancellationToken = default)
   {
     try
     {
-      return TypedResults.Ok(await _restComponent.GetAllAsync(ToDto, cancellationToken));
+      return TypedResults.Ok(await _behavior.GetAllAsync(ToDto, cancellationToken));
     }
     catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
     {
@@ -84,7 +88,10 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   {
     try
     {
-      var foundEntity = await _restComponent.GetByIdAsync(id, ToDto, cancellationToken);
+      if (!ModelState.IsValid)
+        throw new ArgumentException("ModelState is not validated or invalid");
+
+      var foundEntity = await _behavior.GetByIdAsync(id, ToDto, cancellationToken);
       if (foundEntity is null)
         return TypedResults.NotFound();
 
@@ -119,7 +126,10 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   {
     try
     {
-      return TypedResults.Ok(await _restComponent.GetByIdsAsync(ids, ToDto, cancellationToken));
+      if (!ModelState.IsValid)
+        throw new ArgumentException("ModelState is not validated or invalid");
+
+      return TypedResults.Ok(await _behavior.GetByIdsAsync(ids, ToDto, cancellationToken));
     }
     catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
     {
@@ -150,7 +160,10 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   {
     try
     {
-      return TypedResults.Created("{newDto.Id}", await _restComponent.CreateAsync(newDto, ToEntity, cancellationToken));
+      if (!ModelState.IsValid)
+        throw new ArgumentException("ModelState is not validated or invalid");
+
+      return TypedResults.Created("{newDto.Id}", await _behavior.CreateAsync(newDto, ToEntity, cancellationToken));
     }
     catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
     {
@@ -181,7 +194,9 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   {
     try
     {
-      _logger.LogDebug("Receiving request for {Method}({Dto})...", nameof(CreateOrUpdateAsync), newOrToUpdateDto);
+      if (!ModelState.IsValid)
+        throw new ArgumentException("ModelState is not validated or invalid");
+
       if (newOrToUpdateDto is null)
         throw new ArgumentNullException(nameof(newOrToUpdateDto));
 
@@ -189,11 +204,11 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
       if (id == Guid.Empty)
         throw new ArgumentNullException(nameof(newOrToUpdateDto.Id));
 
-      var updatedDto = await _restComponent.UpdateAsync(id, newOrToUpdateDto, ToEntity, cancellationToken);
+      var updatedDto = await _behavior.UpdateAsync(id, newOrToUpdateDto, ToEntity, cancellationToken);
       if (updatedDto is not null)
         return TypedResults.NoContent();
 
-      return TypedResults.Created("{newOrToUpdateDto.Id}", await _restComponent.CreateAsync(newOrToUpdateDto, ToEntity, cancellationToken));
+      return TypedResults.Created("{newOrToUpdateDto.Id}", await _behavior.CreateAsync(newOrToUpdateDto, ToEntity, cancellationToken));
     }
     catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
     {
@@ -225,7 +240,10 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   {
     try
     {
-      var updatedEntity = await _restComponent.UpdateAsync(id, updatedDto, ToEntity, cancellationToken);
+      if (!ModelState.IsValid)
+        throw new ArgumentException("ModelState is not validated or invalid");
+
+      var updatedEntity = await _behavior.UpdateAsync(id, updatedDto, ToEntity, cancellationToken);
       if (updatedEntity is null)
         return TypedResults.NotFound();
 
@@ -260,7 +278,10 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   {
     try
     {
-      var deletedEntity = await _restComponent.DeleteAsync(id, ToDto, cancellationToken);
+      if (!ModelState.IsValid)
+        throw new ArgumentException("ModelState is not validated or invalid");
+
+      var deletedEntity = await _behavior.DeleteAsync(id, ToDto, cancellationToken);
       if (deletedEntity is null)
         return TypedResults.NotFound();
 
@@ -296,7 +317,10 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   {
     try
     {
-      var patchedEntity = await _restComponent.PatchAsync(id, patchDto, ModelState, ToEntity, ToDto, cancellationToken);
+      if (!ModelState.IsValid)
+        throw new ArgumentException("ModelState is not validated or invalid");
+
+      var patchedEntity = await _behavior.PatchAsync(id, patchDto, ModelState, ToEntity, ToDto, cancellationToken);
       if (patchedEntity is null)
         return TypedResults.NotFound();
 
