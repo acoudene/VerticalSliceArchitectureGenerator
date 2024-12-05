@@ -72,7 +72,7 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
     var gotItems = (await client.GetByIdsAsync(ids));
 
     // Assert
-    Assert.True(expectedCount == items.Count);
+    Assert.True(expectedCount == gotItems.Count);
     Assert.Equivalent(items.Select(item => item.Id), gotItems.Select(item => item.Id));
   }
 
@@ -95,7 +95,7 @@ public class GivenEntityNameApi : HostApiMongoTestBase<Program>
     var gotItems = (await client.GetByIdsAsync(ids));
 
     // Assert
-    Assert.True(expectedCount == items.Count);
+    Assert.True(expectedCount == gotItems.Count);
     Assert.Equivalent(items.Select(item => item.Id), gotItems.Select(item => item.Id));
   }
 
