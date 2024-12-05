@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="Feature.ViewModels.EntityNameViewModel">
+    <Position X="3.75" Y="0.75" Width="6.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAgAKAAAAAgAAAAAAAAAAIgAABAAAIABIAA=</HashCode>
+      <FileName>EntityNameViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_behavior" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Feature.ViewModels.EntityNameRestViewModelBehavior">
+    <Position X="10.75" Y="4.75" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EntityNameRestViewModelBehavior.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Feature.ViewModels.Offline.OfflineEntityNameViewModel">
+    <Position X="3.25" Y="5.5" Width="5.25" />
+    <TypeIdentifier>
+      <HashCode>AAEAIAAAAAgAKAAAAAgAAgAAAAAAAIgAABAAAIABIAA=</HashCode>
+      <FileName>Offline\OfflineEntityNameViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="SelectedItem" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Items" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Feature.ViewObjects.EntityNameVo" Collapsed="true">
+    <Position X="11.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Feature.ViewModels.IEntityNameViewModel">
+    <Position X="1.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgACAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>IEntityNameViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Feature.ViewModels.BffProxying.IEntityNameRestBffClient" Collapsed="true">
+    <Position X="12.75" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BffProxying\IEntityNameRestBffClient.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

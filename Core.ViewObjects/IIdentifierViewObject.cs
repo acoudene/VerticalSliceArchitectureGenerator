@@ -5,5 +5,5 @@ namespace Core.ViewObjects;
 
 public interface IIdentifierViewObject : IViewObject
 {
-    Guid Id { get; set; }
+    Guid Id { get; }
 }

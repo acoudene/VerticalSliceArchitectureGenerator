@@ -8,7 +8,7 @@ namespace Feature.Data.Entities;
 
 public record EntityName : IIdentifierEntity, ITimestampedEntity
 {
-  public required Guid Id { get; set; }
+  public required Guid Id { get; init; }
 
   public DateTimeOffset CreatedAt { get; init; }
 

@@ -89,7 +89,7 @@ public abstract class HttpRestClientBase<TDto> : IRestClient<TDto>
       _logger.LogDebug(response.Content.ReadAsStringAsync().Result);
     response.EnsureSuccessStatusCode();
 #else
-        await _behavior.CreateOrUpdateAsync(dto, GetConfigurationName(), true, cancellationToken);
+        await _behavior.CreateOrUpdateAsync(newOrToUpdateDto, GetConfigurationName(), true, cancellationToken);
 #endif
   }
 

@@ -1,7 +1,7 @@
 ﻿// Changelogs Date  | Author                | Description
 // 2023-12-23       | Anthony Coudène       | Creation
 
-namespace Feature.ViewModels.Offline;
+namespace Core.ViewModels.Offline;
 
 public class ChangedEventArgs
 {

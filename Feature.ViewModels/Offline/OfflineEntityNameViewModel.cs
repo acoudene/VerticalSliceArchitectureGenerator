@@ -1,6 +1,7 @@
 ﻿// Changelogs Date  | Author                | Description
 // 2023-12-23       | Anthony Coudène       | Creation
 
+using Core.ViewModels.Offline;
 using Feature.ViewModels.BffProxying;
 using Feature.ViewObjects;
 
@@ -29,8 +30,28 @@ public class OfflineEntityNameViewModel : IEntityNameViewModel
   public HashSet<EntityNameVo> SelectedItems { get; set; }
   public EntityNameVo? SelectedItem { get; set; }
 
+  protected virtual string GetCacheKey(EntityNameVo item)
+  {
+    ArgumentNullException.ThrowIfNull(item);
+
+    Guid id = item.Id;
+    if (id == Guid.Empty)
+      throw new InvalidOperationException($"{nameof(id)} is empty!");
+
+    return id.ToString();
+  }
+
   public virtual async Task CreateAsync(EntityNameVo newItem, CancellationToken cancellationToken = default)
-    => await _behavior.CreateAsync(newItem, cancellationToken);
+  {
+    ArgumentNullException.ThrowIfNull(newItem);
+
+    string cacheKey = GetCacheKey(newItem);
+    var container = new ViewObjectStateContainer<EntityNameVo>(newItem, ViewObjectState.Added);
+    
+    
+
+    await _behavior.CreateAsync(newItem, cancellationToken);
+  }
 
   public virtual async Task CreateOrUpdateAsync(EntityNameVo newOrToUpdateVo, CancellationToken cancellationToken = default)
     => await _behavior.CreateOrUpdateAsync(newOrToUpdateVo, cancellationToken);
