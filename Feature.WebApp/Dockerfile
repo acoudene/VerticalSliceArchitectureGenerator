@@ -2,7 +2,7 @@
 
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
+USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
@@ -21,10 +21,12 @@ COPY ["Feature.Dtos/Feature.Dtos.csproj", "Feature.Dtos/"]
 COPY ["Feature.ViewObjects/Feature.ViewObjects.csproj", "Feature.ViewObjects/"]
 COPY ["Core.ViewObjects/Core.ViewObjects.csproj", "Core.ViewObjects/"]
 COPY ["Feature.ServiceDefaults/Feature.ServiceDefaults.csproj", "Feature.ServiceDefaults/"]
-COPY ["Feature.ViewObjects.Validators/Feature.ViewObjects.Validators.csproj", "Feature.ViewObjects.Validators/"]
 COPY ["Feature.WebApp.Client/Feature.WebApp.Client.csproj", "Feature.WebApp.Client/"]
+COPY ["Core.RazorComponents.Mud/Core.RazorComponents.Mud.csproj", "Core.RazorComponents.Mud/"]
+COPY ["Core.RazorComponents/Core.RazorComponents.csproj", "Core.RazorComponents/"]
 COPY ["Feature.Localization/Feature.Localization.csproj", "Feature.Localization/"]
 COPY ["Feature.RazorComponents/Feature.RazorComponents.csproj", "Feature.RazorComponents/"]
+COPY ["Feature.ViewObjects.Validation/Feature.ViewObjects.Validation.csproj", "Feature.ViewObjects.Validation/"]
 COPY ["Feature.ViewModels/Feature.ViewModels.csproj", "Feature.ViewModels/"]
 COPY ["Core.ViewModels/Core.ViewModels.csproj", "Core.ViewModels/"]
 RUN dotnet restore "./Feature.WebApp/Feature.WebApp.csproj"
