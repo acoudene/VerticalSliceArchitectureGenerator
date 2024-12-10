@@ -11,6 +11,8 @@ public abstract class HttpRestClientBase<TDto> : IRestClient<TDto>
   where TDto : class, IIdentifierDto
 {
   private readonly ILogger<HttpRestClientBase<TDto>> _logger;
+  protected ILogger<HttpRestClientBase<TDto>> Logger => _logger;
+
   private readonly HttpRestClientBehavior<TDto> _behavior;
 
   /// <summary>
