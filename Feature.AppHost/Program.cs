@@ -1,13 +1,15 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-// Temporary independant Mongo coupled only by port and database name but a coupling will be done.
-const int port = 27017;
 const string databaseName = "feature";
 
-var mongoContainer = builder.AddMongoDB("mongo", port);
-mongoContainer.AddDatabase(databaseName);
+var mongoContainer = builder.AddMongoDB("mongo")
+  .WithLifetime(ContainerLifetime.Persistent);
 
-builder.AddProject<Projects.Feature_Host>("feature-host");
+var mongoDatabase = mongoContainer.AddDatabase(databaseName);
+
+builder.AddProject<Projects.Feature_Host>("feature-host")
+  .WithReference(mongoDatabase)
+  .WaitFor(mongoDatabase);
 
 builder.AddProject<Projects.Feature_WebApp>("feature-webapp");
 

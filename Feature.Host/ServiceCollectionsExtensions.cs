@@ -14,11 +14,6 @@ public static class ServiceCollectionsExtensions
 {
   public static void AddDataAdapters(this IServiceCollection serviceCollection)
   {
-    // https://kevsoft.net/2022/02/18/setting-up-mongodb-to-use-standard-guids-in-csharp.html
-#pragma warning disable CS0618
-    BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
-    //BsonDefaults.GuidRepresentationMode = GuidRepresentationMode.V3;
-#pragma warning restore CS0618
     try
     {
       BsonSerializer.TryRegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
@@ -32,10 +27,11 @@ public static class ServiceCollectionsExtensions
     serviceCollection.AddScoped<IEntityNameRepository, EntityNameRepository>();
   }
 
-  public static void ConfigureDataAdapters(this IServiceCollection serviceCollection, IConfiguration configuration)
+  public static void ConfigureDataAdapters(this IServiceCollection serviceCollection, IConfiguration configuration, string? forcedConnectionString)
   {
     /// Connexion strings
     serviceCollection.Configure<DatabaseSettings>(configuration);
+    serviceCollection.Configure<DatabaseSettings>(options => options.ConnectionString = forcedConnectionString ?? options.ConnectionString);
 
     AddDataAdapters(serviceCollection);
   }

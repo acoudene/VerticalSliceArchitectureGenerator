@@ -11,6 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Feature.Proxies\Feature.Proxies.csproj" />
     <ProjectReference Include="..\Feature.ViewObjects\Feature.ViewObjects.csproj" />
   </ItemGroup>

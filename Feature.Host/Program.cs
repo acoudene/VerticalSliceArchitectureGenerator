@@ -29,8 +29,11 @@ try
   /// <seealso cref="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-7.0&preserve-view=true#pds7"/>
   builder.Services.AddProblemDetails();
 
+  // Temporary way of getting Aspire Connection String without coupling this host to Aspire Client Libraries
+  var mongoConnectionString = builder.Configuration.GetConnectionString("feature");
+
   /// Data
-  builder.Services.ConfigureDataAdapters(builder.Configuration.GetSection(nameof(DatabaseSettings)));
+  builder.Services.ConfigureDataAdapters(builder.Configuration.GetSection(nameof(DatabaseSettings)), mongoConnectionString);
 
   /// Add module to controller scanning, for clarty I have been redundant on controllers even if they share the same assembly 
   builder.Services.AddControllers(options =>
@@ -57,7 +60,7 @@ try
   bool corsManagementExpected = !string.IsNullOrWhiteSpace(frontEndBaseAddress);
 
   if (corsManagementExpected)
-  {    
+  {
     builder.Services.AddCors(options =>
     {
       options.AddPolicy(name: allowSpecificOrigins,
