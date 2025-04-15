@@ -1,64 +1,50 @@
 ﻿// Changelogs Date  | Author                | Description
 // 2023-12-23       | Anthony Coudène       | Creation
 
-using System.Collections;
-
 namespace Feature.Host.Tests;
 
-internal class EntityNamesData : IEnumerable<object[]>
+internal class EntityNamesData : TheoryData<List<EntityNameDto>>
 {
-  public IEnumerator<object[]> GetEnumerator()
+  public EntityNamesData()
   {
-    yield return new object[]
-    {
-      new List<EntityNameDto>()
-      {
-        new EntityNameDto()
-        {
-          Id = Guid.NewGuid()
-          // TODO - EntityProperties - Fields to complete
-        },
-        new EntityNameDto()
-        {
-          Id = Guid.NewGuid()
-          // TODO - EntityProperties - Fields to complete
-        }
-      }
-    };
-    yield return new object[]
-    {
-      new List<EntityNameDto>()
-      {
-        new EntityNameDto()
-        {
-          Id = Guid.NewGuid()
-          // TODO - EntityProperties - Fields to complete
-        },
-        new EntityNameDto()
-        {
-          Id = Guid.NewGuid()
-          // TODO - EntityProperties - Fields to complete
-        }
-      }
-    };
-    yield return new object[]
-    {
-      new List<EntityNameDto>()
-      {
-        new EntityNameDto()
-        {
-          Id = Guid.NewGuid()
-          // TODO - EntityProperties - Fields to complete
-        },
-        new EntityNameDto()
-        {
-          Id = Guid.NewGuid()
-          // TODO - EntityProperties - Fields to complete
-        }
-      }
-    };
+    Add([
+          new EntityNameDto()
+          {
+            Id = Guid.NewGuid()
+            // TODO - EntityProperties - Fields to complete
+          },
+          new EntityNameDto()
+          {
+            Id = Guid.NewGuid()
+            // TODO - EntityProperties - Fields to complete
+          }
+        ]);
+
+    Add([
+          new EntityNameDto()
+          {
+            Id = Guid.NewGuid()
+            // TODO - EntityProperties - Fields to complete
+          },
+          new EntityNameDto()
+          {
+            Id = Guid.NewGuid()
+            // TODO - EntityProperties - Fields to complete
+          }
+        ]);
+
+    Add([
+          new EntityNameDto()
+          {
+            Id = Guid.NewGuid()
+            // TODO - EntityProperties - Fields to complete
+          },
+          new EntityNameDto()
+          {
+            Id = Guid.NewGuid()
+            // TODO - EntityProperties - Fields to complete
+          }
+        ]);
   }
-  
-  IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
 

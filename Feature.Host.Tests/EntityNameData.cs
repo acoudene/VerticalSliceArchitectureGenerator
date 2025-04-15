@@ -1,40 +1,29 @@
 ﻿// Changelogs Date  | Author                | Description
 // 2023-12-23       | Anthony Coudène       | Creation
 
-using System.Collections;
-
 namespace Feature.Host.Tests;
 
-internal class EntityNameData : IEnumerable<object[]>
+internal class EntityNameData : TheoryData<EntityNameDto>
 {
-  public IEnumerator<object[]> GetEnumerator()
+  public EntityNameData()
   {
-    yield return new object[] 
+    Add(new EntityNameDto()
     {
-      new EntityNameDto()
-      {
-        Id = Guid.NewGuid()
-        // TODO - EntityProperties - Fields to complete
-      }
-    };
-    yield return new object[]
+      Id = Guid.NewGuid()
+      // TODO - EntityProperties - Fields to complete
+    });
+
+    Add(new EntityNameDto()
     {
-      new EntityNameDto()
-      {
-        Id = Guid.NewGuid()
-        // TODO - EntityProperties - Fields to complete
-      }
-    };
-    yield return new object[]
+      Id = Guid.NewGuid()
+      // TODO - EntityProperties - Fields to complete
+    });
+
+    Add(new EntityNameDto()
     {
-      new EntityNameDto()
-      {
-        Id = Guid.NewGuid()
-        // TODO - EntityProperties - Fields to complete
-      }
-    };
+      Id = Guid.NewGuid()
+      // TODO - EntityProperties - Fields to complete
+    });
   }
-  
-  IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
 
