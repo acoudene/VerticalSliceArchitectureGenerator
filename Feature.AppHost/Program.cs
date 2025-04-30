@@ -13,4 +13,8 @@ builder.AddProject<Projects.Feature_Host>("feature-host")
 
 builder.AddProject<Projects.Feature_WebApp>("feature-webapp");
 
+/// dotnet tool install -g aspire.cli --prerelease
+/// aspire publish
+builder.AddDockerComposePublisher();
+
 builder.Build().Run();
