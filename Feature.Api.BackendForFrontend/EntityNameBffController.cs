@@ -38,7 +38,7 @@ public class EntityNameBffController : ControllerBase
   /// <param name="cancellationToken"></param>
   /// <returns></returns>
   [HttpGet]
-  [Consumes(MediaTypeNames.Application.Json)]
+  [Produces(MediaTypeNames.Application.Json)]
   [ProducesResponseType(StatusCodes.Status200OK)]
   [ProducesResponseType(StatusCodes.Status400BadRequest)]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -69,7 +69,7 @@ public class EntityNameBffController : ControllerBase
   /// <param name="cancellationToken"></param>
   /// <returns></returns>
   [HttpGet("{id:guid}")]
-  [Consumes(MediaTypeNames.Application.Json)]
+  [Produces(MediaTypeNames.Application.Json)]
   [ProducesResponseType(StatusCodes.Status200OK)]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -103,6 +103,7 @@ public class EntityNameBffController : ControllerBase
   /// <exception cref="InvalidOperationException"></exception>
   [HttpPost("CreateOrUpdate")]
   [Consumes(MediaTypeNames.Application.Json)]
+  [Produces(MediaTypeNames.Application.Json)]
   [ProducesResponseType(StatusCodes.Status204NoContent)]
   [ProducesResponseType(StatusCodes.Status201Created)]
   [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -143,7 +144,7 @@ public class EntityNameBffController : ControllerBase
   /// <returns></returns>
   /// <exception cref="InvalidOperationException"></exception>
   [HttpDelete("{id:guid}")]
-  [Consumes(MediaTypeNames.Application.Json)]
+  [Produces(MediaTypeNames.Application.Json)]
   [ProducesResponseType(StatusCodes.Status200OK)]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status400BadRequest)]
