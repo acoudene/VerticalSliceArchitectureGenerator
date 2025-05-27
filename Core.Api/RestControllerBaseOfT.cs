@@ -265,7 +265,7 @@ public abstract class RestControllerBase<TDto, TEntity, TRepository> : Controlle
   /// provided patch document is invalid or the model state is invalid.</description> </item> <item> <description><see
   /// cref="ProblemHttpResult"/> if an unexpected error occurs during the operation.</description> </item> </list></returns>
   /// <exception cref="ArgumentException">Thrown if the model state is invalid and cannot be processed.</exception>
-  [HttpPatch]
+  [HttpPatch("{id:guid}")]
   public virtual async Task<Results<Ok<TDto>, NotFound, BadRequest, ProblemHttpResult>> PatchAsync(
     Guid id,
     [FromBody] JsonPatchDocument<TDto> patchDto,
