@@ -44,22 +44,9 @@ public class EntityNameBffController : ControllerBase
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
   public virtual async Task<ActionResult<List<EntityNameVo>>> GetAllAsync(CancellationToken cancellationToken = default)
   {
-    try
-    {
-      return (await _client.GetAllAsync(cancellationToken))
-        .Select(dto => dto.ToViewObject())
-        .ToList();
-    }
-    catch (ArgumentException ex)
-    {
-      _logger.LogError(ex, "Bad request");
-      return BadRequest();
-    }
-    catch (Exception ex)
-    {
-      _logger.LogError(ex, "Internal error");
-      return Problem();
-    }
+    return (await _client.GetAllAsync(cancellationToken))
+      .Select(dto => dto.ToViewObject())
+      .ToList();
   }
 
   /// <summary>
@@ -76,21 +63,8 @@ public class EntityNameBffController : ControllerBase
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
   public virtual async Task<ActionResult<EntityNameVo?>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
   {
-    try
-    {
-      return (await _client.GetByIdAsync(id, cancellationToken))?
-        .ToViewObject();
-    }
-    catch (ArgumentException ex)
-    {
-      _logger.LogError(ex, "Bad request");
-      return BadRequest();
-    }
-    catch (Exception ex)
-    {
-      _logger.LogError(ex, "Internal error");
-      return Problem();
-    }
+    return (await _client.GetByIdAsync(id, cancellationToken))?
+      .ToViewObject();
   }
 
   /// <summary>
@@ -112,28 +86,15 @@ public class EntityNameBffController : ControllerBase
      [FromBody] EntityNameVo newOrToUpdateVo,
      CancellationToken cancellationToken = default)
   {
-    try
-    {
-      if (newOrToUpdateVo is null)
-        throw new ArgumentNullException(nameof(newOrToUpdateVo));
+    if (newOrToUpdateVo is null)
+      throw new ArgumentNullException(nameof(newOrToUpdateVo));
 
-      var dto = newOrToUpdateVo.ToDto();
-      if (dto is null)
-        throw new InvalidOperationException("Problem while converting to view object");
+    var dto = newOrToUpdateVo.ToDto();
+    if (dto is null)
+      throw new InvalidOperationException("Problem while converting to view object");
 
-      await _client.CreateOrUpdateAsync(dto, cancellationToken);
-      return dto.ToViewObject();
-    }
-    catch (ArgumentException ex)
-    {
-      _logger.LogError(ex, "Bad request");
-      return BadRequest();
-    }
-    catch (Exception ex)
-    {
-      _logger.LogError(ex, "Internal error");
-      return Problem();
-    }
+    await _client.CreateOrUpdateAsync(dto, cancellationToken);
+    return dto.ToViewObject();
   }
 
   /// <summary>
@@ -151,26 +112,13 @@ public class EntityNameBffController : ControllerBase
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
   public virtual async Task<ActionResult<EntityNameVo>> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
   {
-    try
-    {
-      if (id == Guid.Empty)
-        throw new ArgumentException(nameof(id));
+    if (id == Guid.Empty)
+      throw new ArgumentException(nameof(id));
 
-      var dto = await _client.DeleteAsync(id, cancellationToken);
-      if (dto is null)
-        throw new InvalidOperationException("Problem while deleting view object");
+    var dto = await _client.DeleteAsync(id, cancellationToken);
+    if (dto is null)
+      throw new InvalidOperationException("Problem while deleting view object");
 
-      return dto.ToViewObject();
-    }
-    catch (ArgumentException ex)
-    {
-      _logger.LogError(ex, "Bad request");
-      return BadRequest();
-    }
-    catch (Exception ex)
-    {
-      _logger.LogError(ex, "Internal error");
-      return Problem();
-    }
+    return dto.ToViewObject();
   }
 }

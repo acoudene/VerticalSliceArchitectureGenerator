@@ -2,11 +2,13 @@
 // 2023-12-23       | Anthony Coudène       | Creation
 
 using Core.Api;
+using Core.Api.Filters;
 using Core.Api.Swaggers;
 using Core.Data.MongoDb;
 using Feature.Api;
 using Feature.Host;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -39,9 +41,13 @@ try
   builder.Services.AddControllers(options =>
                   {
                     options.InputFormatters.Insert(0, JsonPatchHelper.GetJsonPatchInputFormatter());
+                    options.Filters.Add<HttpCodeConverterExceptionFilter>();
+                    options.Filters.Add<LogActionArgumentsFilter>();
                   })
                   .ConfigureApplicationPartManager(apm => apm.ApplicationParts.Add(new AssemblyPart(typeof(EntityNameController).Assembly)))
                   ;
+
+  builder.Services.AddSingleton<ProblemDetailsFactory, DefaultProblemDetailsFactory>();
 
   /// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
   builder.Services.AddEndpointsApiExplorer();

@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Core.Api\Core.Api.csproj" />
     <ProjectReference Include="..\Core.Dtos\Core.Dtos.csproj" />
     <ProjectReference Include="..\Core.Proxying\Core.Proxying.csproj" />
     <ProjectReference Include="..\Core.ViewObjects\Core.ViewObjects.csproj" />

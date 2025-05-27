@@ -24,26 +24,24 @@ public abstract class RestBffControllerBase<TViewObject, TDto, TClient> : Contro
   where TDto : class, IIdentifierDto
   where TClient : IRestClient<TDto>
 {
-  private readonly IHostEnvironment _hostEnvironment;
   private readonly ILogger<RestBffControllerBase<TViewObject, TDto, TClient>> _logger;
   private readonly RestBffBehavior<TViewObject, TDto, TClient> _behavior;
 
-  protected IHostEnvironment HostEnvironment => _hostEnvironment;
   protected ILogger<RestBffControllerBase<TViewObject, TDto, TClient>> Logger => _logger;
   protected RestBffBehavior<TViewObject, TDto, TClient> Behavior => _behavior;
 
   protected RestBffControllerBase(
-    IHostEnvironment hostEnvironment,
     ILogger<RestBffControllerBase<TViewObject, TDto, TClient>> logger,
     RestBffBehavior<TViewObject, TDto, TClient> behavior)
   {
-    _hostEnvironment = hostEnvironment ?? throw new ArgumentNullException(nameof(hostEnvironment));
     _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     _behavior = behavior ?? throw new ArgumentNullException(nameof(behavior));
   }
 
-  protected RestBffControllerBase(IHostEnvironment hostEnvironment, ILogger<RestBffControllerBase<TViewObject, TDto, TClient>> logger, TClient client)
-      : this(hostEnvironment, logger, new RestBffBehavior<TViewObject, TDto, TClient>(client))
+  protected RestBffControllerBase(
+    ILogger<RestBffControllerBase<TViewObject, TDto, TClient>> logger, 
+    TClient client)
+      : this(logger, new RestBffBehavior<TViewObject, TDto, TClient>(client))
   { }
 
   protected abstract TViewObject ToViewObject(TDto dto);
@@ -52,69 +50,21 @@ public abstract class RestBffControllerBase<TViewObject, TDto, TClient> : Contro
   [HttpGet]
   public virtual async Task<Results<Ok<List<TViewObject>>, BadRequest, ProblemHttpResult>> GetAllAsync(
     CancellationToken cancellationToken = default)
-  {
-    try
-    {
-      return TypedResults.Ok(await _behavior.GetAllAsync(ToViewObject, cancellationToken));
-    }
-    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
-    {
-      _logger.LogError(ex, "Bad request");
-      throw;
-    }
-    catch (ArgumentException ex)
-    {
-      _logger.LogError(ex, "Bad request");
-      return TypedResults.BadRequest();
-    }
-    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
-    {
-      _logger.LogError(ex, "Internal error");
-      throw;
-    }
-    catch (Exception ex)
-    {
-      _logger.LogError(ex, "Internal error");
-      return TypedResults.Problem();
-    }
-  }
+    => TypedResults.Ok(await _behavior.GetAllAsync(ToViewObject, cancellationToken));
 
   [HttpGet("{id:guid}")]
   public virtual async Task<Results<Ok<TViewObject>, NotFound, BadRequest, ProblemHttpResult>> GetByIdAsync(
     Guid id,
     CancellationToken cancellationToken = default)
   {
-    try
-    {
-      if (!ModelState.IsValid)
-        throw new ArgumentException("ModelState is not validated or invalid");
+    if (!ModelState.IsValid)
+      throw new ArgumentException("ModelState is not validated or invalid");
 
-      var foundVo = await _behavior.GetByIdAsync(id, ToViewObject, cancellationToken);
-      if (foundVo is null)
-        return TypedResults.NotFound();
+    var foundVo = await _behavior.GetByIdAsync(id, ToViewObject, cancellationToken);
+    if (foundVo is null)
+      return TypedResults.NotFound();
 
-      return TypedResults.Ok(foundVo);
-    }
-    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
-    {
-      _logger.LogError(ex, "Bad request");
-      throw;
-    }
-    catch (ArgumentException ex)
-    {
-      _logger.LogError(ex, "Bad request");
-      return TypedResults.BadRequest();
-    }
-    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
-    {
-      _logger.LogError(ex, "Internal error");
-      throw;
-    }
-    catch (Exception ex)
-    {
-      _logger.LogError(ex, "Internal error");
-      return TypedResults.Problem();
-    }
+    return TypedResults.Ok(foundVo);
   }
 
   [HttpGet("byIds")]
@@ -122,33 +72,10 @@ public abstract class RestBffControllerBase<TViewObject, TDto, TClient> : Contro
     [FromQuery] List<Guid> ids,
     CancellationToken cancellationToken = default)
   {
-    try
-    {
-      if (!ModelState.IsValid)
-        throw new ArgumentException("ModelState is not validated or invalid");
+    if (!ModelState.IsValid)
+      throw new ArgumentException("ModelState is not validated or invalid");
 
-      return TypedResults.Ok(await _behavior.GetByIdsAsync(ids, ToViewObject, cancellationToken));
-    }
-    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
-    {
-      _logger.LogError(ex, "Bad request");
-      throw;
-    }
-    catch (ArgumentException ex)
-    {
-      _logger.LogError(ex, "Bad request");
-      return TypedResults.BadRequest();
-    }
-    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
-    {
-      _logger.LogError(ex, "Internal error");
-      throw;
-    }
-    catch (Exception ex)
-    {
-      _logger.LogError(ex, "Internal error");
-      return TypedResults.Problem();
-    }
+    return TypedResults.Ok(await _behavior.GetByIdsAsync(ids, ToViewObject, cancellationToken));
   }
 
   [HttpPost]
@@ -156,33 +83,10 @@ public abstract class RestBffControllerBase<TViewObject, TDto, TClient> : Contro
     [FromBody] TViewObject newVo,
     CancellationToken cancellationToken = default)
   {
-    try
-    {
-      if (!ModelState.IsValid)
-        throw new ArgumentException("ModelState is not validated or invalid");
+    if (!ModelState.IsValid)
+      throw new ArgumentException("ModelState is not validated or invalid");
 
-      return TypedResults.Created("{newVo.Id}", await _behavior.CreateAsync(newVo, ToDto, cancellationToken));
-    }
-    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
-    {
-      _logger.LogError(ex, "Bad request");
-      throw;
-    }
-    catch (ArgumentException ex)
-    {
-      _logger.LogError(ex, "Bad request");
-      return TypedResults.BadRequest();
-    }
-    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
-    {
-      _logger.LogError(ex, "Internal error");
-      throw;
-    }
-    catch (Exception ex)
-    {
-      _logger.LogError(ex, "Internal error");
-      return TypedResults.Problem();
-    }
+    return TypedResults.Created("{newVo.Id}", await _behavior.CreateAsync(newVo, ToDto, cancellationToken));
   }
 
   [HttpPost("CreateOrUpdate")]
@@ -190,44 +94,21 @@ public abstract class RestBffControllerBase<TViewObject, TDto, TClient> : Contro
       [FromBody] TViewObject newOrToUpdateVo,
       CancellationToken cancellationToken = default)
   {
-    try
-    {
-      if (!ModelState.IsValid)
-        throw new ArgumentException("ModelState is not validated or invalid");
+    if (!ModelState.IsValid)
+      throw new ArgumentException("ModelState is not validated or invalid");
 
-      if (newOrToUpdateVo is null)
-        throw new ArgumentNullException(nameof(newOrToUpdateVo));
+    if (newOrToUpdateVo is null)
+      throw new ArgumentNullException(nameof(newOrToUpdateVo));
 
-      Guid id = newOrToUpdateVo.Id;
-      if (id == Guid.Empty)
-        throw new ArgumentNullException(nameof(newOrToUpdateVo.Id));
+    Guid id = newOrToUpdateVo.Id;
+    if (id == Guid.Empty)
+      throw new ArgumentNullException(nameof(newOrToUpdateVo.Id));
 
-      var updatedVo = await _behavior.UpdateAsync(id, newOrToUpdateVo, ToDto);
-      if (updatedVo is not null)
-        return TypedResults.NoContent();
+    var updatedVo = await _behavior.UpdateAsync(id, newOrToUpdateVo, ToDto);
+    if (updatedVo is not null)
+      return TypedResults.NoContent();
 
-      return TypedResults.Created("{newOrToUpdateVo.Id}", await _behavior.CreateAsync(newOrToUpdateVo, ToDto, cancellationToken));
-    }
-    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
-    {
-      _logger.LogError(ex, "Bad request");
-      throw;
-    }
-    catch (ArgumentException ex)
-    {
-      _logger.LogError(ex, "Bad request");
-      return TypedResults.BadRequest();
-    }
-    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
-    {
-      _logger.LogError(ex, "Internal error");
-      throw;
-    }
-    catch (Exception ex)
-    {
-      _logger.LogError(ex, "Internal error");
-      return TypedResults.Problem();
-    }
+    return TypedResults.Created("{newOrToUpdateVo.Id}", await _behavior.CreateAsync(newOrToUpdateVo, ToDto, cancellationToken));
   }
 
   [HttpPut("{id:guid}")]
@@ -236,37 +117,14 @@ public abstract class RestBffControllerBase<TViewObject, TDto, TClient> : Contro
     [FromBody] TViewObject toUpdateVo,
     CancellationToken cancellationToken = default)
   {
-    try
-    {
-      if (!ModelState.IsValid)
-        throw new ArgumentException("ModelState is not validated or invalid");
+    if (!ModelState.IsValid)
+      throw new ArgumentException("ModelState is not validated or invalid");
 
-      var updatedVo = await _behavior.UpdateAsync(id, toUpdateVo, ToDto, cancellationToken);
-      if (updatedVo is null)
-        return TypedResults.NotFound();
+    var updatedVo = await _behavior.UpdateAsync(id, toUpdateVo, ToDto, cancellationToken);
+    if (updatedVo is null)
+      return TypedResults.NotFound();
 
-      return TypedResults.NoContent();
-    }
-    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
-    {
-      _logger.LogError(ex, "Bad request");
-      throw;
-    }
-    catch (ArgumentException ex)
-    {
-      _logger.LogError(ex, "Bad request");
-      return TypedResults.BadRequest();
-    }
-    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
-    {
-      _logger.LogError(ex, "Internal error");
-      throw;
-    }
-    catch (Exception ex)
-    {
-      _logger.LogError(ex, "Internal error");
-      return TypedResults.Problem();
-    }
+    return TypedResults.NoContent();
   }
 
   [HttpDelete("{id:guid}")]
@@ -274,37 +132,14 @@ public abstract class RestBffControllerBase<TViewObject, TDto, TClient> : Contro
     Guid id,
     CancellationToken cancellationToken = default)
   {
-    try
-    {
-      if (!ModelState.IsValid)
-        throw new ArgumentException("ModelState is not validated or invalid");
+    if (!ModelState.IsValid)
+      throw new ArgumentException("ModelState is not validated or invalid");
 
-      var deletedVo = await _behavior.DeleteAsync(id, ToViewObject, cancellationToken);
-      if (deletedVo is null)
-        return TypedResults.NotFound();
+    var deletedVo = await _behavior.DeleteAsync(id, ToViewObject, cancellationToken);
+    if (deletedVo is null)
+      return TypedResults.NotFound();
 
-      return TypedResults.Ok(deletedVo);
-    }
-    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
-    {
-      _logger.LogError(ex, "Bad request");
-      throw;
-    }
-    catch (ArgumentException ex)
-    {
-      _logger.LogError(ex, "Bad request");
-      return TypedResults.BadRequest();
-    }
-    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
-    {
-      _logger.LogError(ex, "Internal error");
-      throw;
-    }
-    catch (Exception ex)
-    {
-      _logger.LogError(ex, "Internal error");
-      return TypedResults.Problem();
-    }
+    return TypedResults.Ok(deletedVo);
   }
 
   [HttpPatch]
@@ -313,36 +148,13 @@ public abstract class RestBffControllerBase<TViewObject, TDto, TClient> : Contro
     [FromBody] JsonPatchDocument<TViewObject> toPatchVo,
     CancellationToken cancellationToken = default)
   {
-    try
-    {
-      if (!ModelState.IsValid)
-        throw new ArgumentException("ModelState is not validated or invalid");
+    if (!ModelState.IsValid)
+      throw new ArgumentException("ModelState is not validated or invalid");
 
-      var patchedVo = await _behavior.PatchAsync(id, toPatchVo, ModelState, ToDto, ToViewObject, cancellationToken);
-      if (patchedVo is null)
-        return TypedResults.NotFound();
+    var patchedVo = await _behavior.PatchAsync(id, toPatchVo, ModelState, ToDto, ToViewObject, cancellationToken);
+    if (patchedVo is null)
+      return TypedResults.NotFound();
 
-      return TypedResults.Ok(patchedVo);
-    }
-    catch (ArgumentException ex) when (_hostEnvironment.IsDevelopment())
-    {
-      _logger.LogError(ex, "Bad request");
-      throw;
-    }
-    catch (ArgumentException ex)
-    {
-      _logger.LogError(ex, "Bad request");
-      return TypedResults.BadRequest();
-    }
-    catch (Exception ex) when (_hostEnvironment.IsDevelopment())
-    {
-      _logger.LogError(ex, "Internal error");
-      throw;
-    }
-    catch (Exception ex)
-    {
-      _logger.LogError(ex, "Internal error");
-      return TypedResults.Problem();
-    }
+    return TypedResults.Ok(patchedVo);
   }
 }

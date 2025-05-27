@@ -1,3 +1,4 @@
+using Core.Api.Filters;
 using Feature.Api.BackendForFrontend;
 using Feature.WebApp.Client.Extensions;
 using Feature.WebApp.Components;
@@ -12,7 +13,11 @@ builder.AddServiceDefaults();
 builder.Services.AddLocalization();
 
 /// Add module to controller scanning, for clarty I have been redundant on controllers even if they share the same assembly 
-builder.Services.AddControllersWithViews()
+builder.Services.AddControllersWithViews(options =>
+                {
+                  options.Filters.Add<HttpCodeConverterExceptionFilter>();
+                  options.Filters.Add<LogActionArgumentsFilter>();
+                })
                 .ConfigureApplicationPartManager(apm => apm.ApplicationParts.Add(new AssemblyPart(typeof(EntityNameBffController).Assembly)))
                 ;
 

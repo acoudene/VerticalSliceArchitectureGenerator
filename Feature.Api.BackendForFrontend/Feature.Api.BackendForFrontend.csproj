@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Core.Api.BackendForFrontend\Core.Api.BackendForFrontend.csproj" />
     <ProjectReference Include="..\Feature.Proxies\Feature.Proxies.csproj" />
     <ProjectReference Include="..\Feature.ViewObjects\Feature.ViewObjects.csproj" />
   </ItemGroup>
