@@ -48,11 +48,11 @@ public class RestBffBehavior<TViewObject, TDto, TClient>
     if (id == Guid.Empty) throw new ArgumentNullException(nameof(id));
     if (toVoFunc is null) throw new ArgumentNullException(nameof(toVoFunc));
 
-    var entity = await _client.GetByIdAsync(id, cancellationToken);
-    if (entity is null)
+    var dto = await _client.GetByIdAsync(id, cancellationToken);
+    if (dto is null)
       return null;
 
-    return toVoFunc(entity);
+    return toVoFunc(dto);
   }
 
   public virtual async Task<List<TViewObject>> GetByIdsAsync(List<Guid> ids, Func<TDto, TViewObject> toVoFunc, CancellationToken cancellationToken = default)
@@ -61,40 +61,53 @@ public class RestBffBehavior<TViewObject, TDto, TClient>
     if (!ids.Any()) throw new ArgumentOutOfRangeException(nameof(ids));
     if (toVoFunc is null) throw new ArgumentNullException(nameof(toVoFunc));
 
-    var entities = await _client.GetByIdsAsync(ids, cancellationToken);
+    var dtos = await _client.GetByIdsAsync(ids, cancellationToken);
 
-    return entities
+    return dtos
       .Select(entity => toVoFunc(entity))
       .ToList();
   }
 
-  public virtual async Task<TViewObject> CreateAsync(TViewObject newDto, Func<TViewObject, TDto> toDtoFunc, CancellationToken cancellationToken = default)
+  public virtual async Task<TViewObject> CreateAsync(TViewObject newVo, Func<TViewObject, TDto> toDtoFunc, CancellationToken cancellationToken = default)
   {
-    if (newDto is null) throw new ArgumentNullException(nameof(newDto));
-    if (newDto.Id == Guid.Empty) throw new ArgumentNullException(nameof(newDto.Id));
+    if (newVo is null) throw new ArgumentNullException(nameof(newVo));
+    if (newVo.Id == Guid.Empty) throw new ArgumentNullException(nameof(newVo.Id));
     if (toDtoFunc is null) throw new ArgumentNullException(nameof(toDtoFunc));
 
-    var toCreateEntity = toDtoFunc(newDto);
+    var toCreateDto = toDtoFunc(newVo);
 
-    await _client.CreateAsync(toCreateEntity, cancellationToken);
+    await _client.CreateAsync(toCreateDto, cancellationToken);
 
-    return newDto; // Don't read the inserted value because the Dto should be read and checked in the API.
+    return newVo; // Don't read the inserted value because the Dto should be read and checked in the API.
   }
 
-  public virtual async Task<TViewObject?> UpdateAsync(Guid id, TViewObject updatedDto, Func<TViewObject, TDto> toDtoFunc, CancellationToken cancellationToken = default)
+  public virtual async Task<TViewObject> CreateOrUpdateAsync(TViewObject newOrToUpdateVo, Func<TViewObject, TDto> toDtoFunc, CancellationToken cancellationToken = default)
   {
-    if (id == Guid.Empty) throw new ArgumentNullException(nameof(id));
-    if (id != updatedDto.Id) throw new ArgumentOutOfRangeException(nameof(updatedDto.Id));
+    if (newOrToUpdateVo is null) throw new ArgumentNullException(nameof(newOrToUpdateVo));
+    if (newOrToUpdateVo.Id == Guid.Empty) throw new ArgumentNullException(nameof(newOrToUpdateVo.Id));
     if (toDtoFunc is null) throw new ArgumentNullException(nameof(toDtoFunc));
 
-    var existingEntity = await _client.GetByIdAsync(id, cancellationToken);
-    if (existingEntity is null)
+    var toCreateOrUpdateDto = toDtoFunc(newOrToUpdateVo);
+
+    await _client.CreateOrUpdateAsync(toCreateOrUpdateDto, cancellationToken);
+
+    return newOrToUpdateVo; // Don't read the inserted value because the Dto should be read and checked in the API.
+  }
+
+  public virtual async Task<TViewObject?> UpdateAsync(Guid id, TViewObject updatedVo, Func<TViewObject, TDto> toDtoFunc, CancellationToken cancellationToken = default)
+  {
+    if (id == Guid.Empty) throw new ArgumentNullException(nameof(id));
+    if (id != updatedVo.Id) throw new ArgumentOutOfRangeException(nameof(updatedVo.Id));
+    if (toDtoFunc is null) throw new ArgumentNullException(nameof(toDtoFunc));
+
+    var existingDto = await _client.GetByIdAsync(id, cancellationToken);
+    if (existingDto is null)
       return null;
 
-    var toUpdateEntity = toDtoFunc(updatedDto);
-    await _client.UpdateAsync(id, toUpdateEntity, cancellationToken);
+    var toUpdateDto = toDtoFunc(updatedVo);
+    await _client.UpdateAsync(id, toUpdateDto, cancellationToken);
 
-    return updatedDto; // Don't read the updated value because the Dto should be read and checked in the API.
+    return updatedVo; // Don't read the updated value because the Dto should be read and checked in the API.
   }
 
   public virtual async Task<TViewObject?> DeleteAsync(Guid id, Func<TDto, TViewObject> toVoFunc, CancellationToken cancellationToken = default)
@@ -102,13 +115,13 @@ public class RestBffBehavior<TViewObject, TDto, TClient>
     if (id == Guid.Empty) throw new ArgumentNullException(nameof(id));
     if (toVoFunc is null) throw new ArgumentNullException(nameof(toVoFunc));
 
-    var beforeRemoveEntity = await _client.GetByIdAsync(id, cancellationToken);
-    if (beforeRemoveEntity is null)
+    var beforeRemoveDto = await _client.GetByIdAsync(id, cancellationToken);
+    if (beforeRemoveDto is null)
       return null;
 
     await _client.DeleteAsync(id, cancellationToken);
 
-    return toVoFunc(beforeRemoveEntity); // Don't read the inserted value because the Dto should be read and checked in the API.
+    return toVoFunc(beforeRemoveDto); // Don't read the inserted value because the Dto should be read and checked in the API.
   }
 
   public virtual async Task<TViewObject?> PatchAsync(
@@ -128,15 +141,15 @@ public class RestBffBehavior<TViewObject, TDto, TClient>
     if (existingDto is null)
       return null;
 
-    var toUpdateDto = toVoFunc(existingDto);
-    patchDto.ApplyTo(toUpdateDto, modelState);
+    var toUpdateVo = toVoFunc(existingDto);
+    patchDto.ApplyTo(toUpdateVo, modelState);
 
     if (!modelState.IsValid)
       throw new ArgumentOutOfRangeException(nameof(modelState));
 
-    var toUpdateEntity = toDtoFunc(toUpdateDto);
-    await _client.UpdateAsync(id, toUpdateEntity, cancellationToken);
+    var toUpdateDto = toDtoFunc(toUpdateVo);
+    await _client.UpdateAsync(id, toUpdateDto, cancellationToken);
 
-    return toUpdateDto; // Don't read the inserted value because the Dto should be read and checked in the API.
+    return toUpdateVo; // Don't read the inserted value because the Dto should be read and checked in the API.
   }
 }

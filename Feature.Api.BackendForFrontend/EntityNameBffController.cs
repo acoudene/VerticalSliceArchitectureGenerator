@@ -1,12 +1,17 @@
 ﻿// Changelogs Date  | Author                | Description
 // 2023-12-23       | Anthony Coudène       | Creation
 
+using Core.Api.BackendForFrontend;
+using Core.Dtos;
+using Core.ViewObjects;
+using Feature.Dtos;
 using Feature.Proxies;
 using Feature.ViewObjects;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Net.Mime;
+using System.Net.Sockets;
 
 namespace Feature.Api.BackendForFrontend;
 
@@ -18,19 +23,27 @@ namespace Feature.Api.BackendForFrontend;
 public class EntityNameBffController : ControllerBase
 {
   private readonly ILogger<EntityNameBffController> _logger;
-  private readonly IEntityNameClient _client;
-
+  private readonly RestBffBehavior<EntityNameVo, EntityNameDto, IEntityNameClient> _behavior;
+  
   /// <summary>
   /// Constructor
   /// </summary>
   /// <param name="logger"></param>
   /// <param name="client"></param>
   /// <exception cref="ArgumentNullException"></exception>
-  public EntityNameBffController(ILogger<EntityNameBffController> logger, IEntityNameClient client)
+  public EntityNameBffController(
+    ILogger<EntityNameBffController> logger, 
+    IEntityNameClient client)
   {
     _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    _client = client ?? throw new ArgumentNullException(nameof(client));
+    _behavior = new RestBffBehavior<EntityNameVo, EntityNameDto, IEntityNameClient>(client);
   }
+
+  protected virtual EntityNameDto ToDto(EntityNameVo vo)
+    => vo.ToDto();
+
+  protected virtual EntityNameVo ToViewObject(EntityNameDto dto)
+    => dto.ToViewObject();
 
   /// <summary>
   /// Get all ViewObjects
@@ -43,11 +56,7 @@ public class EntityNameBffController : ControllerBase
   [ProducesResponseType(StatusCodes.Status400BadRequest)]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
   public virtual async Task<ActionResult<List<EntityNameVo>>> GetAllAsync(CancellationToken cancellationToken = default)
-  {
-    return (await _client.GetAllAsync(cancellationToken))
-      .Select(dto => dto.ToViewObject())
-      .ToList();
-  }
+    => await _behavior.GetAllAsync(ToViewObject, cancellationToken);
 
   /// <summary>
   /// Get a ViewObject from its id
@@ -62,10 +71,7 @@ public class EntityNameBffController : ControllerBase
   [ProducesResponseType(StatusCodes.Status400BadRequest)]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
   public virtual async Task<ActionResult<EntityNameVo?>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-  {
-    return (await _client.GetByIdAsync(id, cancellationToken))?
-      .ToViewObject();
-  }
+    => await _behavior.GetByIdAsync(id, ToViewObject, cancellationToken);  
 
   /// <summary>
   /// Create if needed and update an item through ViewObject
@@ -85,17 +91,7 @@ public class EntityNameBffController : ControllerBase
   public virtual async Task<ActionResult<EntityNameVo>> CreateOrUpdateAsync(
      [FromBody] EntityNameVo newOrToUpdateVo,
      CancellationToken cancellationToken = default)
-  {
-    if (newOrToUpdateVo is null)
-      throw new ArgumentNullException(nameof(newOrToUpdateVo));
-
-    var dto = newOrToUpdateVo.ToDto();
-    if (dto is null)
-      throw new InvalidOperationException("Problem while converting to view object");
-
-    await _client.CreateOrUpdateAsync(dto, cancellationToken);
-    return dto.ToViewObject();
-  }
+    => await _behavior.CreateOrUpdateAsync(newOrToUpdateVo, ToDto, cancellationToken);     
 
   /// <summary>
   /// Delete an item from its id
@@ -110,15 +106,7 @@ public class EntityNameBffController : ControllerBase
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status400BadRequest)]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-  public virtual async Task<ActionResult<EntityNameVo>> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
-  {
-    if (id == Guid.Empty)
-      throw new ArgumentException(nameof(id));
-
-    var dto = await _client.DeleteAsync(id, cancellationToken);
-    if (dto is null)
-      throw new InvalidOperationException("Problem while deleting view object");
-
-    return dto.ToViewObject();
-  }
+  public virtual async Task<ActionResult<EntityNameVo?>> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    => await _behavior.DeleteAsync(id, ToViewObject, cancellationToken);
+  
 }
