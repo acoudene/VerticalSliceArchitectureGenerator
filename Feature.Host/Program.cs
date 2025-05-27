@@ -3,6 +3,7 @@
 
 using Core.Api;
 using Core.Api.Filters;
+using Core.Api.Handlers;
 using Core.Api.Swaggers;
 using Core.Data.MongoDb;
 using Feature.Api;
@@ -21,15 +22,18 @@ try
 
   builder.AddServiceDefaults();
 
-  builder.Host.UseSerilog();
-
-  Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(builder.Configuration)
-                .CreateLogger();
+  // Register the global exception handler
+  builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
   /// <see cref="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/handle-errors?view=aspnetcore-7.0#problem-details"/>
   /// <seealso cref="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-7.0&preserve-view=true#pds7"/>
   builder.Services.AddProblemDetails();
+
+  builder.Host.UseSerilog();
+
+  Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(builder.Configuration)
+                .CreateLogger();  
 
   // Temporary way of getting Aspire Connection String without coupling this host to Aspire Client Libraries
   var mongoConnectionString = builder.Configuration.GetConnectionString("feature");
@@ -79,7 +83,7 @@ try
   }
 
   var app = builder.Build();
-
+  
   app.MapDefaultEndpoints();
 
   app.UseSerilogRequestLogging();

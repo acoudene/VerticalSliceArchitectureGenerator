@@ -1,4 +1,5 @@
 using Core.Api.Filters;
+using Core.Api.Handlers;
 using Feature.Api.BackendForFrontend;
 using Feature.WebApp.Client.Extensions;
 using Feature.WebApp.Components;
@@ -10,6 +11,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
+// Register the global exception handler
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
+/// <see cref="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/handle-errors?view=aspnetcore-7.0#problem-details"/>
+/// <seealso cref="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-7.0&preserve-view=true#pds7"/>
+builder.Services.AddProblemDetails();
+
+// Globalization and localization
 builder.Services.AddLocalization();
 
 /// Add module to controller scanning, for clarty I have been redundant on controllers even if they share the same assembly 
