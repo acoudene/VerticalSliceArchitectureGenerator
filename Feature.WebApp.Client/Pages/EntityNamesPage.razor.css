@@ -1,4 +1,9 @@
-﻿/* CSS-Isolation: https://learn.microsoft.com/en-us/aspnet/core/blazor/components/css-isolation */
+﻿/*
+// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+*/
+
+/* CSS-Isolation: https://learn.microsoft.com/en-us/aspnet/core/blazor/components/css-isolation */
 
 .error-message {
   background-color: darkred;

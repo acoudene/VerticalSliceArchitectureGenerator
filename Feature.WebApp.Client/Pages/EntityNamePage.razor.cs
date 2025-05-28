@@ -1,4 +1,7 @@
-﻿using Feature.Localization;
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
+using Feature.Localization;
 using Feature.RazorComponents;
 using Feature.ViewModels;
 using Feature.ViewObjects;

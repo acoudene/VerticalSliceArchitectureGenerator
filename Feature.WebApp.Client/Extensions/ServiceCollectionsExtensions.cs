@@ -1,4 +1,7 @@
-﻿using Feature.ViewModels.BffProxying;
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
+using Feature.ViewModels.BffProxying;
 using Feature.ViewModels;
 
 namespace Feature.WebApp.Client.Extensions;

@@ -1,3 +1,6 @@
+// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 const string databaseName = "feature";

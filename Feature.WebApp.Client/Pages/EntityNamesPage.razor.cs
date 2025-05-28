@@ -1,4 +1,7 @@
-﻿using Feature.Localization;
+﻿// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
+using Feature.Localization;
 using Feature.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;

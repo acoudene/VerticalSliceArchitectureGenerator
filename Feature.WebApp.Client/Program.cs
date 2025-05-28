@@ -1,3 +1,6 @@
+// Changelogs Date  | Author                | Description
+// 2023-12-23       | Anthony Coudène       | Creation
+
 using Feature.WebApp.Client.Extensions;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
