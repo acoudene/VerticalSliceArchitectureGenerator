@@ -27,13 +27,11 @@ public record EntityNameMongo : IIdentifierMongoEntity, ITimestampedMongoEntity
 
   [BsonElement("createdAt")]
   [BsonRepresentation(representation: BsonType.DateTime)]
-  [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
-  public DateTime CreatedAt { get; set; }
+  public DateTimeOffset CreatedAt { get; set; }
 
   [BsonElement("updatedAt")]
   [BsonRepresentation(representation: BsonType.DateTime)]
-  [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
-  public DateTime UpdatedAt { get; set; }
+  public DateTimeOffset UpdatedAt { get; set; }
 
   // TODO - EntityProperties - Fields to complete
 

@@ -17,10 +17,12 @@ public static class ServiceCollectionsExtensions
     try
     {
       BsonSerializer.TryRegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
+      BsonSerializer.TryRegisterSerializer(typeof(DateTimeOffset), new DateTimeOffsetSerializer(BsonType.DateTime));
     }
-    catch (BsonSerializationException)
+    catch (BsonSerializationException ex)
     {
       // Just to let integration tests work
+      Console.WriteLine(ex);
     }
 
     serviceCollection.AddScoped<IMongoContext, MongoContext>();
