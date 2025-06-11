@@ -10,11 +10,12 @@ var mongoContainer = builder.AddMongoDB("mongo")
 
 var mongoDatabase = mongoContainer.AddDatabase(databaseName);
 
-builder.AddProject<Projects.Feature_Host>("feature-host")
+var featureHost = builder.AddProject<Projects.Feature_Host>("feature-host")
   .WithReference(mongoDatabase)
   .WaitFor(mongoDatabase);
 
-builder.AddProject<Projects.Feature_WebApp>("feature-webapp");
+builder.AddProject<Projects.Feature_WebApp>("feature-webapp")
+  .WaitFor(featureHost);
 
 /// dotnet tool install -g aspire.cli --prerelease
 /// aspire publish
