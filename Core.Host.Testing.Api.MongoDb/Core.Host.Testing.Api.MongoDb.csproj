@@ -9,8 +9,8 @@
     <IsTestProject>false</IsTestProject>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageVersion>1.0.4</PackageVersion>
-    <AssemblyVersion>1.0.4</AssemblyVersion>
+    <PackageVersion>1.0.5</PackageVersion>
+    <AssemblyVersion>1.0.5</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
